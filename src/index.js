@@ -13,6 +13,3 @@ root.render(
 );
 
 reportWebVitals();
-
-/// Alloyyy
-// CI=false &&

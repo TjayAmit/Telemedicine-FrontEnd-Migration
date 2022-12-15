@@ -1,0 +1,47 @@
+.sidebar {
+  width: 260px;
+  height: 100%;
+  background-color: rgb(247, 247, 247); 
+
+/* background-color: rgb(31, 41, 71); */
+  color: #26344d;
+/*  color: #eef2f8; */
+  box-shadow: 1px 0px 20px 0px rgba(46, 76, 121, 0.253);
+  transition: all ease 0.4s;
+  font-size: 15px;
+  z-index: 3;
+  position: fixed;
+}
+
+.header {
+  position: fixed;
+  background-color: white;
+  transition: all ease 0.4s;
+  z-index: 2;
+}
+
+#btnflip {
+  margin-left: 260px;
+  z-index: 1;
+  transition: all ease 0.4s;
+}
+
+#maincontent {
+  margin-left: 260px;
+  transition: all ease 0.4s;
+  padding-top: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+  #btnflip {
+    margin-left: 5px;
+  }
+
+  #maincontent {
+    margin-left: 5px;
+    padding-top: 60px;
+  }
+}

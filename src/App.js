@@ -1,40 +1,33 @@
 import React from 'react';
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import { extendTheme, ChakraProvider } from '@chakra-ui/react';
+import '@fontsource/poppins';
+import './App.css';
+import CustomRoute from './component/Routes/CustomRoute';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
+  const theme = extendTheme({
+    colors: {
+      primary: {
+        900: '#1f894c',
+        800: '#1f894c',
+      },
+      secondary: {
+        900: '#e00250',
+        800: '#3498db',
+      },
+    },
+    fonts: {
+      heading: `'Poppins', sans-serif`,
+      body: `'Poppins', sans-serif`,
+    },
+  });
+
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
+      <Router>
+        <CustomRoute />
+      </Router>
     </ChakraProvider>
   );
 }

@@ -1,5 +1,5 @@
-import { Select, FormControl, FormLabel } from "@chakra-ui/react";
-import useAuth from "../../context/AuthContext";
+import { Select, FormControl, FormLabel } from '@chakra-ui/react';
+import useAuth from '../../context/AuthContext';
 
 const Selection = ({ label, value, setValue, datas, mt }) => {
   return (
@@ -7,15 +7,15 @@ const Selection = ({ label, value, setValue, datas, mt }) => {
       <FormLabel fontSize={14}>{label}</FormLabel>
       <Select
         fontSize={14}
-        // focusBorderColor={"red.400"}
+        focusBorderColor={'primary.900'}
         placeholder="- Please Select -"
-        onChange={(e) => {
+        onChange={e => {
           setValue(e.target.value);
         }}
         required
         value={value}
       >
-        {datas.map((data) => {
+        {datas.map(data => {
           return (
             <option key={data.id} value={data.id}>
               {data.name}
@@ -35,7 +35,7 @@ export const CustomSelection = ({ title, value, setValue, mt }) => {
       label={title}
       value={value}
       setValue={setValue}
-      datas={title === "Hospital" ? hospitals : specializations}
+      datas={title === 'Hospital' ? hospitals : specializations}
       mt={mt}
     />
   );

@@ -1,33 +1,33 @@
-import { createContext, useState, useEffect } from "react";
-import { HospitalNameGetRequest } from "../api/Hospital_Request";
-import { SpecializationNameGetRequest } from "../api/Specialization_Request";
+import { createContext, useState, useEffect } from 'react';
+import { HospitalNameGetRequest } from '../api/Hospital_Request';
+import { SpecializationNameGetRequest } from '../api/Specialization_Request';
 import {
   LoginRequest,
   SigninRequest,
   RegisterRequest,
   RegisterAdminRequest,
   RegisterStaffRequest,
-} from "../api/Authentication_Request";
-import api from "../api/api";
-import { UserAllGetRequest } from "../api/User_Request";
+} from '../api/Authentication_Request';
+import api from '../api/api';
+import { UserAllGetRequest } from '../api/User_Request';
 
 const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
-  const [authException, setAuthException] = useState("Error");
+  const [authException, setAuthException] = useState('Error');
   const [user, setUser] = useState(null);
 
   const [hospitals, setHospital] = useState({});
   const [specializations, setSpecialization] = useState({});
   const [fetch, setFetch] = useState(true);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [vpassword, setVPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [vpassword, setVPassword] = useState('');
 
   //DOCTORS PROFILE
-  const [doctors_FirstName, setDoctors_FirstName] = useState("");
-  const [doctors_LastName, setDoctors_LastName] = useState("");
+  const [doctors_FirstName, setDoctors_FirstName] = useState('');
+  const [doctors_LastName, setDoctors_LastName] = useState('');
   const [FK_specializations_ID, setFK_specializations_ID] = useState({});
   const [FK_hospital_ID, setFK_hospital_ID] = useState({});
   const [isErrorFN, setIsErrorFN] = useState(false);
@@ -37,7 +37,7 @@ export const DataProvider = ({ children }) => {
   const [isErrorVP, setIsErrorVP] = useState(false);
 
   const url =
-    "https://image.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg";
+    'https://image.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg';
 
   const getHospitals = async () => {
     try {
@@ -67,8 +67,8 @@ export const DataProvider = ({ children }) => {
     try {
       let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("password", password);
+      bodyFormData.append('name', name);
+      bodyFormData.append('password', password);
 
       const res = await LoginRequest(bodyFormData);
 
@@ -77,16 +77,16 @@ export const DataProvider = ({ children }) => {
       }
 
       if (res.data.status === 401) {
-        return "warning";
+        return 'warning';
       }
 
       if (res.data.status === 200) {
         const userProfileData = res.data.data;
 
         setUser(userProfileData);
-        sessionStorage.setItem("token", userProfileData["token"]);
+        sessionStorage.setItem('token', userProfileData['token']);
 
-        return "success";
+        return 'success';
       }
     } catch (err) {
       console.log(err);
@@ -98,8 +98,8 @@ export const DataProvider = ({ children }) => {
     try {
       let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("password", password);
+      bodyFormData.append('name', name);
+      bodyFormData.append('password', password);
 
       const res = await SigninRequest(bodyFormData);
 
@@ -108,16 +108,16 @@ export const DataProvider = ({ children }) => {
       }
 
       if (res.data.status === 401) {
-        return "warning";
+        return 'warning';
       }
 
       if (res.data.status === 200) {
         const userProfileData = res.data.data;
 
         setUser(userProfileData);
-        sessionStorage.setItem("token", userProfileData["token"]);
+        sessionStorage.setItem('token', userProfileData['token']);
 
-        return "success";
+        return 'success';
       }
     } catch (err) {
       console.log(err);
@@ -129,14 +129,17 @@ export const DataProvider = ({ children }) => {
     try {
       let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("email", email);
-      bodyFormData.append("password", password);
-      bodyFormData.append("profile", url);
-      bodyFormData.append("profile_FirstName", doctors_FirstName);
-      bodyFormData.append("profile_LastName", doctors_LastName);
-      bodyFormData.append("FK_hospital_ID", FK_hospital_ID);
-      bodyFormData.append("FK_specializations_ID", FK_specializations_ID);
+      bodyFormData.append('name', name);
+      bodyFormData.append('email', email);
+      bodyFormData.append('password', password);
+      bodyFormData.append('profile', url);
+      bodyFormData.append('profile_FirstName', doctors_FirstName);
+      bodyFormData.append('profile_LastName', doctors_LastName);
+      bodyFormData.append('FK_hospital_ID', FK_hospital_ID);
+      bodyFormData.append(
+        'FK_specializations_ID',
+        FK_hospital_ID === '1' ? FK_specializations_ID : null
+      );
 
       let userProfileData = await RegisterRequest(bodyFormData);
 
@@ -145,7 +148,7 @@ export const DataProvider = ({ children }) => {
       }
 
       if (userProfileData.data.status === 200) {
-        return "success";
+        return 'success';
       }
     } catch (err) {
       return err.message;
@@ -156,13 +159,13 @@ export const DataProvider = ({ children }) => {
     try {
       let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("email", email);
-      bodyFormData.append("password", password);
-      bodyFormData.append("profile", url);
-      bodyFormData.append("profile_FirstName", doctors_FirstName);
-      bodyFormData.append("profile_LastName", doctors_LastName);
-      bodyFormData.append("FK_specializations_ID", FK_specializations_ID);
+      bodyFormData.append('name', name);
+      bodyFormData.append('email', email);
+      bodyFormData.append('password', password);
+      bodyFormData.append('profile', url);
+      bodyFormData.append('profile_FirstName', doctors_FirstName);
+      bodyFormData.append('profile_LastName', doctors_LastName);
+      bodyFormData.append('FK_specializations_ID', FK_specializations_ID);
 
       let userProfileData = await RegisterAdminRequest(bodyFormData);
 
@@ -171,7 +174,7 @@ export const DataProvider = ({ children }) => {
       }
 
       if (userProfileData.data.status === 200) {
-        return "success";
+        return 'success';
       }
     } catch (err) {
       return err.message;
@@ -182,12 +185,12 @@ export const DataProvider = ({ children }) => {
     try {
       let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("email", email);
-      bodyFormData.append("password", password);
-      bodyFormData.append("profile", url);
-      bodyFormData.append("profile_FirstName", doctors_FirstName);
-      bodyFormData.append("profile_LastName", doctors_LastName);
+      bodyFormData.append('name', name);
+      bodyFormData.append('email', email);
+      bodyFormData.append('password', password);
+      bodyFormData.append('profile', url);
+      bodyFormData.append('profile_FirstName', doctors_FirstName);
+      bodyFormData.append('profile_LastName', doctors_LastName);
 
       const userProfileData = await RegisterStaffRequest(bodyFormData);
 
@@ -198,7 +201,7 @@ export const DataProvider = ({ children }) => {
       console.log(userProfileData);
 
       if (userProfileData.data.status === 200) {
-        return "success";
+        return 'success';
       }
     } catch (err) {
       return err.message;
@@ -206,7 +209,7 @@ export const DataProvider = ({ children }) => {
   };
 
   const requestSanctumCSRF = async () => {
-    await api.get("sanctum/csrf-cookie");
+    await api.get('sanctum/csrf-cookie');
   };
 
   useEffect(() => {
@@ -219,19 +222,19 @@ export const DataProvider = ({ children }) => {
   }, [fetch]);
 
   const resetState = () => {
-    setName("");
-    setEmail("");
-    setPassword("");
-    setVPassword("");
-    setFK_specializations_ID("");
-    setFK_hospital_ID("");
+    setName('');
+    setEmail('');
+    setPassword('');
+    setVPassword('');
+    setFK_specializations_ID('');
+    setFK_hospital_ID('');
   };
 
   const [firstCall, setFirstCall] = useState(true);
 
   const checkValidation = async () => {
     try {
-      if (sessionStorage.getItem("token") !== null) {
+      if (sessionStorage.getItem('token') !== null) {
         const res = await UserAllGetRequest();
         setUser(res.data.data);
         return;

@@ -1,20 +1,21 @@
-import { Routes, Route, Outlet, useLocation, Navigate } from "react-router-dom";
-import Login from "../authentication/Login.js";
-import PageNotFound from "../404/PageNotFound.js";
-import ProtectedRoute from "./protectedroute.js";
-import Credits from "../credits/credits.js";
-import AdminAuthentication from "../authentication/Admin_Authentication.js";
+import { Routes, Route, Outlet, useLocation, Navigate } from 'react-router-dom';
+import Login from '../authentication/Login.js';
+import Register from '../authentication/Register';
+import PageNotFound from '../404/PageNotFound.js';
+import ProtectedRoute from './protectedroute.js';
+import Credits from '../credits/credits.js';
+import AdminAuthentication from '../authentication/Admin_Authentication.js';
 // import ProtectedAuthRoute from "./protectedAuthRoute.js";
-import Home from "../dashboard/Home.js";
-import useAuth from "../context/AuthContext.js";
-import MyAccount from "../dashboard/Pages/MyAccount.js";
-import { PatientForm, CaseForm, CaseProvider } from "../dashboard/Packages.js";
-import RouteData from "../Routes/RouteData";
-import Consult from "../dashboard/Pages/Consult.js";
-import { PatientProvider } from "../dashboard/Pages/Patient SubCollection/PatientProvider.js";
+import Home from '../dashboard/Home.js';
+import useAuth from '../context/AuthContext.js';
+import MyAccount from '../dashboard/Pages/MyAccount.js';
+import { PatientForm, CaseForm, CaseProvider } from '../dashboard/Packages.js';
+import RouteData from '../Routes/RouteData';
+import Consult from '../dashboard/Pages/Consult.js';
+import { PatientProvider } from '../dashboard/Pages/Patient SubCollection/PatientProvider.js';
 
-import Loader from "../Loader";
-import ProtectedAuthRoute from "./protectedAuthRoute.js";
+import Loader from '../Loader';
+import ProtectedAuthRoute from './protectedAuthRoute.js';
 
 const Layout = () => {
   return (
@@ -55,7 +56,7 @@ const CustomRoute = () => {
           element={
             <Home>
               <Routes>
-                {RouteData.path.map((data) => {
+                {RouteData.path.map(data => {
                   return (
                     <Route
                       key={data.index}
@@ -91,6 +92,7 @@ const CustomRoute = () => {
       {/* public authentication Routes */}
       <Route element={<ProtectedAuthRoute user={user} />}>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminAuthentication />} />
       </Route>
 

@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import DataProvider from "./DataProvider.js";
+import { useContext } from 'react';
+import DataProvider from './DataProvider.js';
 
 //Custom hooks to use context data globally
 const useAuth = () => {

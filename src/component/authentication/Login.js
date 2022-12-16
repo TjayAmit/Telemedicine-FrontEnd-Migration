@@ -78,6 +78,17 @@ const Login = () => {
         bg={'#f7f5f9'}
         rounded={8}
       >
+        <Button
+          _hover={{
+            bg: 'transparent',
+          }}
+          _active={{
+            bg: 'transparent',
+          }}
+          onClick={e => navigate('/admin')}
+        >
+          {' '}
+        </Button>
         <Box
           w={isSignup ? '40rem' : '27rem'}
           h={isSignup ? '' : '32rem'}

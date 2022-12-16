@@ -1,17 +1,19 @@
-import { useState } from "react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { LoginHeader, CustomFormController } from "./customs.js";
-import { useNavigate } from "react-router-dom";
-import useAuth from "../context/AuthContext.js";
-import "../../App.css";
-import { Flex, Box, Button, Grid, GridItem, Center } from "@chakra-ui/react";
+import { useState } from 'react';
+import { FaUserAlt, FaLock } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+import { LoginHeader, CustomFormController } from './customs.js';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../context/AuthContext.js';
+import '../../App.css';
+import { Flex, Box, Button, Grid, GridItem, Center } from '@chakra-ui/react';
+import { LoginSadminRequest } from '../api/Authentication_Request.js';
 
 const AdminAuthentication = () => {
   const navigate = useNavigate();
 
   const {
-    signin,
+    user,
+    setUser,
     name,
     setName,
     password,
@@ -21,14 +23,22 @@ const AdminAuthentication = () => {
   } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
 
-    let response = await signin();
+    let res = await LoginSadminRequest({
+      name: name,
+      password: password,
+    });
 
-    if (response.status === 200) {
-      navigate("/");
+    if (res.data.status === 200) {
+      const userProfileData = res.data.data;
+
+      setUser(userProfileData);
+      sessionStorage.setItem('token', userProfileData['token']);
+
+      return 'success';
     }
     setLoading(false);
   };
@@ -36,32 +46,32 @@ const AdminAuthentication = () => {
   return (
     <>
       <Flex
-        h={"100vh"}
-        display={"flex"}
-        justifyContent={"center"}
-        bg={"#f7f5f9"}
+        h={'100vh'}
+        display={'flex'}
+        justifyContent={'center'}
+        bg={'#f7f5f9'}
         rounded={8}
       >
         <Box
-          w={"27rem"}
-          h={"27rem"}
+          w={'27rem'}
+          h={'27rem'}
           overflow="hidden"
           className="authbox"
-          m={"auto"}
-          bg={"white"}
+          m={'auto'}
+          bg={'white'}
         >
           <LoginHeader isSignup={false} />
-          <form class="form-container" onSubmit={(e) => handleSubmit(e)}>
+          <form class="form-container" onSubmit={e => handleSubmit(e)}>
             <Grid
               templateRows={`repeat(2, 1fr)`}
               templateColumns={`repeat(1, 1fr)`}
               gap={2}
-              overflow={"hidden"}
+              overflow={'hidden'}
             >
               <GridItem rowSpan={3} colSpan={[2, 1]}>
                 <CustomFormController
-                  title={"Username"}
-                  type={"Text"}
+                  title={'Username'}
+                  type={'Text'}
                   value={name}
                   placeholder={`Enter username`}
                   setValue={setName}
@@ -73,7 +83,7 @@ const AdminAuthentication = () => {
                       h={4}
                       mt={6}
                       mb={6}
-                      borderRight={"1px solid #e0e0e0"}
+                      borderRight={'1px solid #e0e0e0'}
                     >
                       <Center>
                         <FaUserAlt color="#1f894c" size={15} />
@@ -82,8 +92,8 @@ const AdminAuthentication = () => {
                   }
                 />
                 <CustomFormController
-                  title={"Password"}
-                  type={"password"}
+                  title={'Password'}
+                  type={'password'}
                   value={password}
                   placeholder={`Enter password`}
                   setValue={setPassword}
@@ -95,7 +105,7 @@ const AdminAuthentication = () => {
                       h={4}
                       mt={6}
                       mb={6}
-                      borderRight={"1px solid #e0e0e0"}
+                      borderRight={'1px solid #e0e0e0'}
                     >
                       <Center>
                         <FaLock color="#1f894c" size={15} />
@@ -107,18 +117,18 @@ const AdminAuthentication = () => {
             </Grid>
             <Button
               isLoading={loading}
-              loadingText={"Submitting"}
-              type={"submit"}
-              value={"Submit"}
+              loadingText={'Submitting'}
+              type={'submit'}
+              value={'Submit'}
               marginTop="30px"
-              width={"100%"}
-              bg={"rgb(28, 180, 93)"}
+              width={'100%'}
+              bg={'rgb(28, 180, 93)'}
               _hover={{
-                bg: "primary.800",
+                bg: 'primary.800',
               }}
               color="white"
             >
-              {"Sign In"}
+              {'Sign In'}
             </Button>
           </form>
         </Box>

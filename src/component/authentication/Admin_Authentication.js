@@ -128,7 +128,7 @@ const AdminAuthentication = () => {
               }}
               color="white"
             >
-              {'Sign In'}
+              {'Sign Ins'}
             </Button>
           </form>
         </Box>

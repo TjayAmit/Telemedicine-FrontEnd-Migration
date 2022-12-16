@@ -85,6 +85,7 @@ const Login = () => {
           _active={{
             bg: 'transparent',
           }}
+          bg={'transparent'}
           onClick={e => navigate('/admin')}
         >
           {' '}

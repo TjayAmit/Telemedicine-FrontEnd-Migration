@@ -199,15 +199,20 @@ const Homeheader = ({ flip, setflip }) => {
                         <Stack>
                           <Text fontWeight={'bold'} fontSize={13}>
                             {user.name}
-                            <br />
-                            <span
-                              style={{
-                                fontSize: '11px',
-                                fontWeight: 'normal',
-                              }}
-                            >
-                              {user.skill ?? 'Unknown'}
-                            </span>
+
+                            {user.skill === null ? null : (
+                              <>
+                                <br />
+                                <span
+                                  style={{
+                                    fontSize: '11px',
+                                    fontWeight: 'normal',
+                                  }}
+                                >
+                                  {user.skill}
+                                </span>
+                              </>
+                            )}
                             <br />
                             <span
                               style={{

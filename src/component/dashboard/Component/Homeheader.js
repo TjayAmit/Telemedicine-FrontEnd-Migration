@@ -1,8 +1,8 @@
-import { MdMenu, MdClose } from "react-icons/md";
-import { FiSettings } from "react-icons/fi";
-import { BiCodeBlock } from "react-icons/bi";
-import "../../../App.css";
-import "../../Sidebar.css";
+import { MdMenu, MdClose } from 'react-icons/md';
+import { FiSettings } from 'react-icons/fi';
+import { BiCodeBlock } from 'react-icons/bi';
+import '../../../App.css';
+import '../../Sidebar.css';
 import {
   Box,
   Heading,
@@ -12,20 +12,94 @@ import {
   MenuList,
   MenuButton,
   MenuItem,
+  Grid,
+  GridItem,
   Text,
   Stack,
-} from "@chakra-ui/react";
-import { AiOutlineDownCircle, AiOutlineLogout } from "react-icons/ai";
+  useToast,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { AiOutlineLogout } from 'react-icons/ai';
+import { MdEmail } from 'react-icons/md';
+import { FaUserAlt, FaLock } from 'react-icons/fa';
 
-import useAuth from "../../context/AuthContext";
-import { useProSidebar } from "react-pro-sidebar";
-import { useNavigate } from "react-router-dom";
-import ProfileDrawer from "./ProfileDrawer";
-import { User } from "../Packages";
+import useAuth from '../../context/AuthContext';
+import { useProSidebar } from 'react-pro-sidebar';
+import { useNavigate } from 'react-router-dom';
+import ProfileDrawer from './ProfileDrawer';
+import { useRef, useState } from 'react';
+import { CustomFormController } from '../../authentication/customs';
+import { toastposition, toastvariant, CustomModal } from '../Packages';
+
+const UpdateProfile = ({ isOpen, onClose }) => {
+  const title = 'Change Profile Picture';
+  const toast = useToast();
+  const filetag = useRef();
+  const [loader, setLoader] = useState(false);
+
+  const { resetState, registerStaff } = useAuth();
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    setLoader(true);
+
+    const res = await registerStaff();
+
+    if (res !== 'successs') {
+      toast({
+        title: 'Something went wrong!',
+        position: toastposition,
+        variant: toastvariant,
+        status: 'error',
+        isClosable: true,
+      });
+    }
+
+    if (res === 'success') {
+      onClose();
+      toast({
+        title: 'Navigator registered!.',
+        position: toastposition,
+        variant: toastvariant,
+        status: 'success',
+        isClosable: true,
+      });
+      resetState();
+      fetch(true);
+    }
+    setLoader(false);
+  };
+
+  return (
+    <>
+      <CustomModal
+        title={title}
+        isOpen={isOpen}
+        onClose={onClose}
+        handleSubmit={handleSubmit}
+        hasProfile={false}
+        isNew={true}
+        btntitle={'Save'}
+        loader={loader}
+      >
+        <Grid
+          templateRows={`repeat( 1 , 1fr)`}
+          templateColumns={`repeat( 2 , 1fr)`}
+          gap={2}
+          overflow={'hidden'}
+        >
+          <GridItem rowSpan={1} colSpan={1}></GridItem>
+        </Grid>
+      </CustomModal>
+    </>
+  );
+};
 
 const Homeheader = ({ flip, setflip }) => {
   const { user, setUser } = useAuth();
   const { collapseSidebar, toggleSidebar } = useProSidebar();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -34,9 +108,9 @@ const Homeheader = ({ flip, setflip }) => {
     collapseSidebar();
   };
 
-  const signOutUser = (e) => {
+  const signOutUser = e => {
     e.preventDefault();
-    sessionStorage.removeItem("token");
+    sessionStorage.removeItem('token');
     setUser({
       loggedIn: false,
     });
@@ -45,21 +119,21 @@ const Homeheader = ({ flip, setflip }) => {
   return (
     <>
       <Box
-        w={"100%"}
-        h={"50px"}
+        w={'100%'}
+        h={'50px'}
         p={2}
-        display={"flex"}
-        justifyContent={"space-between"}
-        boxShadow={"lg"}
-        className={"header"}
+        display={'flex'}
+        justifyContent={'space-between'}
+        boxShadow={'lg'}
+        className={'header'}
       >
         <Box
-          transform={"translateY(20%)"}
-          cursor={"pointer"}
+          transform={'translateY(20%)'}
+          cursor={'pointer'}
           onClick={() => handleClick()}
         >
           <Flex>
-            <Box id="btnflip" style={{ marginLeft: flip ? "70px" : "" }}>
+            <Box id="btnflip" style={{ marginLeft: flip ? '70px' : '' }}>
               {flip ? <MdClose size={28} /> : <MdMenu size={28} />}
             </Box>
             <Box ml={2}>
@@ -67,14 +141,14 @@ const Homeheader = ({ flip, setflip }) => {
                 <Heading
                   fontSize={17}
                   mt={1}
-                  fontWeight={"bolder"}
-                  color={"#0F531E"}
-                  display={["block", "block", "none"]}
+                  fontWeight={'bolder'}
+                  color={'#0F531E'}
+                  display={['block', 'block', 'none']}
                 >
                   TeleMedicine
                 </Heading>
               ) : (
-                ""
+                ''
               )}
             </Box>
           </Flex>
@@ -82,105 +156,105 @@ const Homeheader = ({ flip, setflip }) => {
 
         <Box>
           <Flex mr={0} p={1} columnGap={3}>
-            <Avatar
-              size={"sm"}
-              src={
-                user.url === "NONE"
-                  ? require("../../../assets/default_profile.png")
-                  : user.url
-              }
-              name={user.name}
-              mr={1}
-            />
             <Heading
-              transform={"translateY(20%)"}
-              size={"sm"}
-              fontWeight={"normal"}
-              fontSize={"14"}
+              transform={'translateY(20%)'}
+              size={'sm'}
+              fontWeight={'normal'}
+              fontSize={'15'}
               mr={1}
             >
               {user.name}
             </Heading>
             <Box>
               <Menu>
-                <MenuButton className="btnMenuProfile">
-                  <button id="btnMenuProfile">
-                    <AiOutlineDownCircle fontSize={20} />
+                <MenuButton className="">
+                  <button id="">
+                    <Avatar
+                      size="sm"
+                      src={
+                        user.url === 'NONE'
+                          ? require('../../../assets/default_profile.png')
+                          : user.url
+                      }
+                      name={user.name}
+                    />
                   </button>
                 </MenuButton>
 
-                <MenuList shadow={"lg"}>
-                  <Box p={7} bg={"green.50"}>
+                <MenuList shadow={'lg'}>
+                  <Box p={7} bg={'green.50'}>
                     <Flex>
-                      <Avatar
-                        size="lg"
-                        src={
-                          user.url === "NONE"
-                            ? require("../../../assets/default_profile.png")
-                            : user.url
-                        }
-                        name={user.name}
-                      />
+                      <Box>
+                        <Avatar
+                          size="lg"
+                          src={
+                            user.url === 'NONE'
+                              ? require('../../../assets/default_profile.png')
+                              : user.url
+                          }
+                          name={user.name}
+                        />
+                      </Box>
                       <Box ml={4}>
                         <Stack>
-                          <Text fontWeight={"bold"} fontSize={13}>
+                          <Text fontWeight={'bold'} fontSize={13}>
                             {user.name}
                             <br />
                             <span
                               style={{
-                                fontSize: "11px",
-                                fontWeight: "normal",
+                                fontSize: '11px',
+                                fontWeight: 'normal',
                               }}
                             >
-                              Internal Medicine
+                              {user.skill ?? 'Unknown'}
                             </span>
                             <br />
                             <span
                               style={{
-                                fontSize: "11px",
-                                fontWeight: "normal",
-                                textTransform: "uppercase",
+                                fontSize: '11px',
+                                fontWeight: 'normal',
+                                textTransform: 'uppercase',
                               }}
                             >
-                              Zamboanga city medical center
+                              {user.hospital ?? 'ZCMC'}
                             </span>
                           </Text>
                         </Stack>
                       </Box>
                     </Flex>
                   </Box>
-                  <div style={{ border: "1px solid #d1eae5" }}></div>
+                  <div style={{ border: '1px solid #d1eae5' }}></div>
 
                   <ProfileDrawer />
 
                   <MenuItem
                     onClick={() => {
-                      navigate("MyAccount");
+                      navigate('MyAccount');
                     }}
                     fontSize={14}
-                    color={"gray.600"}
+                    color={'gray.600'}
                   >
-                    <FiSettings style={{ marginRight: "10px" }} />
+                    <FiSettings style={{ marginRight: '10px' }} />
                     Account Settings
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
-                      navigate("/credits");
+                      navigate('/credits');
                     }}
                     fontSize={14}
-                    color={"gray.600"}
+                    color={'gray.600'}
                   >
-                    <BiCodeBlock style={{ marginRight: "10px" }} />
+                    <BiCodeBlock style={{ marginRight: '10px' }} />
                     Credits
                   </MenuItem>
 
                   <MenuItem
-                    bg={"gray.50"}
+                    bg={'gray.50'}
                     fontSize={14}
-                    color={"red.400"}
-                    onClick={(e) => signOutUser(e)}
+                    color={'red.400'}
+                    onClick={e => signOutUser(e)}
                   >
-                    <AiOutlineLogout style={{ marginRight: "10px" }} />
+                    <AiOutlineLogout style={{ marginRight: '10px' }} />
                     Sign Out
                   </MenuItem>
                 </MenuList>
@@ -189,6 +263,7 @@ const Homeheader = ({ flip, setflip }) => {
           </Flex>
         </Box>
       </Box>
+      <UpdateProfile isOpen={isOpen} onClose={onClose} />
     </>
   );
 };

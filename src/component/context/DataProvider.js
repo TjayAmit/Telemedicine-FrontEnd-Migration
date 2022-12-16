@@ -84,6 +84,7 @@ export const DataProvider = ({ children }) => {
         const userProfileData = res.data.data;
 
         setUser(userProfileData);
+        console.log(user);
         sessionStorage.setItem('token', userProfileData['token']);
 
         return 'success';

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Text,
@@ -19,37 +19,40 @@ import {
   Input,
   FormControl,
   FormLabel,
-  FormHelperText,
+  InputLeftElement,
   Button,
   useToast,
-} from "@chakra-ui/react";
-import useAuth from "../../context/AuthContext";
-import { AiOutlineCheckCircle } from "react-icons/ai";
-import { IoKeySharp } from "react-icons/io5";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { UserChangePassword } from "../../api/User_Request";
-import { toastposition, toastvariant } from "../Packages";
+  InputGroup,
+  Center,
+} from '@chakra-ui/react';
+import useAuth from '../../context/AuthContext';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { IoKeySharp } from 'react-icons/io5';
+import { MdOutlineFileUpload } from 'react-icons/md';
+import { UserChangePassword } from '../../api/User_Request';
+import { CustomFormController } from '../../authentication/customs';
+import { toastposition, toastvariant } from '../Packages';
+import { FaLock } from 'react-icons/fa';
 
 function MyAccount(props) {
   const toast = useToast();
   const { user } = useAuth();
 
-  const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     try {
-      if (confirmPassword !== newPassword) {
-        setConfirmPassword("");
-        setNewPassword("");
+      if (confirmPassword !== password) {
+        setConfirmPassword('');
+        setPassword('');
         toast({
           title: "Password doesn't match!",
           position: toastposition,
           variant: toastvariant,
-          status: "warning",
+          status: 'warning',
           isClosable: true,
         });
         return;
@@ -57,7 +60,6 @@ function MyAccount(props) {
 
       const res = await UserChangePassword({
         password: password,
-        newPassword: newPassword,
       });
 
       if (res.data.status !== 200) {
@@ -65,17 +67,17 @@ function MyAccount(props) {
           title: res.data.message,
           position: toastposition,
           variant: toastvariant,
-          status: "error",
+          status: 'error',
           isClosable: true,
         });
       }
 
       if (res.data.status === 200) {
         toast({
-          title: "Password updated!.",
+          title: 'Password updated!.',
           position: toastposition,
           variant: toastvariant,
-          status: "success",
+          status: 'success',
           isClosable: true,
         });
       }
@@ -85,12 +87,12 @@ function MyAccount(props) {
   };
 
   const handleOpenFile = () => {
-    document.getElementById("file").click();
+    document.getElementById('file').click();
   };
 
   return (
     <div>
-      <Container maxW={"container.xl"} mt={20}>
+      <Container maxW={'container.xl'} mt={20}>
         <Box mt={2} p={[0, 0, 5, 10]}>
           <Flex>
             <Box>
@@ -98,8 +100,8 @@ function MyAccount(props) {
                 size="xl"
                 name={user.name}
                 src={
-                  user.url === "NONE"
-                    ? require("../../../assets/default_profile.png")
+                  user.url === 'NONE'
+                    ? require('../../../assets/default_profile.png')
                     : user.url
                 }
               />
@@ -107,21 +109,21 @@ function MyAccount(props) {
 
             <Box ml={4} mt={4}>
               <Stack>
-                <Text fontWeight={"bold"} fontSize={16}>
-                  {user.name}{" "}
+                <Text fontWeight={'bold'} fontSize={16}>
+                  {user.name}{' '}
                   <Badge colorScheme="green">
                     <Flex>
                       Verified
                       <AiOutlineCheckCircle
-                        style={{ fontSize: "15px", marginTop: "1px" }}
+                        style={{ fontSize: '15px', marginTop: '1px' }}
                       />
                     </Flex>
                   </Badge>
                   <br />
                   <span
                     style={{
-                      fontSize: "13px",
-                      fontWeight: "normal",
+                      fontSize: '13px',
+                      fontWeight: 'normal',
                     }}
                   >
                     {user.email}
@@ -132,28 +134,28 @@ function MyAccount(props) {
               <Button
                 fontSize={11}
                 fontWeight="normal"
-                color={"blue.500"}
-                variant={"unstyled"}
-                size={"sm"}
+                color={'blue.500'}
+                variant={'unstyled'}
+                size={'sm'}
                 onClick={handleOpenFile}
               >
                 <Flex>
-                  <MdOutlineFileUpload style={{ fontSize: "13px" }} /> Change
+                  <MdOutlineFileUpload style={{ fontSize: '13px' }} /> Change
                   Profile Picture
                 </Flex>
               </Button>
             </Box>
           </Flex>
           <input
-            type={"file"}
+            type={'file'}
             id="file"
             name="image"
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
           <Box p={5} mt={4}>
             <Grid templateColumns="repeat(5, 1fr)" gap={6}>
               <GridItem w="100%" colSpan={[5, 5, 5, 2]}>
-                <Text fontSize={13} color={"gray.500"} mb={2}>
+                <Text fontSize={13} color={'gray.500'} mb={2}>
                   Display Name
                 </Text>
 
@@ -161,15 +163,15 @@ function MyAccount(props) {
                   mr={2}
                   defaultValue={user.name}
                   fontSize={15}
-                  color={"gray.700"}
-                  cursor={"pointer"}
+                  color={'gray.700'}
+                  cursor={'pointer'}
                   mb={4}
                 >
                   <EditablePreview />
                   <EditableInput />
                 </Editable>
 
-                <Text fontSize={13} color={"gray.500"}>
+                <Text fontSize={13} color={'gray.500'}>
                   Email
                 </Text>
 
@@ -177,8 +179,8 @@ function MyAccount(props) {
                   mr={2}
                   defaultValue={user.email}
                   fontSize={15}
-                  color={"gray.700"}
-                  cursor={"pointer"}
+                  color={'gray.700'}
+                  cursor={'pointer'}
                   mb={4}
                 >
                   <EditablePreview />
@@ -186,21 +188,21 @@ function MyAccount(props) {
                 </Editable>
 
                 <Accordion allowMultiple mt={4}>
-                  <AccordionItem bg={"blackAlpha.100"} borderRadius={5}>
+                  <AccordionItem bg={'blackAlpha.100'} borderRadius={5}>
                     <h5>
                       <AccordionButton>
                         <Box
                           flex="1"
                           textAlign="left"
                           fontSize={14}
-                          color={"gray.600"}
+                          color={'gray.600'}
                         >
                           <Flex>
                             <IoKeySharp
                               style={{
-                                fontSize: "16px",
-                                marginTop: "2px",
-                                marginRight: "2px",
+                                fontSize: '16px',
+                                marginTop: '2px',
+                                marginRight: '2px',
                               }}
                             />
                             Change Password
@@ -211,64 +213,68 @@ function MyAccount(props) {
                     <AccordionPanel pb={4}>
                       <form onSubmit={handleSubmit}>
                         <Box>
-                          <FormControl isRequired>
-                            <FormLabel fontSize={13}>
-                              Current Password
-                            </FormLabel>
-                            <Input
-                              type="password"
-                              size={"sm"}
-                              border={"1px"}
-                              borderColor={"gray.300"}
-                              borderRadius={5}
-                              focusBorderColor={"green.100"}
-                              value={password}
-                              onChange={(e) => setPassword(e.target.value)}
-                            />
-
-                            <FormHelperText></FormHelperText>
-                          </FormControl>
-                          <FormControl isRequired>
-                            <FormLabel fontSize={13}>New Password</FormLabel>
-                            <Input
-                              type="password"
-                              size={"sm"}
-                              border={"1px"}
-                              borderColor={"gray.300"}
-                              borderRadius={5}
-                              focusBorderColor={"green.100"}
-                              value={newPassword}
-                              onChange={(e) => setNewPassword(e.target.value)}
-                            />
-                            <FormHelperText></FormHelperText>
-                          </FormControl>
-                          <FormControl isRequired>
-                            <FormLabel fontSize={13}>
-                              Reenter New Password
-                            </FormLabel>
-                            <Input
-                              type="password"
-                              size={"sm"}
-                              border={"1px"}
-                              borderColor={"gray.300"}
-                              borderRadius={5}
-                              focusBorderColor={"green.100"}
-                              value={confirmPassword}
-                              onChange={(e) =>
-                                setConfirmPassword(e.target.value)
-                              }
-                            />
-                            <FormHelperText></FormHelperText>
-                          </FormControl>
+                          <CustomFormController
+                            isSignup={false}
+                            title={'Password'}
+                            type={'password'}
+                            value={password}
+                            placeholder={`Enter new password`}
+                            setValue={setPassword}
+                            errorMessage={`Password is required.`}
+                            isError={null}
+                            children={
+                              <Box
+                                w={8}
+                                h={4}
+                                mt={6}
+                                mb={6}
+                                borderRight={'1px solid #e0e0e0'}
+                              >
+                                <Center>
+                                  <FaLock color="#1f894c" size={15} />
+                                </Center>
+                              </Box>
+                            }
+                          />
+                          <CustomFormController
+                            isSignup={false}
+                            title={'Password'}
+                            type={'password'}
+                            value={confirmPassword}
+                            placeholder={`Enter confirm password`}
+                            setValue={setConfirmPassword}
+                            errorMessage={`Password is required.`}
+                            isError={null}
+                            children={
+                              <Box
+                                w={8}
+                                h={4}
+                                mt={6}
+                                mb={6}
+                                borderRight={'1px solid #e0e0e0'}
+                              >
+                                <Center>
+                                  <FaLock color="#1f894c" size={15} />
+                                </Center>
+                              </Box>
+                            }
+                          />
                           <Button
                             type="Submit"
-                            colorScheme={"blue"}
-                            fontWeight={"normal"}
-                            variant={"solid"}
-                            size={"sm"}
-                            mt={2}
+                            colorScheme={'blue'}
+                            fontWeight={'normal'}
+                            bg={'primary.900'}
+                            _hover={{
+                              bg: 'primary.900',
+                            }}
+                            _active={{
+                              bg: 'primary.900',
+                            }}
+                            variant={'solid'}
+                            size={'sm'}
+                            mt={4}
                           >
-                            Save
+                            Update password
                           </Button>
                         </Box>
                       </form>
@@ -276,16 +282,16 @@ function MyAccount(props) {
                   </AccordionItem>
                 </Accordion>
                 <Box mt={5}>
-                  <Text fontSize={13} color={"gray.500"}>
+                  <Text fontSize={13} color={'gray.500'}>
                     Hospital
                   </Text>
                   <Text mb={5} fontSize={15}>
-                    Zamboanga City Medical Center
+                    {user.hospital ?? 'ZCMC'}
                   </Text>
-                  <Text fontSize={13} color={"gray.500"}>
+                  <Text fontSize={13} color={'gray.500'}>
                     Specialization
                   </Text>
-                  <Text fontSize={15}>Internal Medicine</Text>
+                  <Text fontSize={15}>{user.skill ?? 'Unknown'}</Text>
                 </Box>
               </GridItem>
             </Grid>

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Drawer,
   DrawerBody,
@@ -16,10 +16,10 @@ import {
   Heading,
   Center,
   MenuItem,
-} from "@chakra-ui/react";
-import { AiOutlineUser, AiOutlineCheckCircle } from "react-icons/ai";
+} from '@chakra-ui/react';
+import { AiOutlineUser, AiOutlineCheckCircle } from 'react-icons/ai';
 
-import useAuth from "../../context/AuthContext";
+import useAuth from '../../context/AuthContext';
 
 function ProfileDrawer(props) {
   const { user } = useAuth();
@@ -31,13 +31,13 @@ function ProfileDrawer(props) {
       <MenuItem onClick={onOpen}>
         <Text
           ref={btnRef}
-          variant={"unstyled"}
+          variant={'unstyled'}
           fontSize={14}
-          color={"gray.600"}
-          fontWeight={"normal"}
+          color={'gray.600'}
+          fontWeight={'normal'}
         >
           <Flex>
-            <AiOutlineUser style={{ marginRight: "10px" }} /> View Profile
+            <AiOutlineUser style={{ marginRight: '10px' }} /> View Profile
           </Flex>
         </Text>
       </MenuItem>
@@ -57,30 +57,30 @@ function ProfileDrawer(props) {
                 size="lg"
                 name={user.name}
                 src={
-                  user.url === "NONE"
-                    ? require("../../../assets/default_profile.png")
+                  user.url === 'NONE'
+                    ? require('../../../assets/default_profile.png')
                     : user.url
                 }
               />
               <Box ml={4}>
                 <Stack>
-                  <Text fontWeight={"bold"} fontSize={16}>
+                  <Text fontWeight={'bold'} fontSize={16}>
                     <Flex>
-                      {user.name}{" "}
+                      {user.name}{' '}
                       <AiOutlineCheckCircle
                         style={{
-                          marginLeft: "4px",
-                          color: "#48BB78",
-                          fontSize: "17px",
-                          marginTop: "2px",
+                          marginLeft: '4px',
+                          color: '#48BB78',
+                          fontSize: '17px',
+                          marginTop: '2px',
                         }}
                       />
                     </Flex>
 
                     <span
                       style={{
-                        fontSize: "13px",
-                        fontWeight: "normal",
+                        fontSize: '13px',
+                        fontWeight: 'normal',
                       }}
                     >
                       Internal Medicine
@@ -88,9 +88,9 @@ function ProfileDrawer(props) {
                     <br />
                     <span
                       style={{
-                        fontSize: "13px",
-                        fontWeight: "normal",
-                        textTransform: "uppercase",
+                        fontSize: '13px',
+                        fontWeight: 'normal',
+                        textTransform: 'uppercase',
                       }}
                     >
                       Zamboanga city medical center
@@ -100,37 +100,37 @@ function ProfileDrawer(props) {
               </Box>
             </Flex>
             <div
-              style={{ borderBottom: "1px solid #CBD5E0", marginTop: "10px" }}
+              style={{ borderBottom: '1px solid #CBD5E0', marginTop: '10px' }}
             ></div>
             <Center
               mt={10}
-              color={"blackAlpha.600"}
-              textTransform={"uppercase"}
+              color={'blackAlpha.600'}
+              textTransform={'uppercase'}
             >
               <Stack spacing="40px">
                 <Box>
-                  <Text fontWeight={"bold"}>Total Patients</Text>
+                  <Text fontWeight={'bold'}>Total Patients</Text>
                   <Heading
-                    bg={"green.100"}
+                    bg={'green.100'}
                     p={2}
                     borderRadius={5}
-                    fontWeight={"bold"}
-                    color={"gray.500"}
-                    textAlign={"center"}
+                    fontWeight={'bold'}
+                    color={'gray.500'}
+                    textAlign={'center'}
                   >
                     0
                   </Heading>
                 </Box>
 
                 <Box>
-                  <Text fontWeight={"bold"}>Total Cases</Text>
+                  <Text fontWeight={'bold'}>Total Cases</Text>
                   <Heading
-                    bg={"green.100"}
+                    bg={'green.100'}
                     p={2}
                     borderRadius={5}
-                    fontWeight={"bold"}
-                    color={"gray.500"}
-                    textAlign={"center"}
+                    fontWeight={'bold'}
+                    color={'gray.500'}
+                    textAlign={'center'}
                   >
                     0
                   </Heading>
@@ -141,10 +141,10 @@ function ProfileDrawer(props) {
 
           <DrawerFooter>
             <Button
-              size={"sm"}
+              size={'sm'}
               variant="outline"
               mr={3}
-              colorScheme={"green"}
+              colorScheme={'green'}
               onClick={onClose}
             >
               Close

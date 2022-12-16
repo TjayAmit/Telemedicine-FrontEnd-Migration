@@ -1,9 +1,9 @@
-import { Menu, MenuItem } from "react-pro-sidebar";
-import { Image, Heading, Box, Divider, Text } from "@chakra-ui/react";
-import RouteData from "../../Routes/RouteData";
-import { useNavigate } from "react-router-dom";
-import "../../Sidebar.css";
-import useAuth from "../../context/AuthContext";
+import { Menu, MenuItem } from 'react-pro-sidebar';
+import { Image, Heading, Box, Divider, Text } from '@chakra-ui/react';
+import RouteData from '../../Routes/RouteData';
+import { useNavigate } from 'react-router-dom';
+import '../../Sidebar.css';
+import useAuth from '../../context/AuthContext';
 
 const SidebarDividerHeader = ({ data, header, flip }) => {
   return (
@@ -12,9 +12,9 @@ const SidebarDividerHeader = ({ data, header, flip }) => {
         <span
           key={data.index}
           style={{
-            fontSize: "12px",
-            marginLeft: "10%",
-            color: "#37c739",
+            fontSize: '12px',
+            marginLeft: '10%',
+            color: '#37c739',
           }}
           id="consult"
         >
@@ -29,42 +29,42 @@ const CustomSidebar = ({ flip }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const handleClick = (data) => {
-    navigate("/h" + data.href);
+  const handleClick = data => {
+    navigate('/h' + data.href);
   };
 
   return (
     <>
       <div
         className="sidebar"
-        style={{ width: flip && "75px", display: flip && "block" }}
+        style={{ width: flip && '75px', display: flip && 'block' }}
       >
-        <Menu iconShape="circle" color={"#1d8b10"}>
+        <Menu iconShape="circle" color={'#1d8b10'}>
           <MenuItem
             icon={
-              <Image w={8} src={require("../../../assets/zcmc_logo.png")} />
+              <Image w={8} src={require('../../../assets/zcmc_logo.png')} />
             }
           >
-            <Heading size={"md"}>TELEMEDICINE </Heading>
+            <Heading size={'md'}>TELEMEDICINE </Heading>
           </MenuItem>
           <Box h={10} p={4}>
-            <Divider color={"red"} width={"1px"} />
+            <Divider color={'red'} width={'1px'} />
           </Box>
           {RouteData.path
-            .filter((x) =>
-              user.user_role === "Super Admin"
+            .filter(x =>
+              user.user_role === 'Super Admin'
                 ? x.superadmin === true
-                : user.user_role === "Admin"
+                : user.user_role === 'Admin'
                 ? x.admin === true
-                : user.user_role === "Internal Doctor"
+                : user.user_role === 'Internal Doctor'
                 ? x.doctor === true
-                : x.index !== 9 && user.user_role === "External Doctor"
-                ? x.doctor === true
-                : user.user_role === "Staff"
+                : x.index !== 9 && user.user_role === 'External Doctor'
+                ? x.edoctor === true
+                : user.user_role === 'Staff'
                 ? x.staff === true
                 : null
             )
-            .map((data) => {
+            .map(data => {
               return (
                 <>
                   {data.index === 1 || data.index === 5 || data.index === 9 ? (
@@ -72,10 +72,10 @@ const CustomSidebar = ({ flip }) => {
                       data={data}
                       header={
                         data.index === 1
-                          ? "ANALYTICS"
+                          ? 'ANALYTICS'
                           : data.index === 5
-                          ? "CONSULTATION"
-                          : "REPORT"
+                          ? 'CONSULTATION'
+                          : 'REPORT'
                       }
                       flip={flip}
                     />

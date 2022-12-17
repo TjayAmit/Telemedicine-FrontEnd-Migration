@@ -97,7 +97,7 @@ const ProfileBox = data => {
             {dev.skills}
           </Text>
           <Box marginTop={2}>
-            <a href={dev.facebook} target={'_blank'}>
+            <a href={dev.facebook} rel="noreferrer" target={'_blank'}>
               <IconButton
                 mr={2}
                 color={'grey'}
@@ -108,7 +108,7 @@ const ProfileBox = data => {
                 icon={<FaFacebookF />}
               />
             </a>
-            <a href={dev.linkedIn} target={'_blank'}>
+            <a href={dev.linkedIn} rel="noreferrer" target={'_blank'}>
               <IconButton
                 mr={2}
                 color={'grey'}
@@ -119,7 +119,7 @@ const ProfileBox = data => {
                 icon={<BsLinkedin />}
               />
             </a>
-            <a href={dev.github} target={'_blank'}>
+            <a href={dev.github} rel="noreferrer" target={'_blank'}>
               <IconButton
                 mr={2}
                 color={'grey'}

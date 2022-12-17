@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Text,
@@ -9,11 +9,11 @@ import {
   GridItem,
   useToast,
   useDisclosure,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import ConsultClientInfo from "../Component/ConsultClientInfo";
-import ConsultSendMessage from "../Component/ConsultSendMessage";
-import { SpecializationPutSpecializationRequest } from "../../api/Specialization_Request";
+import ConsultClientInfo from '../Component/ConsultClientInfo';
+import ConsultSendMessage from '../Component/ConsultSendMessage';
+import { SpecializationPutSpecializationRequest } from '../../api/Specialization_Request';
 import {
   UserInfo,
   AddInfo,
@@ -21,31 +21,31 @@ import {
   Messages,
   refInfo,
   followups,
-} from "./ComponentData/ConsultData";
+} from './ComponentData/ConsultData';
 import {
   TitleColor,
   toastposition,
   toastvariant,
   CustomModal,
   CustomSelection,
-} from "../Packages";
+} from '../Packages';
 
-import ConsultInfoMain from "../Component/ConsultInfoMain";
-import ConsultMessages from "../Component/ConsultMessages";
-import ConsultRefInfo from "../Component/ConsultRefInfo";
-import ConsultFollowUpInfo from "../Component/ConsultFollowUpInfo";
-import CustomeSkeletonLoader from "../Component/CustomeSkeletonLoader";
-import { useLocation } from "react-router-dom";
-import { MessageGetRequest } from "../../api/Message_Request";
-import { CaseStatusPutRequest } from "../../api/Case_Request";
+import ConsultInfoMain from '../Component/ConsultInfoMain';
+import ConsultMessages from '../Component/ConsultMessages';
+import ConsultRefInfo from '../Component/ConsultRefInfo';
+import ConsultFollowUpInfo from '../Component/ConsultFollowUpInfo';
+import CustomeSkeletonLoader from '../Component/CustomeSkeletonLoader';
+import { useLocation } from 'react-router-dom';
+import { MessageGetRequest } from '../../api/Message_Request';
+import { CaseStatusPutRequest } from '../../api/Case_Request';
 
 const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
-  const title = "ADD Specialization";
-  const [FK_specializations_ID, setFK_specializations_ID] = useState("");
-  const [des, setDescription] = useState("");
+  const title = 'ADD Specialization';
+  const [FK_specializations_ID, setFK_specializations_ID] = useState('');
+  const [des, setDescription] = useState('');
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const res = await SpecializationPutSpecializationRequest({
@@ -55,10 +55,10 @@ const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
 
     if (res.data.status !== 200) {
       toast({
-        title: "Failed to add specialization!",
+        title: 'Failed to add specialization!',
         position: toastposition,
         variant: toastvariant,
-        status: "error",
+        status: 'error',
         isClosable: true,
       });
     }
@@ -68,10 +68,10 @@ const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
       fetch(true);
 
       toast({
-        title: "Added Successfully!",
+        title: 'Added Successfully!',
         position: toastposition,
         variant: toastvariant,
-        status: "success",
+        status: 'success',
         isClosable: true,
       });
     }
@@ -86,10 +86,10 @@ const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
         handleSubmit={handleSubmit}
         hasProfile={false}
         isNew={true}
-        btntitle={"Save"}
+        btntitle={'Save'}
       >
         <CustomSelection
-          title={"Specialization"}
+          title={'Specialization'}
           value={FK_specializations_ID}
           setValue={setFK_specializations_ID}
           mt={5}
@@ -99,9 +99,10 @@ const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
   );
 };
 
-const Consult = (props) => {
-  const [sort, setSort] = useState("Newest");
+const Consult = props => {
+  const [sort, setSort] = useState('Newest');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [decending, setDecending] = useState(true);
   const location = useLocation();
   const json = location.state;
 
@@ -112,8 +113,9 @@ const Consult = (props) => {
   const [fetch, setFetch] = useState(true);
   const [messages, setMessages] = useState([]);
 
-  const handleSort = (e) => {
+  const handleSort = e => {
     setSort(e.target.value);
+    setDecending(!decending);
   };
 
   const handleUpdateCase = async () => {
@@ -124,7 +126,7 @@ const Consult = (props) => {
       });
 
       if (res.data.status === 500) {
-        console.log("Something went wrong!");
+        console.log('Something went wrong!');
       }
 
       if (res.data.status === 200) {
@@ -164,10 +166,10 @@ const Consult = (props) => {
 
   return (
     <>
-      <Container maxW={"container.xxl"} pt={[1, 5, 10]}>
+      <Container maxW={'container.xxl'} pt={[1, 5, 10]}>
         <Box mt={2} p={[0, 0, 5, 3]}>
           <Flex gap={3}>
-            <Center w={"60px"} h={"60px"} bg={"#92e3a9"} borderRadius={"10"}>
+            <Center w={'60px'} h={'60px'} bg={'#92e3a9'} borderRadius={'10'}>
               <svg
                 color="#0f531e"
                 stroke="currentColor"
@@ -198,8 +200,8 @@ const Consult = (props) => {
                 ></path>
               </svg>
             </Center>
-            <Flex w={"100%"} h={"60px"} alignItems={"center"}>
-              <Text fontWeight={"bold"} fontSize={20} color={TitleColor}>
+            <Flex w={'100%'} h={'60px'} alignItems={'center'}>
+              <Text fontWeight={'bold'} fontSize={20} color={TitleColor}>
                 Consultations
               </Text>
             </Flex>
@@ -208,7 +210,7 @@ const Consult = (props) => {
           {load ? (
             <CustomeSkeletonLoader />
           ) : (
-            <Grid templateColumns={["repeat(8, 1fr)"]} gap={5}>
+            <Grid templateColumns={['repeat(8, 1fr)']} gap={5}>
               <GridItem w="100%" colSpan={[8, 8, 8, 8, 6]}>
                 <ConsultClientInfo
                   userinfo={UserInfo}
@@ -220,33 +222,38 @@ const Consult = (props) => {
 
                 <Box
                   mt={5}
-                  border={"1px"}
-                  borderColor={"gray.300"}
+                  border={'1px'}
+                  borderColor={'gray.300'}
                   borderRadius={10}
-                  p={5}
-                  shadow={"md"}
-                  transition={"all ease-in 1s"}
+                  p={[2, 2, 5, 5]}
+                  shadow={'md'}
+                  transition={'all ease-in 1s'}
                 >
                   <ConsultSendMessage
+                    responses={messages.data.length}
                     case={json}
                     handleSort={handleSort}
                     sort={sort}
                     setFetch={setFetch}
+                    decending={decending}
                   />
 
                   <Box
                     p={5}
                     mt={5}
-                    height={["700px", "700px", "600px", "auto"]}
-                    overflowY={["scroll", "none", "none", "auto"]}
+                    height={['700px', '700px', '600px', 'auto']}
+                    overflowY={['scroll', 'none', 'none', 'auto']}
                   >
-                    <ConsultMessages messages={messages} />
+                    <ConsultMessages
+                      messages={messages}
+                      decending={decending}
+                    />
                   </Box>
                 </Box>
               </GridItem>
               <GridItem w="100%" colSpan={[8, 8, 8, 8, 2]}>
                 <ConsultRefInfo
-                  serviceType={"Internal Medicine"}
+                  serviceType={'Internal Medicine'}
                   refinfo={refInfo}
                   caseinfo={caseinfo}
                 />

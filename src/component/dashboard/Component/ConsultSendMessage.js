@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Box,
   Text,
@@ -13,19 +13,19 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { BiChevronDown } from "react-icons/bi";
-import { IoDocumentAttachOutline } from "react-icons/io5";
-import { TiAttachment } from "react-icons/ti";
-import { BiPaperPlane } from "react-icons/bi";
-import { useState } from "react";
-import { MdCancel } from "react-icons/md";
-import { useToast } from "@chakra-ui/react";
-import { toastposition, toastvariant } from "../Packages";
-import { CaseSaveMessageAndPostFileRequest } from "../../api/Case_Request";
+import { BiChevronDown } from 'react-icons/bi';
+import { IoDocumentAttachOutline } from 'react-icons/io5';
+import { TiAttachment } from 'react-icons/ti';
+import { BiPaperPlane } from 'react-icons/bi';
+import { useState } from 'react';
+import { MdCancel } from 'react-icons/md';
+import { useToast } from '@chakra-ui/react';
+import { toastposition, toastvariant } from '../Packages';
+import { CaseSaveMessageAndPostFileRequest } from '../../api/Case_Request';
 
-const ConsultSendMessage = (props) => {
+const ConsultSendMessage = props => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileLimit, setFileLimit] = useState(false);
   const [sms, SetSms] = useState(null);
@@ -35,12 +35,12 @@ const ConsultSendMessage = (props) => {
 
   const Max_Count = 5;
 
-  const handleFileUpload = (files) => {
+  const handleFileUpload = files => {
     const uploaded = [...selectedFiles];
     let limitExceeded = false;
 
-    files.some((file) => {
-      if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+    files.some(file => {
+      if (uploaded.findIndex(f => f.name === file.name) === -1) {
         uploaded.push(file);
         if (uploaded.length === Max_Count) setFileLimit(true);
         if (uploaded.length > Max_Count) {
@@ -55,26 +55,26 @@ const ConsultSendMessage = (props) => {
     if (!limitExceeded) {
       setSelectedFiles(uploaded);
       setValidate(false);
-      if (sms == "" || sms == null) {
-        SetSms("File Attacthments");
+      if (sms == '' || sms == null) {
+        SetSms('File Attacthments');
       }
     }
   };
 
-  const handleFileEvent = (e) => {
+  const handleFileEvent = e => {
     const chosenFiles = Array.prototype.slice.call(e.target.files);
     handleFileUpload(chosenFiles);
   };
 
   const HandleSend = async () => {
-    if (sms == "" || sms == null) {
+    if (sms == '' || sms == null) {
       setValidate(true);
 
       toast({
-        title: "Please Type your Response!",
+        title: 'Please Type your Response!',
         position: toastposition,
         variant: toastvariant,
-        status: "error",
+        status: 'error',
         isClosable: true,
       });
     } else {
@@ -82,11 +82,11 @@ const ConsultSendMessage = (props) => {
       let bodyform = new FormData();
 
       selectedFiles.forEach((element, key) => {
-        bodyform.append("attachments[]", element, key);
+        bodyform.append('attachments[]', element, key);
       });
 
-      bodyform.append("message", sms);
-      bodyform.append("FK_cases_ID", props.case.data.PK_cases_ID);
+      bodyform.append('message', sms);
+      bodyform.append('FK_cases_ID', props.case.data.PK_cases_ID);
 
       const json = await CaseSaveMessageAndPostFileRequest(bodyform);
 
@@ -94,14 +94,14 @@ const ConsultSendMessage = (props) => {
 
       if (json.status === 200) {
         toast({
-          title: "Response Sent Successfully!",
+          title: 'Response Sent Successfully!',
           position: toastposition,
           variant: toastvariant,
-          status: "success",
+          status: 'success',
           isClosable: true,
         });
         setSelectedFiles([]);
-        SetSms("");
+        SetSms('');
         props.setFetch(true);
       }
       setStatus(false);
@@ -110,22 +110,21 @@ const ConsultSendMessage = (props) => {
 
   return (
     <div>
-      <Text mb={4} fontWeight={"bold"}>
-        2 responses
+      <Text mb={4} fontWeight={'bold'}>
+        {props.responses} {props.responses === 1 ? 'reponse' : 'responses'}
       </Text>
       <Box>
         <Textarea
           placeholder="Type here to response..."
-          border={"1px solid"}
-          borderColor={"gray.300"}
-          focusBorderColor={"unstyled"}
-          className={"chatbox"}
+          border={'1px solid'}
+          borderColor={'gray.300'}
+          focusBorderColor={'unstyled'}
+          className={'chatbox'}
           fontSize={14}
           value={sms}
-          onChange={(e) => {
+          onChange={e => {
             SetSms(e.target.value);
-
-            e.target.value == "" ? setValidate(true) : setValidate(false);
+            e.target.value == '' ? setValidate(true) : setValidate(false);
           }}
         />
 
@@ -134,22 +133,22 @@ const ConsultSendMessage = (props) => {
             return (
               <GridItem w="100%" key={key} colSpan={[5, 5, 2, 1]}>
                 <Box
-                  bg={"blackAlpha.200"}
+                  bg={'blackAlpha.200'}
                   p={1}
                   fontSize={13}
-                  color={"blue.900"}
-                  textAlign={"center"}
-                  borderRadius={"5"}
-                  cursor={"pointer"}
-                  border={"1px solid"}
-                  borderColor={"gray.400"}
-                  className={"attacheditems"}
+                  color={'blue.900'}
+                  textAlign={'center'}
+                  borderRadius={'5'}
+                  cursor={'pointer'}
+                  border={'1px solid'}
+                  borderColor={'gray.400'}
+                  className={'attacheditems'}
                 >
                   <Flex>
                     <TiAttachment
                       style={{
-                        fontSize: "22px",
-                        marginRight: "2px",
+                        fontSize: '22px',
+                        marginRight: '2px',
                       }}
                     />
                     {e.name}
@@ -161,81 +160,81 @@ const ConsultSendMessage = (props) => {
         </Grid>
       </Box>
 
-      <Stack direction={"row"} mt={10}>
+      <Stack direction={'row'} mt={10}>
         <Box>
           <Menu>
             <MenuButton
-              fontWeight={"normal"}
-              fontSize={"14px"}
+              fontWeight={'normal'}
+              fontSize={'14px'}
               as={Button}
-              color={"green.500"}
+              color={'green.500'}
               rightIcon={<BiChevronDown />}
-              size={"sm"}
+              size={'sm'}
             >
               Sort by : {props.sort}
             </MenuButton>
-            <MenuList fontSize={"14px"} onClick={props.handleSort}>
-              <MenuItem value={"Newest"}>Newest</MenuItem>
-              <MenuItem value={"Oldest"}>Oldest</MenuItem>
+            <MenuList fontSize={'14px'} onClick={props.handleSort}>
+              <MenuItem value={'Newest'}>Newest</MenuItem>
+              <MenuItem value={'Oldest'}>Oldest</MenuItem>
             </MenuList>
           </Menu>
         </Box>
         <Spacer />
         <Box>
-          <Stack direction={["column", "row"]}>
+          <Stack direction={['column', 'row']}>
             {selectedFiles.length >= 1 ? (
               <>
                 <Button
-                  variant={"outline"}
+                  variant={'outline'}
                   size="sm"
-                  fontWeight={"normal"}
-                  color={"red.300"}
+                  fontWeight={'normal'}
+                  color={'red.300'}
                   onClick={() => {
                     setSelectedFiles([]);
                   }}
                 >
-                  Cancel{" "}
-                  <MdCancel style={{ marginLeft: "3px", fontSize: "20px" }} />
+                  Cancel{' '}
+                  <MdCancel style={{ marginLeft: '3px', fontSize: '20px' }} />
                 </Button>
               </>
             ) : (
               <Button
-                variant={"outline"}
+                variant={'outline'}
                 size="sm"
-                bg={"gray.200"}
-                color={"gray.600"}
-                fontWeight={"normal"}
+                bg={'gray.200'}
+                color={'gray.600'}
+                fontWeight={'normal'}
                 onClick={() => {
-                  document.getElementById("file").click();
+                  document.getElementById('file').click();
                 }}
               >
                 <IoDocumentAttachOutline
-                  style={{ fontSize: "20px", marginRight: "3px" }}
+                  style={{ fontSize: '20px', marginRight: '3px' }}
                 />
-                Attach File{" "}
+                Attach File{' '}
               </Button>
             )}
 
             <input
-              type={"file"}
+              type={'file'}
               id="file"
               name="image"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               multiple={true}
               onChange={handleFileEvent}
             />
             <Button
               isLoading={status}
-              loadingText={"Submiting"}
+              loadingText={'Submiting'}
               variant="solid"
-              size={"sm"}
+              size={'sm'}
               colorScheme="green"
-              fontWeight={"normal"}
+              fontWeight={'normal'}
               disabled={validate ? true : false}
               onClick={HandleSend}
             >
-              {"Submit"}
-              <BiPaperPlane style={{ fontSize: "20px", marginLeft: "5px" }} />
+              {'Submit'}
+              <BiPaperPlane style={{ fontSize: '20px', marginLeft: '5px' }} />
             </Button>
           </Stack>
         </Box>

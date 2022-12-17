@@ -99,7 +99,7 @@ const Register = () => {
       >
         <Box
           w={'40rem'}
-          h={'38rem'}
+          h={['58rem', '54rem', '38rem', '38rem']}
           overflow="hidden"
           className="authbox"
           m={'auto'}

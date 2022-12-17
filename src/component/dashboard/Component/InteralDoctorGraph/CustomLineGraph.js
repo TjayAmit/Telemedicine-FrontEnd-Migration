@@ -2,11 +2,17 @@ import { ResponsiveLine } from "@nivo/line";
 import { useState, useEffect } from "react";
 import { CaseData, SpecializationData } from "../../Packages";
 import { Box, Select } from "@chakra-ui/react";
+import api from "../../../api/api";
 
 const CustomLineGraph = () => {
   const [lineGraphData, setLineGraphData] = useState([]);
   const [year, setYear] = useState([]);
   const [yr, setYr] = useState("2022");
+  const [tempCaseData, settempCaseData] = useState();
+  const CaseDataTemp = async () => {
+    const temp = await api.get("api/getCaseData");
+    return temp;
+  }
 
   const configYear = () => {
     //CHANGES APPLY HERE
@@ -19,25 +25,28 @@ const CustomLineGraph = () => {
     setYear(list);
   };
 
-  const configLineGraph = () => {
+  const configLineGraph = (e) => {
     //CHANGE APPLY HERE TO DISPLAY DATA IN LINE GRAPH FOR EVERY SPECIALIZATION
     let list = [];
 
     SpecializationData.forEach((specialization) => {
       const groups = {};
-      CaseData.filter(
-        (data) => data.specialization === specialization.specialization
+      // e.forEach(e => console.log('value: ', e.specialization))
+      e.filter(
+        (data) => data.specializations_Title === specialization.specialization
       )
         .filter((e) => parseInt(yr) === parseInt(e.date.substring(0, 4)))
         .forEach(function (val) {
           const dates = new Date(val.date);
           const date = dates.toLocaleString("en-us", { month: "short" });
           if (date in groups) {
-            groups[date].push(val._id);
+            groups[date].push(val.specializations_Title);
+            console.log('added:', val.specializations_Title)
           } else {
-            groups[date] = new Array(val._id);
+            groups[date] = new Array(val.specializations_Title);
           }
         });
+      console.log('Groups :', groups)
       list.push({
         id: specialization.specialization,
         color: "hsl(169, 100%, 94%)",
@@ -63,7 +72,7 @@ const CustomLineGraph = () => {
 
   useEffect(() => {
     configYear();
-    configLineGraph();
+    CaseDataTemp().then((e) => { console.log(e.data); configLineGraph(e.data); });
   }, []);
 
   return (

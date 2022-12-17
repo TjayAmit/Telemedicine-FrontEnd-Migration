@@ -288,10 +288,14 @@ function MyAccount(props) {
                   <Text mb={5} fontSize={15}>
                     {user.hospital ?? 'ZCMC'}
                   </Text>
-                  <Text fontSize={13} color={'gray.500'}>
-                    Specialization
-                  </Text>
-                  <Text fontSize={15}>{user.skill ?? 'Unknown'}</Text>
+                  {user.skill === null ? null : (
+                    <>
+                      <Text fontSize={13} color={'gray.500'}>
+                        Specialization
+                      </Text>
+                      <Text fontSize={15}>{user.skill}</Text>
+                    </>
+                  )}
                 </Box>
               </GridItem>
             </Grid>

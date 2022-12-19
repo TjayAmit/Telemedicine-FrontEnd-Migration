@@ -20,21 +20,17 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { AiOutlineLogout } from 'react-icons/ai';
-import { MdEmail } from 'react-icons/md';
-import { FaUserAlt, FaLock } from 'react-icons/fa';
 
 import useAuth from '../../context/AuthContext';
 import { useProSidebar } from 'react-pro-sidebar';
 import { useNavigate } from 'react-router-dom';
 import ProfileDrawer from './ProfileDrawer';
-import { useRef, useState } from 'react';
-import { CustomFormController } from '../../authentication/customs';
+import { useState } from 'react';
 import { toastposition, toastvariant, CustomModal } from '../Packages';
 
 const UpdateProfile = ({ isOpen, onClose }) => {
   const title = 'Change Profile Picture';
   const toast = useToast();
-  const filetag = useRef();
   const [loader, setLoader] = useState(false);
 
   const { resetState, registerStaff } = useAuth();
@@ -99,7 +95,7 @@ const UpdateProfile = ({ isOpen, onClose }) => {
 const Homeheader = ({ flip, setflip }) => {
   const { user, setUser } = useAuth();
   const { collapseSidebar, toggleSidebar } = useProSidebar();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
   const handleClick = () => {

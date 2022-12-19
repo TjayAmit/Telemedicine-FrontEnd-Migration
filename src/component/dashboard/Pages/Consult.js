@@ -18,7 +18,6 @@ import {
   UserInfo,
   AddInfo,
   MainInfo,
-  Messages,
   refInfo,
   followups,
 } from './ComponentData/ConsultData';
@@ -42,7 +41,6 @@ import { CaseStatusPutRequest } from '../../api/Case_Request';
 const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
   const title = 'ADD Specialization';
   const [FK_specializations_ID, setFK_specializations_ID] = useState('');
-  const [des, setDescription] = useState('');
   const toast = useToast();
 
   const handleSubmit = async e => {
@@ -161,7 +159,7 @@ const Consult = props => {
     handleUpdateCase();
     setTimeout(() => {
       setLoad(false);
-    }, 1500);
+    }, 2000);
   }, [load]);
 
   return (

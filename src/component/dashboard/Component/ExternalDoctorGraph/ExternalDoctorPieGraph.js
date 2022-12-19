@@ -1,22 +1,22 @@
-import { ResponsivePie } from "@nivo/pie";
-import { CaseData, SpecializationData } from "../../Packages";
-import { Box } from "@chakra-ui/react";
+import { ResponsivePie } from '@nivo/pie';
+import { CaseData, SpecializationData } from '../../Packages';
+import { Box } from '@chakra-ui/react';
 
 const ExternalDoctorPieGraph = () => {
   return (
-    <Box h={"40vh"}>
+    <Box h={'40vh'}>
       <ResponsivePie
-        data={SpecializationData.map((item) => {
+        data={SpecializationData.map(item => {
           return {
             id:
-              item.specialization === "Internal Medicine"
-                ? "I.M"
-                : item.specialization === "Obstetrics and Gynecology"
-                ? "OBGYN"
+              item.specialization === 'Internal Medicine'
+                ? 'I.M'
+                : item.specialization === 'Obstetrics and Gynecology'
+                ? 'OBGYN'
                 : item.specialization,
             label: item.specialization,
             value: CaseData.filter(
-              (e) => e.specialization === item.specialization
+              e => e.specialization === item.specialization
             )?.length,
           };
         })}
@@ -27,17 +27,17 @@ const ExternalDoctorPieGraph = () => {
         activeOuterRadiusOffset={8}
         borderWidth={1}
         borderColor={{
-          from: "color",
-          modifiers: [["darker", 0.2]],
+          from: 'color',
+          modifiers: [['darker', 0.2]],
         }}
         arcLinkLabelsSkipAngle={10}
         arcLinkLabelsTextColor="#333333"
         arcLinkLabelsThickness={2}
-        arcLinkLabelsColor={{ from: "color" }}
+        arcLinkLabelsColor={{ from: 'color' }}
         arcLabelsSkipAngle={10}
         arcLabelsTextColor={{
-          from: "color",
-          modifiers: [["darker", 2]],
+          from: 'color',
+          modifiers: [['darker', 2]],
         }}
         // legends={[
         //   {

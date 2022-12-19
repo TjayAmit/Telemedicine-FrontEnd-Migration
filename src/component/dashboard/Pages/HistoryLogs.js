@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Text, Container, Flex } from '@chakra-ui/react';
-import { LogTableData, CustomTablePaginate, TitleColor } from '../Packages';
+import { CustomTablePaginate, TitleColor } from '../Packages';
 import { RiFileListFill } from 'react-icons/ri';
 import { LogsGetRequest } from '../../api/Log_Request';
 

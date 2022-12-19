@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -7,109 +7,109 @@ import {
   Flex,
   Spacer,
   Avatar,
-  Button,
+  // Button,
   Grid,
   GridItem,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  useDisclosure,
-  Image,
-  Container,
+  // Modal,
+  // ModalOverlay,
+  // ModalContent,
+  // ModalCloseButton,
+  // useDisclosure,
+  // Image,
+  // Container,
   Center,
 } from '@chakra-ui/react';
 import { TiAttachment } from 'react-icons/ti';
-import AwesomeSlider from 'react-awesome-slider';
+// import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
-import { GlassMagnifier } from 'react-image-magnifiers';
+// import { GlassMagnifier } from 'react-image-magnifiers';
 import moment from 'moment';
 
-const HundleCouresel = () => {
-  const ref = useRef(null);
+// const HundleCouresel = () => {
+//   const ref = useRef(null);
 
-  const OverlayTwo = () => (
-    <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
-  );
+//   const OverlayTwo = () => (
+//     <ModalOverlay bg="none" backdropFilter="auto" backdropBlur="2px" />
+//   );
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [overlay, setOverlay] = React.useState(<OverlayTwo />);
+//   const { isOpen, onOpen, onClose } = useDisclosure();
+//   const [overlay, setOverlay] = React.useState(<OverlayTwo />);
 
-  const images = [
-    {
-      src: 'https://unsplash.it/800/300?image=1',
-      title: 'title',
-      content: 'content',
-    },
-    {
-      src: 'https://unsplash.it/300/800?image=2',
-      title: 'title',
-      content: 'content',
-    },
-    {
-      src: 'https://unsplash.it/1800/300?image=3',
-      title: 'title',
-      content: 'content',
-    },
-    {
-      src: 'https://unsplash.it/800/1800?image=4',
-      title: 'title',
-      content: 'content',
-    },
-  ];
+//   const images = [
+//     {
+//       src: 'https://unsplash.it/800/300?image=1',
+//       title: 'title',
+//       content: 'content',
+//     },
+//     {
+//       src: 'https://unsplash.it/300/800?image=2',
+//       title: 'title',
+//       content: 'content',
+//     },
+//     {
+//       src: 'https://unsplash.it/1800/300?image=3',
+//       title: 'title',
+//       content: 'content',
+//     },
+//     {
+//       src: 'https://unsplash.it/800/1800?image=4',
+//       title: 'title',
+//       content: 'content',
+//     },
+//   ];
 
-  return (
-    <>
-      <Button
-        variant={'ghost'}
-        size={'sm'}
-        fontWeight={'normal'}
-        mt={2}
-        fontSize={14}
-        float={'right'}
-        color={'blue.700'}
-        onClick={() => {
-          setOverlay(<OverlayTwo />);
-          onOpen();
-        }}
-      >
-        View all
-      </Button>
-      <Modal isCentered isOpen={isOpen} onClose={onClose} size={['full', 'xl']}>
-        {overlay}
-        <ModalContent bg={'transparent'}>
-          <Box ref={ref}>
-            <AwesomeSlider style={{ width: '100%', height: '100vh' }}>
-              <Container maxW={'container.xxl'}>
-                <ModalCloseButton
-                  bg={'whiteAlpha.700'}
-                  variant={'solid'}
-                  _hover={{ bg: 'whiteAlpha.900', color: 'red.600' }}
-                />
+//   return (
+//     <>
+//       <Button
+//         variant={'ghost'}
+//         size={'sm'}
+//         fontWeight={'normal'}
+//         mt={2}
+//         fontSize={14}
+//         float={'right'}
+//         color={'blue.700'}
+//         onClick={() => {
+//           setOverlay(<OverlayTwo />);
+//           onOpen();
+//         }}
+//       >
+//         View all
+//       </Button>
+//       <Modal isCentered isOpen={isOpen} onClose={onClose} size={['full', 'xl']}>
+//         {overlay}
+//         <ModalContent bg={'transparent'}>
+//           <Box ref={ref}>
+//             <AwesomeSlider style={{ width: '100%', height: '100vh' }}>
+//               <Container maxW={'container.xxl'}>
+//                 <ModalCloseButton
+//                   bg={'whiteAlpha.700'}
+//                   variant={'solid'}
+//                   _hover={{ bg: 'whiteAlpha.900', color: 'red.600' }}
+//                 />
 
-                <Box>
-                  <Image
-                    src="https://images.pexels.com/photos/2486168/pexels-photo-2486168.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                    alt="Dan Abramov"
-                    style={{ height: '100vh', width: 'auto' }}
-                  />
-                </Box>
-              </Container>
-              <Box>
-                <GlassMagnifier
-                  imageSrc="https://images.pexels.com/photos/799443/pexels-photo-799443.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                  imageAlt="Example"
-                  largeImageSrc="https://images.pexels.com/photos/799443/pexels-photo-799443.jpeg?auto=compress&cs=tinysrgb&w=1600" // Optional
-                />
-              </Box>
-            </AwesomeSlider>
-          </Box>
-        </ModalContent>
-      </Modal>
-    </>
-  );
-};
+//                 <Box>
+//                   <Image
+//                     src="https://images.pexels.com/photos/2486168/pexels-photo-2486168.jpeg?auto=compress&cs=tinysrgb&w=1600"
+//                     alt="Dan Abramov"
+//                     style={{ height: '100vh', width: 'auto' }}
+//                   />
+//                 </Box>
+//               </Container>
+//               <Box>
+//                 <GlassMagnifier
+//                   imageSrc="https://images.pexels.com/photos/799443/pexels-photo-799443.jpeg?auto=compress&cs=tinysrgb&w=1600"
+//                   imageAlt="Example"
+//                   largeImageSrc="https://images.pexels.com/photos/799443/pexels-photo-799443.jpeg?auto=compress&cs=tinysrgb&w=1600" // Optional
+//                 />
+//               </Box>
+//             </AwesomeSlider>
+//           </Box>
+//         </ModalContent>
+//       </Modal>
+//     </>
+//   );
+// };
 
 const ConsultMessages = props => {
   if (props.messages.data.length === 0 || props.messages.data === undefined) {
@@ -199,6 +199,8 @@ const ConsultMessages = props => {
                                   value.file_url.length - 1
                                 )
                           }
+                          rel="noreferrer"
+                          download=""
                           target="_blank"
                         >
                           <Flex>

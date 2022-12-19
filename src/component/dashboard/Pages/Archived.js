@@ -67,7 +67,7 @@ const Archived = () => {
 
   useEffect(() => {
     handleFetchCase();
-  }, []);
+  }, [fetch]);
 
   return (
     <>

@@ -10,7 +10,22 @@ const DashboardCard = ({ data, value }) => {
   const navigate = useNavigate();
 
   const handleSubmit = e => {
-    if (user.user_role === 'Super Admin') {
+    if (user.user_role === 'Super Admin' && data.title !== 'Total Patients') {
+      return;
+    }
+    if (
+      (user.user_role === 'Staff' ||
+        user.user_role === 'Admin' ||
+        user.user_role === 'Internal Doctor') &&
+      data.title !== 'Total Cases'
+    ) {
+      return;
+    }
+    if (
+      user.user_role === 'External Doctor' &&
+      data.title !== 'Total Hospital' &&
+      data.title !== 'Total Doctors'
+    ) {
       return;
     }
     navigate('/h' + data.path);

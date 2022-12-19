@@ -1,20 +1,25 @@
-import React, { useRef, useEffect } from "react";
-import { Text, Box, Heading } from "@chakra-ui/react";
-import "../../../App.css";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useEffect } from 'react';
+import { Text, Box, Heading } from '@chakra-ui/react';
+import '../../../App.css';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../../context/AuthContext';
 
 const DashboardCard = ({ data, value }) => {
+  const { user } = useAuth();
   const count = useRef([]);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    navigate("/h" + data.path);
+  const handleSubmit = e => {
+    if (user.user_role === 'Super Admin') {
+      return;
+    }
+    navigate('/h' + data.path);
   };
 
   useEffect(() => {
     function animateValue(obj, start, end, duration) {
       let startTimestamp = null;
-      const step = (timestamp) => {
+      const step = timestamp => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         obj.innerHTML = Math.floor(progress * (end - start) + start);
@@ -31,15 +36,15 @@ const DashboardCard = ({ data, value }) => {
     <Box
       p={6}
       borderRadius={5}
-      border={"1px"}
-      borderColor={"blackAlpha.300"}
+      border={'1px'}
+      borderColor={'blackAlpha.300'}
       className="cardBox"
-      onClick={(e) => handleSubmit()}
-      bg={"white"}
-      cursor={"pointer"}
+      onClick={e => handleSubmit()}
+      bg={'white'}
+      cursor={'pointer'}
     >
       <Box
-        float={"right"}
+        float={'right'}
         p={1}
         fontSize={50}
         bg={data.bgColor}
@@ -64,21 +69,21 @@ const DashboardCard = ({ data, value }) => {
         </svg>
       </Box>
 
-      <Heading fontSize={30} ref={count} className={"counter"}>
+      <Heading fontSize={30} ref={count} className={'counter'}>
         {value.value}
       </Heading>
-      <Text fontSize={15} fontWeight="normal" color={"blackAlpha.700"}>
+      <Text fontSize={15} fontWeight="normal" color={'blackAlpha.700'}>
         {data.title}
       </Text>
       <Text color={data.color} fontSize={15}>
-        {data.title === "Total Hospitals"
+        {data.title === 'Total Hospitals'
           ? value.subValue === undefined
             ? 0
             : value.subValue - 1
           : value.subValue === undefined
           ? 0
           : value.subValue}
-        {" " + data.description}
+        {' ' + data.description}
       </Text>
     </Box>
   );

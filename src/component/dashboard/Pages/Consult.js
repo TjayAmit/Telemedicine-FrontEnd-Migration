@@ -228,7 +228,7 @@ const Consult = props => {
                   transition={'all ease-in 1s'}
                 >
                   <ConsultSendMessage
-                    responses={messages.data.length}
+                    responses={messages}
                     case={json}
                     handleSort={handleSort}
                     sort={sort}

@@ -111,7 +111,8 @@ const ConsultSendMessage = props => {
   return (
     <div>
       <Text mb={4} fontWeight={'bold'}>
-        {props.responses} {props.responses === 1 ? 'reponse' : 'responses'}
+        {props.responses.data.length}
+        {props.responses.data.length === 1 ? ' reponse' : ' responses'}
       </Text>
       <Box>
         <Textarea

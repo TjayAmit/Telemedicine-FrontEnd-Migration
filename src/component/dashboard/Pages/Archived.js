@@ -3,11 +3,11 @@ import { CustomTablePaginate, TitleColor } from '../Packages';
 import { useState, useEffect } from 'react';
 import { BsArchive } from 'react-icons/bs';
 import { CaseGetRequest } from '../../api/Case_Request';
+import useAuth from '../../context/AuthContext';
 
 const Archived = () => {
+  const { cases, setFetchCase } = useAuth();
   const [search, setSearch] = useState('');
-  const [cases, setCases] = useState([]);
-  const [fetch, setFetch] = useState(false);
   const Title = 'Archived Case';
   const handleClick = () => {};
 
@@ -46,14 +46,6 @@ const Archived = () => {
     },
   ];
 
-  const handleFetchCase = async () => {
-    const res = await CaseGetRequest();
-
-    if (res.data.status === 200) {
-      setCases(res.data.data);
-    }
-  };
-
   const filtered = cases.filter(filter =>
     filter.cases_status !== 2
       ? null
@@ -64,10 +56,6 @@ const Archived = () => {
         filter.patients_Gender.toLowerCase().includes(search.toLowerCase()) ||
         filter.patients_CivilStatus.toLowerCase().includes(search.toLowerCase())
   );
-
-  useEffect(() => {
-    handleFetchCase();
-  }, [fetch]);
 
   return (
     <>
@@ -87,7 +75,7 @@ const Archived = () => {
               title={Title}
               columns={columns}
               data={filtered}
-              fetch={setFetch}
+              fetch={setFetchCase}
               search={search}
               handleClick={handleClick}
               setSearch={setSearch}

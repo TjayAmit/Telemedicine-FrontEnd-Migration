@@ -172,11 +172,12 @@ const Dashboard = () => {
       return user.user_role !== 'External Doctor' ? true : false;
     }
     if (title === 'Total Patients') {
-      return user.user_role === 'External Doctor' ? true : false;
+      return user.user_role === 'External Doctor' ||
+        user.user_role === 'Super Admin'
+        ? true
+        : false;
     }
-    if (title === 'Total Cases') {
-      return user.user_role !== 'Super Admin' ? true : false;
-    }
+    return true;
   };
 
   return (

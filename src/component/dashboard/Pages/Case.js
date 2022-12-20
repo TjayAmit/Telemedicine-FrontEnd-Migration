@@ -1,16 +1,14 @@
-import { Box, Text, Container, Flex } from '@chakra-ui/react';
+import { Box, Text, Container, Flex, filter } from '@chakra-ui/react';
 import { CustomTablePaginate, TitleColor } from '../Packages';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FaHospitalUser } from 'react-icons/fa';
-import { CaseGetRequest } from '../../api/Case_Request';
-import { useEffect } from 'react';
+import useAuth from '../../context/AuthContext';
 
 const Case = () => {
   const navigate = useNavigate();
-  const [cases, setCases] = useState([]);
+  const { cases, setFetchCase } = useAuth();
   const [search, setSearch] = useState('');
-  const [fetch, setFetch] = useState(false);
   const Title = 'Case';
 
   const handleClick = () => {
@@ -52,14 +50,6 @@ const Case = () => {
     },
   ];
 
-  const handleFetchCase = async () => {
-    const res = await CaseGetRequest();
-
-    if (res.data.status === 200) {
-      setCases(res.data.data);
-    }
-  };
-
   const filtered = cases.filter(filter =>
     filter.cases_status === 2
       ? null
@@ -70,11 +60,6 @@ const Case = () => {
         filter.patients_Gender.toLowerCase().includes(search.toLowerCase()) ||
         filter.patients_CivilStatus.toLowerCase().includes(search.toLowerCase())
   );
-
-  useEffect(() => {
-    setFetch(false);
-    handleFetchCase();
-  }, [fetch]);
 
   return (
     <>
@@ -94,7 +79,7 @@ const Case = () => {
               title={Title}
               columns={columns}
               data={filtered}
-              fetch={setFetch}
+              fetch={setFetchCase}
               search={search}
               handleClick={handleClick}
               setSearch={setSearch}

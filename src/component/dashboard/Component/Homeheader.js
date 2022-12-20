@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileDrawer from './ProfileDrawer';
 import { useState } from 'react';
 import { toastposition, toastvariant, CustomModal } from '../Packages';
+import Notification from './Notification';
 
 const UpdateProfile = ({ isOpen, onClose }) => {
   const title = 'Change Profile Picture';
@@ -161,6 +162,7 @@ const Homeheader = ({ flip, setflip }) => {
             >
               {user.name}
             </Heading>
+            {user.user_role !== 'Super Admin' ? <Notification /> : null}
             <Box>
               <Menu>
                 <MenuButton className="">
@@ -178,7 +180,7 @@ const Homeheader = ({ flip, setflip }) => {
                 </MenuButton>
 
                 <MenuList shadow={'lg'}>
-                  <Box p={7} bg={'green.50'}>
+                  <Box p={7} bg={'white'}>
                     <Flex>
                       <Box>
                         <Avatar

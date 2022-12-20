@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import VideoRecorder from 'react-video-recorder';
+import { Dialog, DialogTitle, DialogContent, } from '@material-ui/core';
 
 import { TitleColor, TextFormController, useCase } from "../../Packages";
 
@@ -15,6 +17,8 @@ import {
   Select,
   Spacer,
   Stack,
+  Center,
+  color,
 } from "@chakra-ui/react";
 
 import { IoDocumentAttachOutline } from "react-icons/io5";
@@ -131,6 +135,80 @@ const CustomSelect = ({ title, json, isRow, defval, setValue, isRequired }) => {
     </GridItem>
   );
 };
+
+
+
+///VIDEO CUSTOM WIDGET
+const CaptureMe = () => {
+  const [preview, setPreview] = useState(false);
+  const [openCam, setOpen] = useState(false);
+  const [fileblob, setfileblob] = useState();
+  const [confirmation, setConfirmation] = useState();
+
+  const reset = () => {
+    setOpen(false);
+    setConfirmation(false);
+    setfileblob(false);
+  }
+  const yestoclip = () => {
+    setOpen(false);
+    setConfirmation(true);
+  }
+
+  return (<>
+    <Button background={fileblob ? "green" : "red"} style={{ fontSize: "20px", borderRadius: "5em", color: 'white' }} onClick={() => fileblob ? setPreview(true) : setOpen(true)}>{fileblob ? "Preview clip" : "Start record"}</Button>
+    <Dialog open={openCam} fullWidth maxWidth="sm" >
+      <DialogTitle>
+        <div  >
+          RECORD A VIDEO
+          <Button onClick={() => setOpen(false)} style={{ float: "right" }}>X</Button></div>
+      </DialogTitle>
+      <DialogContent dividers>
+        <VideoRecorder
+          onRecordingComplete={videoBlob => {
+            // Do something with the video...
+            setfileblob(new File([videoBlob], "file", { lastModified: new Date().getTime(), type: videoBlob.type }))
+            console.log('videoBlob', videoBlob);
+            setConfirmation(true);
+          }}
+        />
+        {confirmation ? <Flex justifyContent={"space-between"} paddingTop={"20px"} >
+          <Center margin={'10px'}>Attach this record clip in form?</Center>
+          <div>
+            <Button margin={'10px'} colorScheme={"red"} onClick={() => reset()} style={{ float: "right" }}>No</Button>
+            <Button margin={'10px'} colorScheme={"green"} onClick={() => yestoclip()} style={{ float: "right" }} fontWeight="light">Yes</Button>
+
+          </div>
+        </Flex> : null}
+      </DialogContent>
+    </Dialog>
+    <Dialog open={preview} fullWidth maxWidth="sm" >
+      <DialogTitle>
+        <div  >
+          RREVIEW
+          <Button onClick={() => setPreview(false)} style={{ float: "right" }}>X</Button></div>
+      </DialogTitle>
+      <DialogContent dividers>
+        <video controls>
+          <source src={fileblob ? URL.createObjectURL(fileblob) : null} />
+          Your browser does not support the video tag.
+        </video>
+        <Flex justifyContent={"space-between"} paddingTop={"20px"} >
+          <Center margin={'10px'}>Keep this record clip in form?</Center>
+          <div>
+            <Button margin={'10px'} colorScheme={"red"} onClick={() => { setfileblob(false); setPreview(false); setConfirmation(false) }} style={{ float: "right" }}>Remove</Button>
+            <Button margin={'10px'} colorScheme={"green"} onClick={() => setPreview(false)} style={{ float: "right" }} fontWeight="light">YES!</Button>
+          </div>
+        </Flex>
+      </DialogContent>
+    </Dialog>
+  </>
+
+  )
+
+}
+
+
 
 const PatientInformation = ({ isUpdate, patientID }) => {
   const [patientData, setPatientData] = useState([]);
@@ -412,7 +490,9 @@ const PatientOtherInformation = () => {
         <Stack direction={"row"} mt={10}>
           <Spacer />
           <Box>
+
             <Stack direction={["column", "row"]}>
+              <CaptureMe />
               {selectedFiles.length >= 1 ? (
                 <>
                   <Button

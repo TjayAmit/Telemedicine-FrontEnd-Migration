@@ -8,6 +8,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fontsource/poppins": "^4.5.9",
+    "@material-ui/core": "^4.12.4",
     "@nivo/line": "^0.80.0",
     "@nivo/pie": "^0.80.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -32,6 +33,7 @@
     "react-scripts": "^5.0.1",
     "react-table": "^7.8.0",
     "react-toastify": "^9.0.8",
+    "react-video-recorder": "^3.19.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

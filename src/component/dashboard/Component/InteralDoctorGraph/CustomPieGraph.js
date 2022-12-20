@@ -12,8 +12,8 @@ const CustomPieGraph = () => {
               item.specialization === "Internal Medicine"
                 ? "I.M"
                 : item.specialization === "Obstetrics and Gynecology"
-                ? "OBGYN"
-                : item.specialization,
+                  ? "OBGYN"
+                  : item.specialization,
             label: item.specialization,
             value: CaseData.filter(
               (e) => e.specialization === item.specialization
@@ -39,31 +39,31 @@ const CustomPieGraph = () => {
           from: "color",
           modifiers: [["darker", 2]],
         }}
-        // legends={[
-        //   {
-        //     anchor: "top",
-        //     direction: "column",
-        //     justify: false,
-        //     translateX: 0,
-        //     translateY: 50,
-        //     itemsSpacing: 12,
-        //     itemWidth: 100,
-        //     itemHeight: 10,
-        //     itemTextColor: "#999",
-        //     itemDirection: "left-to-right",
-        //     itemOpacity: 1,
-        //     symbolSize: 18,
-        //     symbolShape: "circle",
-        //     effects: [
-        //       {
-        //         on: "hover",
-        //         style: {
-        //           itemTextColor: "#000",
-        //         },
-        //       },
-        //     ],
-        //   },
-        // ]}
+      // legends={[
+      //   {
+      //     anchor: "top",
+      //     direction: "column",
+      //     justify: false,
+      //     translateX: 0,
+      //     translateY: 50,
+      //     itemsSpacing: 12,
+      //     itemWidth: 100,
+      //     itemHeight: 10,
+      //     itemTextColor: "#999",
+      //     itemDirection: "left-to-right",
+      //     itemOpacity: 1,
+      //     symbolSize: 18,
+      //     symbolShape: "circle",
+      //     effects: [
+      //       {
+      //         on: "hover",
+      //         style: {
+      //           itemTextColor: "#000",
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ]}
       />
     </Box>
   );

@@ -41,7 +41,6 @@ const CustomLineGraph = () => {
           const date = dates.toLocaleString("en-us", { month: "short" });
           if (date in groups) {
             groups[date].push(val.specializations_Title);
-            console.log('added:', val.specializations_Title)
           } else {
             groups[date] = new Array(val.specializations_Title);
           }
@@ -49,20 +48,20 @@ const CustomLineGraph = () => {
       console.log('Groups :', groups)
       list.push({
         id: specialization.specialization,
-        color: "hsl(169, 100%, 94%)",
+        // color: "hsl(169, 100%, 94%)",
         data: [
-          groups?.Jan ? { x: "Jan", y: groups.Jan.length } : { x: "Jan", y: 0 },
-          groups?.Feb ? { x: "Feb", y: groups.Feb.length } : { x: "Feb", y: 0 },
-          groups?.Mar ? { x: "Mar", y: groups.Mar.length } : { x: "Mar", y: 0 },
-          groups?.Apr ? { x: "Apr", y: groups.Apr.length } : { x: "Apr", y: 0 },
-          groups?.May ? { x: "May", y: groups.May.length } : { x: "May", y: 0 },
-          groups?.Jun ? { x: "Jun", y: groups.Jun.length } : { x: "Jun", y: 0 },
-          groups?.Jul ? { x: "Jul", y: groups.Jul.length } : { x: "Jul", y: 0 },
-          groups?.Aug ? { x: "Aug", y: groups.Aug.length } : { x: "Aug", y: 0 },
-          groups?.Sep ? { x: "Sep", y: groups.Sep.length } : { x: "Sep", y: 0 },
-          groups?.Oct ? { x: "Oct", y: groups.Oct.length } : { x: "Oct", y: 0 },
-          groups?.Nov ? { x: "Nov", y: groups.Nov.length } : { x: "Nov", y: 0 },
-          groups?.Dec ? { x: "Dec", y: groups.Dec.length } : { x: "Dec", y: 0 },
+          groups.Jan ? { x: "Jan", y: groups.Jan.length } : { x: "Jan", y: 0 },
+          groups.Feb ? { x: "Feb", y: groups.Feb.length } : { x: "Feb", y: 0 },
+          groups.Mar ? { x: "Mar", y: groups.Mar.length } : { x: "Mar", y: 0 },
+          groups.Apr ? { x: "Apr", y: groups.Apr.length } : { x: "Apr", y: 0 },
+          groups.May ? { x: "May", y: groups.May.length } : { x: "May", y: 0 },
+          groups.Jun ? { x: "Jun", y: groups.Jun.length } : { x: "Jun", y: 0 },
+          groups.Jul ? { x: "Jul", y: groups.Jul.length } : { x: "Jul", y: 0 },
+          groups.Aug ? { x: "Aug", y: groups.Aug.length } : { x: "Aug", y: 0 },
+          groups.Sep ? { x: "Sep", y: groups.Sep.length } : { x: "Sep", y: 0 },
+          groups.Oct ? { x: "Oct", y: groups.Oct.length } : { x: "Oct", y: 0 },
+          groups.Nov ? { x: "Nov", y: groups.Nov.length } : { x: "Nov", y: 0 },
+          groups.Dec ? { x: "Dec", y: groups.Dec.length } : { x: "Dec", y: 0 },
         ],
       });
     });

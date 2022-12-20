@@ -22,10 +22,10 @@ const AdminGraphs = () => {
   ///** Data will be use case with specializations */
   return (
     <Grid templateColumns={['repeat(6, 1fr)']}>
-      <GridItem colSpan={['6', '6', '6', '4']} width={'100%'}>
+      <GridItem colSpan={['6', '6', '6', '3']} width={'100%'}>
         <CustomLineGraph />
       </GridItem>
-      <GridItem colSpan={['6', '6', '6', '2']} width={'100%'}>
+      <GridItem colSpan={['6', '6', '6', '3']} width={'100%'}>
         <CustomPieGraph />
       </GridItem>
     </Grid>
@@ -37,10 +37,10 @@ const InternalDoctorGraphs = () => {
   ///** Data will be use case with specializations */
   return (
     <Grid templateColumns={['repeat(6, 1fr)']} mt={10}>
-      <GridItem colSpan={['6', '6', '6', '4']} width={'100%'}>
+      <GridItem colSpan={['6', '6', '6', '3']} width={'100%'}>
         <CustomLineGraph />
       </GridItem>
-      <GridItem colSpan={['6', '6', '6', '2']} width={'100%'}>
+      <GridItem colSpan={['6', '6', '6', '3']} width={'100%'}>
         <CustomPieGraph />
       </GridItem>
     </Grid>
@@ -50,10 +50,10 @@ const InternalDoctorGraphs = () => {
 const ExternalGraphs = () => {
   return (
     <Grid templateColumns={['repeat(6, 1fr)']}>
-      <GridItem colSpan={['6', '6', '6', '4']} width={'100%'}>
+      <GridItem colSpan={['6', '6', '6', '3']} width={'100%'}>
         <ExternalDoctorLineGraph />
       </GridItem>
-      <GridItem colSpan={['6', '6', '6', '2']} width={'100%'}>
+      <GridItem colSpan={['6', '6', '6', '3']} width={'100%'}>
         <ExternalDoctorPieGraph />
       </GridItem>
     </Grid>
@@ -195,10 +195,10 @@ const Dashboard = () => {
                       data.title === 'Total Hospitals'
                         ? hospitalCard
                         : data.title === 'Total Doctors'
-                        ? doctorCard
-                        : data.title === 'Total Patients'
-                        ? patientCard
-                        : caseCard
+                          ? doctorCard
+                          : data.title === 'Total Patients'
+                            ? patientCard
+                            : caseCard
                     }
                   />
                 </GridItem>

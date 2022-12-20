@@ -95,6 +95,19 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+
+  //////CASE DATA for dashboard
+  const GetCaseData = async () => {
+    try {
+      const data = await api.get("api/getCaseData");
+      return data;
+    }
+    catch (err) {
+      console.log(err);
+      return err.message;
+    }
+  }
+
   const signin = async () => {
     try {
       let bodyFormData = new FormData();

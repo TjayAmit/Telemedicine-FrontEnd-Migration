@@ -129,10 +129,10 @@ const RouteData = {
       label: 'Report',
       element: <Report />,
       superadmin: true,
-      admin: true,
-      doctor: true,
+      admin: false,
+      doctor: false,
       edoctor: false,
-      staff: true,
+      staff: false,
     },
     {
       index: 10,

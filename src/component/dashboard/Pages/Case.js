@@ -1,62 +1,56 @@
-import { Box, Text, Container, Flex, Center } from "@chakra-ui/react";
-import { CaseData, CustomTablePaginate, TitleColor } from "../Packages";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { FaHospitalUser } from "react-icons/fa";
-import { CaseGetRequest } from "../../api/Case_Request";
-import { useEffect } from "react";
+import { Box, Text, Container, Flex, filter } from '@chakra-ui/react';
+import { CustomTablePaginate, TitleColor } from '../Packages';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { FaHospitalUser } from 'react-icons/fa';
+import useAuth from '../../context/AuthContext';
 
 const Case = () => {
   const navigate = useNavigate();
-  const [cases, setCases] = useState([]);
-  const [search, setSearch] = useState("");
-  const [fetch, setFetch] = useState(false);
-  const Title = "Case";
+  const { cases, setFetchCase } = useAuth();
+  const [search, setSearch] = useState('');
+  const Title = 'Case';
 
   const handleClick = () => {
-    navigate("/h/case/form");
+    navigate('/h/case/form');
   };
 
   const columns = [
     {
-      Header: "ID",
-      accessor: "PK_cases_ID",
+      Header: 'ID',
+      accessor: 'PK_cases_ID',
     },
     {
-      Header: "PATIENTS",
-      accessor: "patient",
+      Header: 'Case #',
+      accessor: 'cases_No',
     },
     {
-      Header: "CIVIL STATUS",
-      accessor: "patients_CivilStatus",
+      Header: 'PATIENTS',
+      accessor: 'patient',
     },
     {
-      Header: "GENDER",
-      accessor: "patients_Gender",
+      Header: 'Hospital',
+      accessor: 'hospital_Name',
     },
     {
-      Header: "SERVICE",
-      accessor: "specializations_Title",
+      Header: 'GENDER',
+      accessor: 'patients_Gender',
     },
     {
-      Header: "STATUS",
-      accessor: "cases_status",
+      Header: 'SERVICE',
+      accessor: 'specializations_Title',
     },
     {
-      Header: "ACTION",
-      accessor: "action",
+      Header: 'STATUS',
+      accessor: 'cases_status',
+    },
+    {
+      Header: 'ACTION',
+      accessor: 'action',
     },
   ];
 
-  const handleFetchCase = async () => {
-    const res = await CaseGetRequest();
-
-    if (res.data.status === 200) {
-      setCases(res.data.data);
-    }
-  };
-
-  const filtered = cases.filter((filter) =>
+  const filtered = cases.filter(filter =>
     filter.cases_status === 2
       ? null
       : filter.patient.toLowerCase().includes(search.toLowerCase()) ||
@@ -67,29 +61,25 @@ const Case = () => {
         filter.patients_CivilStatus.toLowerCase().includes(search.toLowerCase())
   );
 
-  useEffect(() => {
-    handleFetchCase();
-  }, []);
-
   return (
     <>
-      <Container maxW={"container.xxl"}>
+      <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
           <Box className="table-head">
             <Flex color={TitleColor} columnGap={2}>
-              <FaHospitalUser fontSize={35} fontWeight={"900"} ml={5} />
-              <Text fontSize={30} fontWeight={"900"}>
+              <FaHospitalUser fontSize={35} fontWeight={'900'} ml={5} />
+              <Text fontSize={30} fontWeight={'900'}>
                 {Title}
               </Text>
             </Flex>
           </Box>
 
-          <Box mt={"2rem"}>
+          <Box mt={'2rem'}>
             <CustomTablePaginate
               title={Title}
               columns={columns}
               data={filtered}
-              fetch={setFetch}
+              fetch={setFetchCase}
               search={search}
               handleClick={handleClick}
               setSearch={setSearch}

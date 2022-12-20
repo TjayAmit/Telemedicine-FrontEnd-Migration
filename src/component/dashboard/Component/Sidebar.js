@@ -78,6 +78,7 @@ const CustomSidebar = ({ flip }) => {
                           : 'REPORT'
                       }
                       flip={flip}
+                      key={data.index * 2}
                     />
                   ) : null}
                   <MenuItem

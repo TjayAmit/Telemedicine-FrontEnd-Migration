@@ -10,6 +10,7 @@ import {
 } from '../api/Authentication_Request';
 import api from '../api/api';
 import { UserAllGetRequest } from '../api/User_Request';
+import { CaseGetRequest } from '../api/Case_Request';
 
 const DataContext = createContext({});
 
@@ -35,6 +36,11 @@ export const DataProvider = ({ children }) => {
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const [isErrorVP, setIsErrorVP] = useState(false);
+
+  const [caseLength, setCaseLength] = useState([0]);
+
+  const [cases, setCases] = useState([]);
+  const [fetchCase, setFetchCase] = useState(false);
 
   const url =
     'https://image.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg';
@@ -272,6 +278,19 @@ export const DataProvider = ({ children }) => {
     }
   }, [firstCall]);
 
+  const handleFetchCase = async () => {
+    const res = await CaseGetRequest();
+
+    if (res.data.status === 200) {
+      setCases(res.data.data);
+    }
+  };
+
+  useEffect(() => {
+    setFetchCase(false);
+    handleFetchCase();
+  }, [fetchCase]);
+
   return (
     <DataContext.Provider
       value={{
@@ -314,6 +333,12 @@ export const DataProvider = ({ children }) => {
         registerAdminDoctor,
         registerStaff,
         url,
+        caseLength,
+        setCaseLength,
+        cases,
+        setCases,
+        fetchCase,
+        setFetchCase,
       }}
     >
       {children}

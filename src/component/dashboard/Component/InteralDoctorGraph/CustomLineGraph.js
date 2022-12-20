@@ -29,16 +29,16 @@ const CustomLineGraph = () => {
     //CHANGE APPLY HERE TO DISPLAY DATA IN LINE GRAPH FOR EVERY SPECIALIZATION
     let list = [];
 
-    SpecializationData.forEach((specialization) => {
+    SpecializationData.forEach(specialization => {
       const groups = {};
       // e.forEach(e => console.log('value: ', e.specialization))
       e.filter(
         (data) => data.specializations_Title === specialization.specialization
       )
-        .filter((e) => parseInt(yr) === parseInt(e.date.substring(0, 4)))
+        .filter(e => parseInt(yr) === parseInt(e.date.substring(0, 4)))
         .forEach(function (val) {
           const dates = new Date(val.date);
-          const date = dates.toLocaleString("en-us", { month: "short" });
+          const date = dates.toLocaleString('en-us', { month: 'short' });
           if (date in groups) {
             groups[date].push(val.specializations_Title);
           } else {
@@ -75,9 +75,9 @@ const CustomLineGraph = () => {
   }, []);
 
   return (
-    <Box p={5}>
+    <Box p={[0, 0, 5, 5]}>
       <Select border={2} width={40} placeholder="Select option">
-        {year.map((value) => {
+        {year.map(value => {
           return (
             <option key={value} value={value}>
               {value}
@@ -85,53 +85,53 @@ const CustomLineGraph = () => {
           );
         })}
       </Select>
-      <Box h={"40vh"}>
+      <Box h={['30vh', '40vh', '40vh', '40vh']}>
         <ResponsiveLine
           data={lineGraphData}
           margin={{ top: 60, right: 40, bottom: 60, left: 60 }}
-          xScale={{ type: "point" }}
+          xScale={{ type: 'point' }}
           yFormat=" >-.0f"
           axisTop={null}
           axisRight={null}
           axisBottom={{
-            orient: "bottom",
+            orient: 'bottom',
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
             legendOffset: 50,
-            legendPosition: "middle",
+            legendPosition: 'middle',
           }}
           axisLeft={{
-            orient: "left",
+            orient: 'left',
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
             legendOffset: -50,
-            legendPosition: "middle",
+            legendPosition: 'middle',
           }}
           pointSize={5}
-          pointColor={{ theme: "background" }}
+          pointColor={{ theme: 'background' }}
           pointBorderWidth={4}
-          pointBorderColor={{ from: "serieColor" }}
+          pointBorderColor={{ from: 'serieColor' }}
           pointLabelYOffset={-12}
           useMesh={true}
           curve="catmullRom"
           lineWidth={3}
           legends={[
             {
-              anchor: "top",
-              direction: "row",
+              anchor: 'top',
+              direction: 'row',
               justify: false,
               translateX: 0,
               translateY: -50,
               itemsSpacing: 0,
-              itemDirection: "left-to-right",
+              itemDirection: 'left-to-right',
               itemWidth: 170,
               itemHeight: 20,
               itemOpacity: 1,
               symbolSize: 14,
-              symbolShape: "circle",
-              symbolBorderColor: "rgba(0, 0, 0, .5)",
+              symbolShape: 'circle',
+              symbolBorderColor: 'rgba(0, 0, 0, .5)',
             },
           ]}
         />

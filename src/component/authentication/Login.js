@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
 import { LoginHeader, CustomFormController } from './customs.js';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../context/AuthContext.js';
-import '../../App.css';
 import {
   Flex,
   Box,
@@ -15,17 +13,15 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
+import './auth.css';
 
-import {
-  CustomSelection,
-  toastposition,
-  toastvariant,
-} from '../dashboard/Packages.js';
+import { toastposition, toastvariant } from '../dashboard/Packages.js';
 
 const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
   const {
     authException,
     setAuthException,
@@ -38,8 +34,6 @@ const Login = () => {
     login,
     resetState,
   } = useAuth();
-
-  const [isSignup, setIsSignup] = useState(false);
 
   const handleSubmitLogin = async e => {
     e.preventDefault();
@@ -72,13 +66,14 @@ const Login = () => {
   return (
     <>
       <Flex
-        h={'100vh'}
+        h={['90vh', '100vh', '100vh', '100vh']}
         display={'flex'}
         justifyContent={'center'}
-        bg={'#f7f5f9'}
+        bg={['white', '#f7f5f9', '#f7f5f9', '#f7f5f9']}
         rounded={8}
       >
         <Button
+          position={'absolute'}
           _hover={{
             bg: 'transparent',
           }}
@@ -87,22 +82,21 @@ const Login = () => {
           }}
           bg={'transparent'}
           onClick={e => navigate('/admin')}
-        >
-          {' '}
-        </Button>
+        ></Button>
         <Box
-          w={isSignup ? '40rem' : '27rem'}
-          h={isSignup ? '' : '32rem'}
+          w={['27rem', '27rem', '27rem', '27rem']}
+          h={'32rem'}
           overflow="hidden"
-          className="authbox"
+          boxShadow={['none', 'none', '2xl', '2xl']}
           m={'auto'}
           bg={'white'}
+          padding={['25px', '25px', '40px', '40px']}
         >
-          <LoginHeader isSignup={isSignup} />
+          <LoginHeader isSignup={false} />
           {authException === '' ? (
             <Text color={'red'}>{authException}</Text>
           ) : null}
-          <form class="form-container" onSubmit={e => handleSubmitLogin(e)}>
+          <form className="form-container" onSubmit={e => handleSubmitLogin(e)}>
             <Grid
               templateRows={`repeat( 3, 1fr)`}
               templateColumns={`repeat( 1, 1fr)`}
@@ -144,33 +138,29 @@ const Login = () => {
                   errorMessage={`Password is required.`}
                   isError={isErrorPassword}
                   children={
-                    isSignup ? (
-                      <FaUserAlt color={'#1f894c'} />
-                    ) : (
-                      <Box
-                        w={8}
-                        h={4}
-                        mt={6}
-                        mb={6}
-                        borderRight={'1px solid #e0e0e0'}
-                      >
-                        <Center>
-                          <FaLock color="#1f894c" size={15} />
-                        </Center>
-                      </Box>
-                    )
+                    <Box
+                      w={8}
+                      h={4}
+                      mt={6}
+                      mb={6}
+                      borderRight={'1px solid #e0e0e0'}
+                    >
+                      <Center>
+                        <FaLock color="#1f894c" size={15} />
+                      </Center>
+                    </Box>
                   }
                 />
               </GridItem>
             </Grid>
             <Grid
-              templateRows={`repeat(${isSignup ? 1 : 3}, 1fr)`}
-              templateColumns={`repeat(${isSignup ? 2 : 1}, 1fr)`}
+              templateRows={`repeat( 3, 1fr)`}
+              templateColumns={`repeat(1, 1fr)`}
               gap={2}
               mt={'5'}
               overflow={'hidden'}
             >
-              {isSignup ? null : (
+              {
                 <GridItem rowSpan={1}>
                   <Button
                     width={'100%'}
@@ -185,7 +175,7 @@ const Login = () => {
                     {'forgot password ?'}
                   </Button>
                 </GridItem>
-              )}
+              }
               <GridItem rowSpan={1}>
                 <Button
                   isLoading={loading}

@@ -164,6 +164,22 @@ const Dashboard = () => {
     };
   }, [mountDoctor]);
 
+  const handleCardBaseRole = title => {
+    if (title === 'Total Hospitals') {
+      return user.user_role !== 'External Doctor' ? true : false;
+    }
+    if (title === 'Total Doctors') {
+      return user.user_role !== 'External Doctor' ? true : false;
+    }
+    if (title === 'Total Patients') {
+      return user.user_role === 'External Doctor' ||
+        user.user_role === 'Super Admin'
+        ? true
+        : false;
+    }
+    return true;
+  };
+
   return (
     <>
       <Box>
@@ -176,7 +192,7 @@ const Dashboard = () => {
           </Flex>
         </Box>
 
-        <Container maxW={'container.xxl'}>
+        <Container maxW={'container.xxl'} mt={'2rem'} mb={'4rem'}>
           <Grid
             templateColumns={[
               'repeat(1, 1fr)',
@@ -187,8 +203,12 @@ const Dashboard = () => {
             gap={5}
           >
             {DashboardCardStructureData.map(data => {
-              return (
-                <GridItem key={data.title} colSpan={3} width={'100%'}>
+              return handleCardBaseRole(data.title) === true ? (
+                <GridItem
+                  key={data.title}
+                  colSpan={user.user_role === 'External Doctor' ? 6 : 3}
+                  width={'100%'}
+                >
                   <DashboardCard
                     data={data}
                     value={
@@ -202,7 +222,7 @@ const Dashboard = () => {
                     }
                   />
                 </GridItem>
-              );
+              ) : null;
             })}
           </Grid>
         </Container>

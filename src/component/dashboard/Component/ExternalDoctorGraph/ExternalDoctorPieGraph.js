@@ -1,25 +1,24 @@
 import { ResponsivePie } from '@nivo/pie';
-import { CaseData, SpecializationData } from '../../Packages';
 import { Box } from '@chakra-ui/react';
+import { useQuery } from 'react-query';
+import api from '../../../api/api';
 
 const ExternalDoctorPieGraph = () => {
+  const { data, isLoading, error } = useQuery('pie', () =>
+    api.get('api/case/pieExternal').then(res => res.data)
+  );
+
+  if (isLoading) return 'LOADING...';
+
+  if (error) return 'LOADING...';
+
   return (
     <Box h={'40vh'}>
       <ResponsivePie
-        data={SpecializationData.map(item => {
-          return {
-            id:
-              item.specialization === 'Internal Medicine'
-                ? 'I.M'
-                : item.specialization === 'Obstetrics and Gynecology'
-                ? 'OBGYN'
-                : item.specialization,
-            label: item.specialization,
-            value: CaseData.filter(
-              e => e.specialization === item.specialization
-            )?.length,
-          };
-        })}
+        data={[
+          { id: 'Cases', label: 'Cases', value: data.data[0].value },
+          { id: 'Patients', label: 'Patients', value: data.subdata[0].value },
+        ]}
         margin={{ top: 100, right: 100, bottom: 100, left: 100 }}
         innerRadius={0.5}
         padAngle={0.7}

@@ -12,10 +12,6 @@ import {
   ExternalDoctorPieGraph,
 } from '../Packages.js';
 
-import { PatientGetCardRequest } from '../../api/Patient_Request';
-import { HospitalGetCardRequest } from '../../api/Hospital_Request';
-import { CaseGetCardRequest } from '../../api/Case_Request';
-import { DoctorGetCardRequest } from '../../api/Doctor_Request';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
 const AdminGraphs = () => {
@@ -85,27 +81,27 @@ const Dashboard = () => {
 
   return (
     <>
-      <Box>
-        <Box p={5} mt={7}>
-          <Flex color={TitleColor} columnGap={2}>
-            <MdSpaceDashboard fontSize={35} fontWeight={'900'} ml={5} />
-            <Text fontSize={25} color={TitleColor} fontWeight={'900'}>
-              {Title}
-            </Text>
-          </Flex>
-        </Box>
+      <QueryClientProvider client={queryClient}>
+        <Box>
+          <Box p={5} mt={7}>
+            <Flex color={TitleColor} columnGap={2}>
+              <MdSpaceDashboard fontSize={35} fontWeight={'900'} ml={5} />
+              <Text fontSize={25} color={TitleColor} fontWeight={'900'}>
+                {Title}
+              </Text>
+            </Flex>
+          </Box>
 
-        <Container maxW={'container.xxl'} mt={'2rem'} mb={'4rem'}>
-          <Grid
-            templateColumns={[
-              'repeat(1, 1fr)',
-              'repeat(1, 1fr)',
-              'repeat(6, 1fr)',
-              'repeat(12, 1fr)',
-            ]}
-            gap={5}
-          >
-            <QueryClientProvider client={queryClient}>
+          <Container maxW={'container.xxl'} mt={'2rem'} mb={'4rem'}>
+            <Grid
+              templateColumns={[
+                'repeat(1, 1fr)',
+                'repeat(1, 1fr)',
+                'repeat(6, 1fr)',
+                'repeat(12, 1fr)',
+              ]}
+              gap={5}
+            >
               {DashboardCardStructureData.map(data => {
                 return handleCardBaseRole(data.title) === true ? (
                   <GridItem
@@ -117,19 +113,19 @@ const Dashboard = () => {
                   </GridItem>
                 ) : null;
               })}
-            </QueryClientProvider>
-          </Grid>
-        </Container>
-        {user.user_role === 'Super Admin' ? (
-          <AdminGraphs />
-        ) : user.user_role === 'Admin' ||
-          user.user_role === 'Internal Doctor' ||
-          user.user_role === 'Staff' ? (
-          <InternalDoctorGraphs />
-        ) : (
-          <ExternalGraphs />
-        )}
-      </Box>
+            </Grid>
+          </Container>
+          {user.user_role === 'Super Admin' ? (
+            <AdminGraphs />
+          ) : user.user_role === 'Admin' ||
+            user.user_role === 'Internal Doctor' ||
+            user.user_role === 'Staff' ? (
+            <InternalDoctorGraphs />
+          ) : (
+            <ExternalGraphs />
+          )}
+        </Box>
+      </QueryClientProvider>
     </>
   );
 };

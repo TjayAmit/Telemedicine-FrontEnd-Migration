@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import api from '../../api/api';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Text, Box, Heading } from '@chakra-ui/react';
 import '../../../App.css';
 import { useNavigate } from 'react-router-dom';

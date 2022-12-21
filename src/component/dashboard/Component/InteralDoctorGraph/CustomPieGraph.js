@@ -8,7 +8,7 @@ const CustomPieGraph = () => {
     api.get('api/case/pie').then(res => res.data.data)
   );
 
-  if (isLoading) return 'LOADING...';
+  if (isLoading) return '';
 
   if (error) return 'LOADING...';
 

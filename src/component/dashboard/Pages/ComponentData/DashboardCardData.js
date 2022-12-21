@@ -11,6 +11,7 @@ export const DashboardCardStructureData = [
     fillRule: 'evenodd',
     clipRule: 'evenodd',
     path: '/hospital',
+    url: 'api/hospital/card',
   },
   {
     count: 43,
@@ -24,6 +25,7 @@ export const DashboardCardStructureData = [
     fillRule: '',
     clipRule: '',
     path: '/doctors',
+    url: 'api/profile/card',
   },
   {
     count: 123,
@@ -37,6 +39,7 @@ export const DashboardCardStructureData = [
     fillRule: '',
     clipRule: '',
     path: '/patients',
+    url: 'api/patient/card',
   },
   {
     count: 111,
@@ -50,6 +53,7 @@ export const DashboardCardStructureData = [
     fillRule: '',
     clipRule: '',
     path: '/case',
+    url: 'api/case/card',
   },
 ];
 

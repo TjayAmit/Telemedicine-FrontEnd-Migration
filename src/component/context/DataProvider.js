@@ -17,6 +17,8 @@ const DataContext = createContext({});
 export const DataProvider = ({ children }) => {
   const [authException, setAuthException] = useState('Error');
   const [user, setUser] = useState(null);
+  ///CHART Data
+  const [chartDat, setChartDat] = useState([]);
 
   const [hospitals, setHospital] = useState({});
   const [specializations, setSpecialization] = useState({});
@@ -51,6 +53,17 @@ export const DataProvider = ({ children }) => {
 
       if (res.status === 200) {
         setHospital(res.data.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getChartData = async () => {
+    try {
+      const res = await api.get('/api/getCaseData');
+      if (res.status === 200) {
+        setChartDat(res.data);
       }
     } catch (e) {
       console.log(e);
@@ -326,6 +339,8 @@ export const DataProvider = ({ children }) => {
         setCases,
         fetchCase,
         setFetchCase,
+        chartDat,
+        getChartData,
       }}
     >
       {children}

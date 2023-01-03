@@ -17,6 +17,8 @@ const DataContext = createContext({});
 export const DataProvider = ({ children }) => {
   const [authException, setAuthException] = useState('Error');
   const [user, setUser] = useState(null);
+  ///CHART Data
+  const [chartDat, setChartDat] = useState([]);
 
 
 
@@ -62,6 +64,7 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+<<<<<<< HEAD
 
   const getChartData = async () => {
     try {
@@ -69,11 +72,22 @@ export const DataProvider = ({ children }) => {
       console.log(res.data);
       if (res.status === 200) {
         setChartDat(res.data)
+=======
+  const getChartData = async () => {
+    try {
+      const res = await api.get('/api/getCaseData');
+      if (res.status === 200) {
+        setChartDat(res.data);
+>>>>>>> main
       }
     } catch (e) {
       console.log(e);
     }
+<<<<<<< HEAD
   }
+=======
+  };
+>>>>>>> main
 
   const getspecializations = async () => {
     try {
@@ -358,7 +372,11 @@ export const DataProvider = ({ children }) => {
         fetchCase,
         setFetchCase,
         chartDat,
+<<<<<<< HEAD
         getChartData
+=======
+        getChartData,
+>>>>>>> main
       }}
     >
       {children}

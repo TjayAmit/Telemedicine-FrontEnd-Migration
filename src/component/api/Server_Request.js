@@ -1,4 +1,4 @@
-import api from "./api";
+import api from './api';
 export const PostFile = async ({ url }, data) => {
   return await api.post(url, data);
 };

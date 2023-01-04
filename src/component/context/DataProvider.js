@@ -20,11 +20,6 @@ export const DataProvider = ({ children }) => {
   ///CHART Data
   const [chartDat, setChartDat] = useState([]);
 
-
-
-  ///CHART Data
-  const [chartDat, setChartDat] = useState([]);
-
   const [hospitals, setHospital] = useState({});
   const [specializations, setSpecialization] = useState({});
   const [fetch, setFetch] = useState(true);
@@ -64,30 +59,17 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-<<<<<<< HEAD
-
-  const getChartData = async () => {
-    try {
-      const res = await api.get("/api/getCaseData")
-      console.log(res.data);
-      if (res.status === 200) {
-        setChartDat(res.data)
-=======
   const getChartData = async () => {
     try {
       const res = await api.get('/api/getCaseData');
+      console.log(res.data);
       if (res.status === 200) {
         setChartDat(res.data);
->>>>>>> main
       }
     } catch (e) {
       console.log(e);
     }
-<<<<<<< HEAD
-  }
-=======
   };
->>>>>>> main
 
   const getspecializations = async () => {
     try {
@@ -133,18 +115,16 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-
   //////CASE DATA for dashboard
   const GetCaseData = async () => {
     try {
-      const data = await api.get("api/getCaseData");
+      const data = await api.get('api/getCaseData');
       return data;
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
       return err.message;
     }
-  }
+  };
 
   const signin = async () => {
     try {
@@ -372,11 +352,7 @@ export const DataProvider = ({ children }) => {
         fetchCase,
         setFetchCase,
         chartDat,
-<<<<<<< HEAD
-        getChartData
-=======
         getChartData,
->>>>>>> main
       }}
     >
       {children}

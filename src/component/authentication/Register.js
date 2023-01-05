@@ -150,7 +150,7 @@ const Register = () => {
                     mt={'1.14rem'}
                   />
                 }
-                {FK_hospital_ID === '1' ? (
+                {FK_hospital_ID !== '1' ? (
                   <CustomSelectionS
                     value={FK_specializations_ID}
                     setValue={setFK_specializations_ID}

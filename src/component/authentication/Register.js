@@ -15,6 +15,7 @@ import {
 
 import {
   CustomSelection,
+  CustomSelectionS,
   toastposition,
   toastvariant,
 } from '../dashboard/Packages.js';
@@ -23,6 +24,7 @@ const Register = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
   const {
     authException,
     setAuthException,
@@ -143,15 +145,13 @@ const Register = () => {
                 />
                 {
                   <CustomSelection
-                    title={'Hospital'}
                     value={FK_hospital_ID}
                     setValue={setFK_hospital_ID}
                     mt={'1.14rem'}
                   />
                 }
                 {FK_hospital_ID === '1' ? (
-                  <CustomSelection
-                    title={'Specialization'}
+                  <CustomSelectionS
                     value={FK_specializations_ID}
                     setValue={setFK_specializations_ID}
                     mt={5}

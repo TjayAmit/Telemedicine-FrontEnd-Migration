@@ -236,8 +236,8 @@ export const DataProvider = ({ children }) => {
     requestSanctumCSRF();
     if (fetch) {
       setFetch(false);
-      getHospitals();
-      getspecializations();
+      // getHospitals();
+      // getspecializations();
     }
   }, [fetch]);
 
@@ -288,8 +288,11 @@ export const DataProvider = ({ children }) => {
 
   useEffect(() => {
     setFetchCase(false);
-    handleFetchCase();
-  }, [fetchCase]);
+
+    if (user !== null && user.loggedIn === true) {
+      handleFetchCase();
+    }
+  }, [fetchCase, user]);
 
   return (
     <DataContext.Provider

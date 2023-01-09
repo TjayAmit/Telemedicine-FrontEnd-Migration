@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
 import { LoginHeader, CustomFormController } from './customs.js';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../context/AuthContext.js';

@@ -26,7 +26,7 @@ import {
   toastposition,
   toastvariant,
   CustomModal,
-  CustomSelection,
+  CustomSelectionS,
 } from '../Packages';
 
 import ConsultInfoMain from '../Component/ConsultInfoMain';
@@ -86,7 +86,7 @@ const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
         isNew={true}
         btntitle={'Save'}
       >
-        <CustomSelection
+        <CustomSelectionS
           title={'Specialization'}
           value={FK_specializations_ID}
           setValue={setFK_specializations_ID}

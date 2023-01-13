@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
-import { TitleColor, TextFormController, useCase } from "../../Packages";
+import { TitleColor, TextFormController, useCase } from '../../Packages';
 
 import {
   Text,
@@ -15,25 +15,25 @@ import {
   Select,
   Spacer,
   Stack,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { IoDocumentAttachOutline } from "react-icons/io5";
-import { TiAttachment } from "react-icons/ti";
-import { MdCancel } from "react-icons/md";
+import { IoDocumentAttachOutline } from 'react-icons/io5';
+import { TiAttachment } from 'react-icons/ti';
+import { MdCancel } from 'react-icons/md';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   PatientNameGetRequest,
   PatientGetRequest,
-} from "../../../api/Patient_Request";
-import { SpecializationNameGetRequest } from "../../../api/Specialization_Request";
-import { CustomPatient } from "./CustomPatient";
-import { useLocation } from "react-router-dom";
+} from '../../../api/Patient_Request';
+import { SpecializationNameGetRequest } from '../../../api/Specialization_Request';
+import { CustomPatient } from './CustomPatient';
+import { useLocation } from 'react-router-dom';
 
 const CustomGrid = ({ title, row, column, children }) => {
   return (
     <>
-      <Text mt={10} fontSize={18} color={"grey"} fontWeight={"500"}>
+      <Text mt={10} fontSize={18} color={'grey'} fontWeight={'500'}>
         {title}
       </Text>
       <Grid
@@ -41,7 +41,7 @@ const CustomGrid = ({ title, row, column, children }) => {
         templateRows={`repeat(${row}, 1fr)`}
         templateColumns={`repeat(${column}, 1fr)`}
         gap={2}
-        overflow={"hidden"}
+        overflow={'hidden'}
       >
         {children}
       </Grid>
@@ -78,7 +78,7 @@ const ColumnGridItem = ({ title, value, setValue, textArea, isRequired }) => {
 };
 
 const CustomSelect = ({ title, json, isRow, defval, setValue, isRequired }) => {
-  const handleSelect = (value) => setValue(value);
+  const handleSelect = value => setValue(value);
 
   if (isRow) {
     return (
@@ -87,14 +87,14 @@ const CustomSelect = ({ title, json, isRow, defval, setValue, isRequired }) => {
           <FormLabel>{title}</FormLabel>
           <Select
             fontSize={14}
-            focusBorderColor={"gray.400"}
-            bg={"gray.100"}
+            focusBorderColor={'gray.400'}
+            bg={'gray.100'}
             placeholder="- Please Select -"
-            onChange={(e) => handleSelect(e.target.value)}
+            onChange={e => handleSelect(e.target.value)}
             required={isRequired}
             value={defval}
           >
-            {json.map((value) => {
+            {json.map(value => {
               return (
                 <option key={value.id} value={value.id}>
                   {value.name}
@@ -112,14 +112,14 @@ const CustomSelect = ({ title, json, isRow, defval, setValue, isRequired }) => {
         <FormLabel>{title}</FormLabel>
         <Select
           fontSize={14}
-          focusBorderColor={"gray.400"}
-          bg={"gray.100"}
+          focusBorderColor={'gray.400'}
+          bg={'gray.100'}
           placeholder="- Please Select -"
-          onChange={(e) => handleSelect(e.target.value)}
+          onChange={e => handleSelect(e.target.value)}
           required={isRequired}
           value={defval}
         >
-          {json.map((value) => {
+          {json.map(value => {
             return (
               <option key={value.id} value={value.id}>
                 {value.name}
@@ -184,7 +184,7 @@ const PatientInformation = ({ isUpdate, patientID }) => {
   }, []);
 
   return (
-    <CustomGrid title={"Personal Information"} column={1}>
+    <CustomGrid title={'Personal Information'} column={1}>
       <Box>
         <CustomPatient
           isUpdate={isUpdate}
@@ -202,43 +202,43 @@ const PatientInformation = ({ isUpdate, patientID }) => {
           defval={FK_specializations_ID}
         />
         <ColumnGridItem
-          title={"Temperature(°C)"}
+          title={'Temperature(°C)'}
           value={cases_Temperature}
           setValue={setCases_Temperature}
           isRequired={true}
         />
         <RowGridItem
-          title={"Respiratory Rate"}
+          title={'Respiratory Rate'}
           value={cases_Respiratory}
           setValue={setCases_Respiratory}
           isRequired={true}
         />
         <ColumnGridItem
-          title={"Heart Rate"}
+          title={'Heart Rate'}
           value={cases_Heart}
           setValue={setCases_Heart}
           isRequired={true}
         />
         <ColumnGridItem
-          title={"Blood Pressure"}
+          title={'Blood Pressure'}
           value={cases_Blood}
           setValue={setCases_Blood}
           isRequired={true}
         />
         <ColumnGridItem
-          title={"Oxygen Saturation"}
+          title={'Oxygen Saturation'}
           value={cases_Oxygen}
           setValue={setCases_Oxygen}
           isRequired={true}
         />
         <RowGridItem
-          title={"Weight (KG)"}
+          title={'Weight (KG)'}
           value={cases_Weight}
           setValue={setCases_Weight}
           isRequired={true}
         />
         <ColumnGridItem
-          title={"Height (CM)"}
+          title={'Height (CM)'}
           value={cases_Height}
           setValue={setCases_Height}
           isRequired={true}
@@ -279,12 +279,12 @@ const PatientOtherInformation = () => {
   const [validate, setValidate] = useState(false);
 
   const Max_Count = 5;
-  const handleFileUpload = (files) => {
+  const handleFileUpload = files => {
     const uploaded = [...selectedFiles];
     let limitExceeded = false;
 
-    files.some((file) => {
-      if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+    files.some(file => {
+      if (uploaded.findIndex(f => f.name === file.name) === -1) {
         uploaded.push(file);
         if (uploaded.length === Max_Count) setFileLimit(true);
         if (uploaded.length > Max_Count) {
@@ -299,77 +299,77 @@ const PatientOtherInformation = () => {
     if (!limitExceeded) {
       setSelectedFiles(uploaded);
       setValidate(false);
-      if (sms == "" || sms == null) {
-        SetSms("File Attacthments");
+      if (sms == '' || sms == null) {
+        SetSms('File Attacthments');
       }
     }
   };
 
-  const handleFileEvent = (e) => {
+  const handleFileEvent = e => {
     const chosenFiles = Array.prototype.slice.call(e.target.files);
     handleFileUpload(chosenFiles);
   };
 
   return (
-    <CustomGrid title={"Details"} row={2} column={1}>
+    <CustomGrid title={'Details'} row={2} column={1}>
       <RowGridItem
-        title={"Chief Complaint"}
+        title={'Chief Complaint'}
         value={cases_CC}
         setValue={setCases_CC}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Pertinent History of Present Illness"}
+        title={'Pertinent History of Present Illness'}
         value={cases_HPI}
         setValue={setCases_HPI}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Pertinent Past Medical History"}
+        title={'Pertinent Past Medical History'}
         value={cases_PMH}
         setValue={setCases_PMH}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Pertinent Review of Systems"}
+        title={'Pertinent Review of Systems'}
         value={cases_ROS}
         setValue={setCases_ROS}
         textArea={true}
         isRequired={true}
       />
       <RowGridItem
-        title={"Pertinent PE Findings"}
+        title={'Pertinent PE Findings'}
         value={cases_PE}
         setValue={setCases_PE}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Working Impression"}
+        title={'Working Impression'}
         value={cases_WI}
         setValue={setCases_WI}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Initial Management Done"}
+        title={'Initial Management Done'}
         value={cases_IMD}
         setValue={setCases_IMD}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Reason for Referral"}
+        title={'Reason for Referral'}
         value={cases_Reason}
         setValue={setCases_Reason}
         textArea={true}
         isRequired={true}
       />
       <ColumnGridItem
-        title={"Paraclinical"}
+        title={'Paraclinical'}
         value={cases_Remarks}
         setValue={setCases_Remarks}
         textArea={true}
@@ -382,22 +382,22 @@ const PatientOtherInformation = () => {
               return (
                 <GridItem w="100%" key={key} colSpan={[5, 5, 2, 1]}>
                   <Box
-                    bg={"blackAlpha.200"}
+                    bg={'blackAlpha.200'}
                     p={1}
                     fontSize={13}
-                    color={"blue.900"}
-                    textAlign={"center"}
-                    borderRadius={"5"}
-                    cursor={"pointer"}
-                    border={"1px solid"}
-                    borderColor={"gray.400"}
-                    className={"attacheditems"}
+                    color={'blue.900'}
+                    textAlign={'center'}
+                    borderRadius={'5'}
+                    cursor={'pointer'}
+                    border={'1px solid'}
+                    borderColor={'gray.400'}
+                    className={'attacheditems'}
                   >
                     <Flex>
                       <TiAttachment
                         style={{
-                          fontSize: "22px",
-                          marginRight: "2px",
+                          fontSize: '22px',
+                          marginRight: '2px',
                         }}
                       />
                       {e.name}
@@ -409,48 +409,48 @@ const PatientOtherInformation = () => {
           </Grid>
         </Box>
 
-        <Stack direction={"row"} mt={10}>
+        <Stack direction={'row'} mt={10}>
           <Spacer />
           <Box>
-            <Stack direction={["column", "row"]}>
+            <Stack direction={['column', 'row']}>
               {selectedFiles.length >= 1 ? (
                 <>
                   <Button
-                    variant={"outline"}
+                    variant={'outline'}
                     size="sm"
-                    fontWeight={"normal"}
-                    color={"red.300"}
+                    fontWeight={'normal'}
+                    color={'red.300'}
                     onClick={() => {
                       setSelectedFiles([]);
                     }}
                   >
-                    Cancel{" "}
-                    <MdCancel style={{ marginLeft: "3px", fontSize: "20px" }} />
+                    Cancel{' '}
+                    <MdCancel style={{ marginLeft: '3px', fontSize: '20px' }} />
                   </Button>
                 </>
               ) : (
                 <Button
-                  variant={"outline"}
+                  variant={'outline'}
                   size="sm"
-                  bg={"gray.200"}
-                  color={"gray.600"}
-                  fontWeight={"normal"}
+                  bg={'gray.200'}
+                  color={'gray.600'}
+                  fontWeight={'normal'}
                   onClick={() => {
-                    document.getElementById("file").click();
+                    document.getElementById('file').click();
                   }}
                 >
                   <IoDocumentAttachOutline
-                    style={{ fontSize: "20px", marginRight: "3px" }}
+                    style={{ fontSize: '20px', marginRight: '3px' }}
                   />
-                  Attach File{" "}
+                  Attach File{' '}
                 </Button>
               )}
 
               <input
-                type={"file"}
+                type={'file'}
                 id="file"
                 name="image"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 multiple={true}
                 onChange={handleFileEvent}
               />
@@ -467,8 +467,9 @@ const CaseForm = () => {
   const [fetch, setFetch] = useState(true);
 
   const CasesData = location.state ? location.state.data : [];
+
   const [EditCase, setEditCase] = useState(CasesData);
-  const Title = "Case Form";
+  const Title = 'Case Form';
   const navigate = useNavigate();
 
   const {
@@ -494,7 +495,7 @@ const CaseForm = () => {
     setPK_cases_ID,
   } = useCase();
 
-  const initStates = (props) => {
+  const initStates = props => {
     try {
       setPK_cases_ID(props[0].PK_cases_ID);
       setFK_patients_ID(props[0].PK_patients_ID);
@@ -536,61 +537,63 @@ const CaseForm = () => {
   }, [fetch]);
 
   const handleClick = () => {
-    navigate("/home/case");
+    navigate('/h/case');
   };
 
   return (
-    <Container maxW={"container.xxl"}>
-      <Box mt={10} p={[0, 0, 5, 10]}>
-        <Box className="table-head">
-          <Text fontSize={20} color={TitleColor} fontWeight={"900"}>
-            {Title}
-          </Text>
-        </Box>
-        <Box mt={2}>
-          <form onSubmit={CasesData.length >= 1 ? updateCase : registerCase}>
-            <Grid templateColumns="repeat(8, 1fr)" gap={4}>
-              <GridItem w="100%" colSpan={[8, 8, 4, 3]}>
-                <PatientInformation
-                  isUpdate={CasesData.length >= 1 ? true : false}
-                  patientID={
-                    CasesData.length >= 1 ? EditCase[0].PK_patients_ID : ""
-                  }
-                />
-              </GridItem>
-              <GridItem w="100%" colSpan={[8, 8, 4, 5]}>
-                <PatientOtherInformation />
-              </GridItem>
-            </Grid>
+    <>
+      <Container maxW={'container.xxl'}>
+        <Box mt={10} p={[0, 0, 5, 10]}>
+          <Box className="table-head">
+            <Text fontSize={20} color={TitleColor} fontWeight={'900'}>
+              {Title}
+            </Text>
+          </Box>
+          <Box mt={2}>
+            <form onSubmit={CasesData.length >= 1 ? updateCase : registerCase}>
+              <Grid templateColumns="repeat(8, 1fr)" gap={4}>
+                <GridItem w="100%" colSpan={[8, 8, 4, 3]}>
+                  <PatientInformation
+                    isUpdate={CasesData.length >= 1 ? true : false}
+                    patientID={
+                      CasesData.length >= 1 ? EditCase[0].PK_patients_ID : ''
+                    }
+                  />
+                </GridItem>
+                <GridItem w="100%" colSpan={[8, 8, 4, 5]}>
+                  <PatientOtherInformation />
+                </GridItem>
+              </Grid>
 
-            <Box w={"100%"} mt={10}>
-              <Flex columnGap={5} justifyContent={"end"}>
-                <Button
-                  variant={"solid"}
-                  colorScheme={"gray"}
-                  color={"gray.700"}
-                  fontSize={14}
-                  fontWeight={"normal"}
-                  onClick={handleClick}
-                >
-                  <Text>Back</Text>
-                </Button>
+              <Box w={'100%'} mt={10}>
+                <Flex columnGap={5} justifyContent={'end'}>
+                  <Button
+                    variant={'solid'}
+                    colorScheme={'gray'}
+                    color={'gray.700'}
+                    fontSize={14}
+                    fontWeight={'normal'}
+                    onClick={handleClick}
+                  >
+                    <Text>Back</Text>
+                  </Button>
 
-                <Button
-                  variant={"solid"}
-                  fontSize={14}
-                  fontWeight={"normal"}
-                  colorScheme={"green"}
-                  type="submit"
-                >
-                  <Text>Save</Text>
-                </Button>
-              </Flex>
-            </Box>
-          </form>
+                  <Button
+                    variant={'solid'}
+                    fontSize={14}
+                    fontWeight={'normal'}
+                    colorScheme={'green'}
+                    type="submit"
+                  >
+                    <Text>Save</Text>
+                  </Button>
+                </Flex>
+              </Box>
+            </form>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 };
 

@@ -92,7 +92,7 @@ const Login = () => {
           bg={'white'}
           padding={['25px', '25px', '40px', '40px']}
         >
-          <LoginHeader isSignup={false} />
+          <LoginHeader title={'Sign In'} />
           {authException === '' ? (
             <Text color={'red'}>{authException}</Text>
           ) : null}
@@ -168,8 +168,11 @@ const Login = () => {
                     _hover={{
                       bg: 'white',
                     }}
+                    _active={{
+                      bg: 'white',
+                    }}
                     color="grey"
-                    onClick={e => null}
+                    onClick={e => navigate('/recovery')}
                     fontWeight={'400'}
                   >
                     {'forgot password ?'}

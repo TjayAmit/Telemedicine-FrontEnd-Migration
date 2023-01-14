@@ -13,7 +13,7 @@ import { PatientForm, CaseForm, CaseProvider } from '../dashboard/Packages.js';
 import RouteData from '../Routes/RouteData';
 import Consult from '../dashboard/Pages/Consult.js';
 import { PatientProvider } from '../dashboard/Pages/Patient SubCollection/PatientProvider.js';
-
+import Recovery from '../dashboard/Pages/Recovery.js';
 import Loader from '../Loader';
 import ProtectedAuthRoute from './protectedAuthRoute.js';
 
@@ -99,6 +99,7 @@ const CustomRoute = () => {
       {/* catch all */}
       <Route path="*" element={<PageNotFound />} />
       <Route path="/credits" element={<Credits />} />
+      <Route path="/recovery" element={<Recovery />} />
     </Routes>
   );
 };

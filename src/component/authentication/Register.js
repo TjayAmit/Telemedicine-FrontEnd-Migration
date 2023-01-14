@@ -107,7 +107,7 @@ const Register = () => {
           m={'auto'}
           bg={'white'}
         >
-          <LoginHeader isSignup={isSignup} />
+          <LoginHeader title={'Sign Up'} />
           {authException === '' ? (
             <Text color={'red'}>{authException}</Text>
           ) : null}

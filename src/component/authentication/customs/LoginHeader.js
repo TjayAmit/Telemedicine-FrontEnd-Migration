@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { Login } from '../Login';
 
-const LoginHeader = ({ isSignup }) => {
+const LoginHeader = ({ title }) => {
   // single media query with no options
   const [isLargerThan720] = useMediaQuery('(min-width: 393px)');
 
@@ -34,7 +34,7 @@ const LoginHeader = ({ isSignup }) => {
           <Flex direction={'column'} verticalAlign={'space-between'}>
             <Box h={'8'} mt={1}>
               <Heading fontSize="26px" fontWeight={'600'}>
-                {isSignup ? 'Signup' : 'Sign In'}
+                {title}
               </Heading>
             </Box>
             <Box h={'10'} mt={1}>

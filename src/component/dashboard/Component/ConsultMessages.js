@@ -200,7 +200,14 @@ const ConsultMessages = props => {
                                 )
                           }
                           rel="noreferrer"
-                          download=""
+                          download={
+                            value.file_url[1] === 't'
+                              ? value.file_url
+                              : value.file_url.substring(
+                                  1,
+                                  value.file_url.length - 1
+                                )
+                          }
                           target="_blank"
                         >
                           <Flex>

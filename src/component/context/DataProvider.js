@@ -23,6 +23,7 @@ export const DataProvider = ({ children }) => {
   const [hospitals, setHospital] = useState({});
   const [specializations, setSpecialization] = useState({});
   const [fetch, setFetch] = useState(true);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -47,35 +48,11 @@ export const DataProvider = ({ children }) => {
   const url =
     'https://image.shutterstock.com/image-vector/user-login-authenticate-icon-human-260nw-1365533969.jpg';
 
-  const getHospitals = async () => {
-    try {
-      const res = await HospitalNameGetRequest({ params: {} });
-
-      if (res.status === 200) {
-        setHospital(res.data.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const getChartData = async () => {
     try {
       const res = await api.get('/api/getCaseData');
       if (res.status === 200) {
         setChartDat(res.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getspecializations = async () => {
-    try {
-      const res = await SpecializationNameGetRequest({ params: {} });
-
-      if (res.status === 200) {
-        setSpecialization(res.data.data);
       }
     } catch (e) {
       console.log(e);
@@ -167,6 +144,10 @@ export const DataProvider = ({ children }) => {
         throw Error(userProfileData.data.error);
       }
 
+      if (userProfileData.data.status === 409) {
+        return 'already exist';
+      }
+
       if (userProfileData.data.status === 200) {
         return 'success';
       }
@@ -246,6 +227,8 @@ export const DataProvider = ({ children }) => {
     setEmail('');
     setPassword('');
     setVPassword('');
+    setDoctors_FirstName('');
+    setDoctors_LastName('');
     setFK_specializations_ID('');
     setFK_hospital_ID('');
   };

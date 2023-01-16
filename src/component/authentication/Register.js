@@ -7,23 +7,78 @@ import {
   Flex,
   Box,
   Button,
+  Heading,
   Grid,
   GridItem,
   Text,
   useToast,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalOverlay,
+  ModalContent,
+  useDisclosure,
 } from '@chakra-ui/react';
 
-import {
-  CustomSelection,
-  CustomSelectionS,
-  toastposition,
-  toastvariant,
-} from '../dashboard/Packages.js';
+import { CustomSelection, CustomSelectionS } from '../dashboard/Packages.js';
+
+const Feedback = props => {
+  return (
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      isCentered
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          <Heading size={'md'} color={'#103c23'}>
+            {props.header}
+          </Heading>
+        </ModalHeader>
+        <ModalBody>
+          <Text>{props.feedback}</Text>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            w={'100%'}
+            h={'2.5rem'}
+            bg={'primary.900'}
+            _hover={{
+              bg: 'primary.900',
+            }}
+            _active={{
+              bg: 'primary.900',
+            }}
+            onClick={() => props.onClose()}
+          >
+            <Text color={'white'}>Close</Text>
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
 
 const Register = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const successFeedBack =
+    'Your account is pending for approval. Please wait patiently or contact ZCMC Telemedicine doctors and request for approval to activate your account. Thank You!';
+
+  const accountExist =
+    'Email Already been use. use another email in order to create an account.';
+
+  const badFeedBack =
+    'A problem occure on Registering your account please check for internet connection, and if problem persist please report to ZCMC Telemedicine. Thank You!';
+
+  const [header, setHeader] = useState('Registration Success');
+  const [feedback, setFeedback] = useState(successFeedBack);
 
   const {
     authException,
@@ -62,8 +117,6 @@ const Register = () => {
     resetState,
   } = useAuth();
 
-  const [isSignup, setIsSignup] = useState(false);
-
   const handleNavigateToLogin = e => {
     e.preventDefault();
 
@@ -77,14 +130,18 @@ const Register = () => {
     const res = await register();
 
     if (res === 'success') {
-      toast({
-        title: 'Please wait for approval!',
-        position: toastposition,
-        variant: toastvariant,
-        status: 'success',
-        isClosable: true,
-      });
+      setHeader('Register Successfully');
+      setFeedback(successFeedBack);
+      onOpen();
       resetState();
+    } else if (res === 'already exist') {
+      setHeader('Opps! Something went wrong.');
+      setFeedback(accountExist);
+      onOpen();
+    } else {
+      setHeader('Opps! Something went wrong.');
+      setFeedback(badFeedBack);
+      onOpen();
     }
 
     setLoading(false);
@@ -99,6 +156,12 @@ const Register = () => {
         bg={'#f7f5f9'}
         rounded={8}
       >
+        <Feedback
+          isOpen={isOpen}
+          onClose={onClose}
+          header={header}
+          feedback={feedback}
+        />
         <Box
           w={'40rem'}
           h={['58rem', '54rem', '38rem', '38rem']}

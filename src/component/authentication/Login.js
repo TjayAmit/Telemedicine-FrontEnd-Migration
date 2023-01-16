@@ -12,15 +12,69 @@ import {
   Center,
   Text,
   useToast,
+  Modal,
+  ModalContent,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  Heading,
+  ModalOverlay,
+  useDisclosure,
 } from '@chakra-ui/react';
 import './auth.css';
 
 import { toastposition, toastvariant } from '../dashboard/Packages.js';
 
+const Feedback = props => {
+  return (
+    <Modal
+      closeOnOverlayClick={false}
+      isOpen={props.isOpen}
+      onClose={props.onClose}
+      isCentered
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>
+          <Heading size={'md'} color={'#103c23'}>
+            {props.header}
+          </Heading>
+        </ModalHeader>
+        <ModalBody>
+          <Text>{props.feedback}</Text>
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            w={'100%'}
+            h={'2.5rem'}
+            bg={'primary.900'}
+            _hover={{
+              bg: 'primary.900',
+            }}
+            _active={{
+              bg: 'primary.900',
+            }}
+            onClick={() => props.onClose()}
+          >
+            <Text color={'white'}>Close</Text>
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
+
 const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const approval =
+    'Your account still pending. You can contact ZCMC Telemedicine Doctors to request of account approval.';
+
+  const [header, setHeader] = useState('');
+  const [feedback, setFeedback] = useState('');
 
   const {
     authException,
@@ -42,14 +96,10 @@ const Login = () => {
     let res = await login();
 
     if (res === 'warning') {
-      toast({
-        title: 'Please wait for account approval.',
-        position: toastposition,
-        variant: toastvariant,
-        status: 'warning',
-        isClosable: true,
-      });
+      setHeader('Account Pending');
+      setFeedback(approval);
       resetState();
+      onOpen();
     }
     if (res === 'success') {
       navigate('/');
@@ -65,6 +115,12 @@ const Login = () => {
 
   return (
     <>
+      <Feedback
+        isOpen={isOpen}
+        onClose={onClose}
+        header={header}
+        feedback={feedback}
+      />
       <Flex
         h={['90vh', '100vh', '100vh', '100vh']}
         display={'flex'}

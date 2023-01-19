@@ -96,12 +96,11 @@ const CustomTablePaginate = ({
 
     const handleResetPassword = async () => {
       const res = UserResetPassword({ email: row.email });
-      console.log(res);
     };
 
     return (
       <>
-        {title === 'Admin Doctor' || title === 'Navigator' ? (
+        {title === 'Admin Doctor' ? (
           <>
             <IconButton
               className="btn-message"

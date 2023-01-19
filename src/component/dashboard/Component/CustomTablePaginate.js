@@ -23,6 +23,8 @@ import { MdOutlineMessage } from 'react-icons/md';
 
 import SearchNotFound from './SearchNotFound';
 
+import { BiReset } from 'react-icons/bi';
+
 import {
   ArrowRightIcon,
   ArrowLeftIcon,
@@ -39,6 +41,7 @@ import {
 import '../../../Table.css';
 import moment from 'moment/moment';
 import { useNavigate } from 'react-router-dom';
+import { UserResetPassword } from '../../api/User_Request';
 
 const CustomTablePaginate = ({
   title,
@@ -91,8 +94,26 @@ const CustomTablePaginate = ({
   }) => {
     const navigate = useNavigate();
 
+    const handleResetPassword = async () => {
+      const res = UserResetPassword({ email: row.email });
+      console.log(res);
+    };
+
     return (
       <>
+        {title === 'Admin Doctor' || title === 'Navigator' ? (
+          <>
+            <IconButton
+              className="btn-message"
+              fontSize={17}
+              fontWeight={'normal'}
+              color={'blue.400'}
+              onClick={() => handleResetPassword()}
+            >
+              <BiReset />
+            </IconButton>
+          </>
+        ) : null}
         {title == 'Case' || title == 'Archived Case' ? (
           <>
             <IconButton

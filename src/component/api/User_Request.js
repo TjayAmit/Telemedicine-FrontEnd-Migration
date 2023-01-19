@@ -31,3 +31,7 @@ export const UserPutStaffRequest = async data => {
 export const UserDeleteRequest = async data => {
   return await Delete({ url: 'api/user' }, data);
 };
+
+export const UserResetPassword = async data => {
+  return await Put({ url: 'api/user/reset' }, data);
+};

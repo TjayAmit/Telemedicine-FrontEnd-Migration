@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
 import { LoginHeader, CustomFormController } from './customs.js';
-import { useNavigate } from 'react-router-dom';
+import { useFetcher, useNavigate } from 'react-router-dom';
 import useAuth from '../context/AuthContext.js';
 import {
   Flex,
@@ -101,8 +101,16 @@ const Login = () => {
       resetState();
       onOpen();
     }
+
     if (res === 'success') {
       navigate('/');
+    }
+
+    if (res === 'E-P error') {
+      setHeader('Invalid');
+      setFeedback('Email or password incorrect');
+      resetState();
+      onOpen();
     }
 
     setAuthException(res);

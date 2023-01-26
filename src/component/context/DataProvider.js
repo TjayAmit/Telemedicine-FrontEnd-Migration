@@ -69,7 +69,7 @@ export const DataProvider = ({ children }) => {
       const res = await LoginRequest(bodyFormData);
 
       if (res.data.status === 404) {
-        throw Error(res.data.error);
+        return res.data.error;
       }
 
       if (res.data.status === 401) {
@@ -85,8 +85,12 @@ export const DataProvider = ({ children }) => {
 
         return 'success';
       }
+      if (res.data.status === 500) {
+        if (res.data.errors === 'Email or password incorrect') {
+          return 'E-P error';
+        }
+      }
     } catch (err) {
-      console.log(err);
       return err.message;
     }
   };

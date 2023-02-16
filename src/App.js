@@ -1,8 +1,8 @@
 import React from 'react';
 import { extendTheme, ChakraProvider } from '@chakra-ui/react';
 import '@fontsource/poppins';
-import './App.css';
-import CustomRoute from './component/Routes/CustomRoute';
+import './Style/App.css';
+import CustomRoute from './Routes/CustomRoute';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 function App() {

@@ -1,6 +1,9 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useState, useEffect } from "react";
-import { CaseData, SpecializationData } from "../../Packages";
+import {
+  CaseData,
+  SpecializationData
+} from '../../Pages/ComponentData/CaseData'
 import { Box, Select } from "@chakra-ui/react";
 
 const ExternalDoctorLineGraph = () => {

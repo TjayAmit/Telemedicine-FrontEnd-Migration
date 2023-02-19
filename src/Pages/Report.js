@@ -12,7 +12,7 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 
-import { toastposition, toastvariant } from '../Packages';
+import { TitleColor,toastposition, toastvariant } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import CustomModal from '../Components/CustomModal';
 import TextFormController from '../Components/TextFormController';
@@ -218,7 +218,7 @@ const AddModal = ({
   );
 };
 
-const Report = () => {
+const Reports = () => {
   const [search, setSearch] = useState('');
   const [fetch, setFetch] = useState(false);
   const [reports, setReports] = useState([]);
@@ -336,4 +336,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default Reports;

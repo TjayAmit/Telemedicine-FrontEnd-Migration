@@ -1,5 +1,5 @@
 import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
-import api from '../api/api';
+import api from '../API/api';
 import { Select, FormControl, FormLabel } from '@chakra-ui/react';
 import { Specialization, Hospital } from '../API/Paths';
 

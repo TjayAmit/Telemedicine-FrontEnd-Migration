@@ -13,7 +13,7 @@ import { FaUserAlt, FaLock } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import '../Style/App.css';
 import React, { useState, useEffect } from 'react';
-import { TitleColor, toastposition, toastvariant } from '../Packages';
+import { TitleColor, toastposition, toastvariant } from './Packages';
 import { CustomFormController } from '../Components/customs';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import CustomModal from '../Components/CustomModal';
@@ -208,7 +208,7 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
   );
 };
 
-const User = () => {
+const Users = () => {
   const [user, setUser] = useState([]);
   const [search, setSearch] = useState('');
   const [duration, setDuration] = useState(0);
@@ -325,4 +325,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Users;

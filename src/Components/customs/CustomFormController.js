@@ -9,7 +9,7 @@ import {
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
-import "../../../App.css";
+import "../../Style/App.css";
 
 const CustomFormController = ({
   isSignup,

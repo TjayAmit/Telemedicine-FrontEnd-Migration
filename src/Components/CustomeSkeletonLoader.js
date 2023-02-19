@@ -8,6 +8,7 @@ import {
   Stack,
   Spacer,
 } from "@chakra-ui/react";
+
 function CustomeSkeletonLoader(props) {
   return (
     <div>

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-
 import { useToast, Select, FormControl, FormLabel } from '@chakra-ui/react';
 import {
   toastposition,
   toastvariant,
-  CustomModal,
-  TextFormController,
-} from '../../Packages';
+} from '../../Pages/Packages';
+import CustomModal from '../CustomModal'
+import TextFormController from '../TextFormController'
 import { StatusHandler } from '../../Utils/StatusHandler';
-import { PutRequest } from '../../App/api';
+import { PutRequest } from '../../API/api';
 import { User } from '../../API/Paths';
 
 export const UserModal = ({ title, isOpen, onClose, data, fetch }) => {

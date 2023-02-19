@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Text, Container, Flex } from '@chakra-ui/react';
-import { TitleColor } from '../Packages';
+import { TitleColor } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import { RiFileListFill } from 'react-icons/ri';
 import { Log } from '../API/Paths';

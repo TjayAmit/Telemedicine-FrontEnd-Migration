@@ -15,11 +15,11 @@ import { MdEmail } from 'react-icons/md';
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import CustomModal from '../Components/CustomModal';
-import { TitleColor, toastposition, toastvariant } from '../Packages';
+import { TitleColor, toastposition, toastvariant } from './Packages';
 import { FaUserMd } from 'react-icons/fa';
 import { CustomFormController } from '../Components/customs';
 import useAuth from '../Hooks/AuthContext';
-import { GetRequest } from '../api/api';
+import { GetRequest } from '../API/api';
 import { Specialization, Doctor } from '../API/Paths';
 import { StatusHandler } from '../Utils/StatusHandler';
 
@@ -198,7 +198,7 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
   );
 };
 
-const Doctor = () => {
+const Doctors = () => {
   const [search, setSearch] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [fetch, setFetch] = useState(false);
@@ -225,7 +225,7 @@ const Doctor = () => {
 
   const serviceTypeData = async () => {
     let msg = '';
-    GetRequest({ url: Specialization }),
+    GetRequest({ url: Specialization }).
       then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -333,4 +333,4 @@ const Doctor = () => {
   );
 };
 
-export default Doctor;
+export default Doctors;

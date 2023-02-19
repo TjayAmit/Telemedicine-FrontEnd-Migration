@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@chakra-ui/react';
-import { toastposition, toastvariant } from '../../Packages';
+import { toastposition, toastvariant } from '../Packages';
 import { PostRequest, PutRequest } from '../../API/api';
 import { Patient } from '../../API/Paths';
 import { StatusHandler } from '../../Utils/StatusHandler';

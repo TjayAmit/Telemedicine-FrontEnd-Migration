@@ -7,7 +7,7 @@ import ExternalDoctorLineGraph from '../Components/ExternalDoctorGraph/ExternalD
 import ExternalDoctorPieGraph from '../Components/ExternalDoctorGraph/ExternalDoctorPieGraph';
 import CustomLineGraph from '../Components/InteralDoctorGraph/CustomLineGraph';
 import CustomPieGraph from '../Components/InteralDoctorGraph/CustomPieGraph';
-import { TitleColor } from '../Packages.js';
+import { TitleColor } from './Packages.js';
 
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 

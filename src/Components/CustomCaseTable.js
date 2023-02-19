@@ -13,7 +13,7 @@ import {
   Text,
   Badge,
 } from "@chakra-ui/react";
-import { CaseMainView } from "../Packages";
+import CaseMainView from './CaseMainView'
 
 const CaseTable = ({ datas }) => {
   return (

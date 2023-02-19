@@ -3,17 +3,19 @@ import Login from '../Pages/Login.js';
 import Register from '../Pages/Register';
 import PageNotFound from '../404/PageNotFound.js';
 import ProtectedRoute from './protectedroute.js';
-import Credits from '../Pages/credit/credits.js';
-import AdminAuthentication from '../authentication/Admin_Authentication.js';
+import Credits from '../Pages/credits/credits.js';
+import AdminAuthentication from '../Pages/Admin_Authentication.js';
 import Home from '../Pages/Home.js';
-import useAuth from '../context/AuthContext.js';
+import useAuth from '../Hooks/AuthContext.js';
 import MyAccount from '../Pages/MyAccount.js';
-import { PatientForm, CaseForm, CaseProvider } from '../Pages/Packages.js';
+import PatientForm from '../Pages/Patient SubCollection/PatientForm';
+import CaseForm from '../Pages/Case SubCollection/CaseForm'
+import CaseProvider from '../Pages/Case SubCollection/CaseProvider'
 import RouteData from '../Routes/RouteData';
 import Consult from '../Pages/Consult.js';
 import { PatientProvider } from '../Pages/Patient SubCollection/PatientProvider.js';
 import Recovery from '../Pages/Recovery.js';
-import Loader from '../Loader';
+import Loader from '../Pages/Loader';
 import ProtectedAuthRoute from './protectedAuthRoute.js';
 
 const Layout = () => {

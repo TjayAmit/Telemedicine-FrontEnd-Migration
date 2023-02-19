@@ -14,11 +14,12 @@ import {
   Checkbox,
   Button,
 } from '@chakra-ui/react';
-import { CustomTablePaginate, TitleColor } from '../Packages';
+import {  TitleColor } from './Packages';
+import CustomTablePaginate from '../Components/CustomTablePaginate'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FaHospitalUser } from 'react-icons/fa';
-import useAuth from '../../context/AuthContext';
+import useAuth from '../Hooks/AuthContext';
 
 const CaseConsent = props => {
   return (

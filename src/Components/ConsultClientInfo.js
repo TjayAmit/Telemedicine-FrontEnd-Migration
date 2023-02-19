@@ -1,7 +1,12 @@
 import React from 'react';
 import { VscActivateBreakpoints } from 'react-icons/vsc';
-import { GrFormClose } from 'react-icons/gr';
-
+import { AiOutlineInfoCircle, AiOutlineDelete } from 'react-icons/ai';
+import { BsDownload } from 'react-icons/bs';
+import { ChevronDownIcon, AddIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
+import { PutRequest } from '../API/api';
+import { Case } from '../API/Paths';
+import { StatusHandler } from '../Utils/StatusHandler';
 import {
   Box,
   Text,
@@ -23,13 +28,6 @@ import {
   MenuItem,
   Button,
 } from '@chakra-ui/react';
-import { AiOutlineInfoCircle, AiOutlineDelete } from 'react-icons/ai';
-import { BsDownload } from 'react-icons/bs';
-import { ChevronDownIcon, AddIcon } from '@chakra-ui/icons';
-import { useNavigate } from 'react-router-dom';
-import { PutRequest } from '../API/api';
-import { Case } from '../API/Paths';
-import { StatusHandler } from '../Utils/StatusHandler';
 
 const ConsultClientInfo = ({ userinfo, addinfo, caseinfo, onOpen }) => {
   const navigate = useNavigate();

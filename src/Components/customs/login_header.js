@@ -1,5 +1,4 @@
 import { Flex, Text, Heading, Image, Grid, GridItem } from "@chakra-ui/react";
-import { Login } from "../Login";
 
 function LoginHeader({ isSignup }) {
   return (

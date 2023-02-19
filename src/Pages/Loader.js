@@ -1,7 +1,7 @@
 import React from 'react';
 import { Center, Box, Flex, Image } from '@chakra-ui/react';
 import loaderlogo from '../assets/zcmc_logo.png';
-import '../loader.css';
+import '../Style/loader.css';
 import { ThreeDots } from 'react-loader-spinner';
 
 function Loader(props) {

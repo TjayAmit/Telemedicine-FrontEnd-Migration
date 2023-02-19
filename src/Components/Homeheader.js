@@ -171,7 +171,7 @@ const Homeheader = ({ flip, setflip }) => {
                       size="sm"
                       src={
                         user.url === 'NONE'
-                          ? require('../Assets/default_profile.png')
+                          ? require('../assets/default_profile.png')
                           : user.url
                       }
                       name={user.name}
@@ -187,7 +187,7 @@ const Homeheader = ({ flip, setflip }) => {
                           size="lg"
                           src={
                             user.url === 'NONE'
-                              ? require('../Assets/default_profile.png')
+                              ? require('../assets/default_profile.png')
                               : user.url
                           }
                           name={user.name}

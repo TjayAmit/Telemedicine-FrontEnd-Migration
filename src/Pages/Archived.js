@@ -1,8 +1,9 @@
 import { Box, Text, Container, Flex } from '@chakra-ui/react';
-import { CustomTablePaginate, TitleColor } from './Packages';
+import {  TitleColor } from './Packages';
+import CustomTablePaginate from '../Components/CustomCaseTable';
 import { useState } from 'react';
 import { BsArchive } from 'react-icons/bs';
-import useAuth from '../../context/AuthContext';
+import useAuth from '../Hooks/AuthContext';
 
 const Archived = () => {
   const { cases, setFetchCase } = useAuth();

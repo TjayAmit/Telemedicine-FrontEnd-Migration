@@ -14,25 +14,18 @@ import {
   Input,
   FormHelperText,
 } from '@chakra-ui/react';
-
-import useAuth from '../../../context/AuthContext';
+import useAuth from '../../Hooks/AuthContext';
 import { useToast } from '@chakra-ui/react';
-import { HospitalDeleteRequest } from '../../../../api/Hospital_Request';
-import { ReportDeleteRequest } from '../../../../api/Report_Request';
-import { PatientDeleteRequest } from '../../../../api/Patient_Request';
-import { SpecializationDeleteRequest } from '../../../../api/Specialization_Request';
-import { DoctorDeleteRequest } from '../../../../api/Doctor_Request';
-import { toastvariant, toastposition } from '../../Packages';
-import { CaseDeleteRequest } from '../../../../api/Case_Request';
+import { toastvariant, toastposition } from '../../Pages/Packages';
 import { StatusHandler } from '../../Utils/StatusHandler';
-import { DeleteRequest } from '../../api/api';
+import { DeleteRequest } from '../../API/api';
 import {
-  Spicialization,
   Hospital,
   Report,
   Patient,
   Doctor,
   Case,
+  Specialization
 } from '../../API/Paths';
 
 export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
@@ -65,7 +58,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
             }
           })
           .catch(err => {
-            console.log(StatusHandler(err));
+            const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,
               position: toastposition,
@@ -83,7 +76,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
             }
           })
           .catch(err => {
-            console.log(StatusHandler(err));
+            const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,
               position: toastposition,
@@ -101,7 +94,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
             }
           })
           .catch(err => {
-            console.log(StatusHandler(err));
+            const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,
               position: toastposition,
@@ -113,13 +106,13 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
         break;
 
       case 'Patient':
-        DeleteRequest({ url: Patient }, { id: id[0].PK_patients_ID }),
+        DeleteRequest({ url: Patient }, { id: id[0].PK_patients_ID }).
           then(res => {
             if (!res.statusText === 'OK') {
               throw new Error('Bad response.', { cause: res });
             }
           }).catch(err => {
-            console.log(StatusHandler(err));
+            const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,
               position: toastposition,
@@ -137,7 +130,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
             }
           })
           .catch(err => {
-            console.log(StatusHandler(err));
+            const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,
               position: toastposition,
@@ -156,7 +149,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
             }
           })
           .catch(err => {
-            console.log(StatusHandler(err));
+            const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,
               position: toastposition,

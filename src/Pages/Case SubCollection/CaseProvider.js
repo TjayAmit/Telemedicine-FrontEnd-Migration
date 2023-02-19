@@ -1,9 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
-import { CasePostRequest, CasePutRequest } from '../../../../api/Case_Request';
 import { useToast } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { toastvariant, toastposition } from '../../Packages';
-import { GetRequest, PostRequest, PutRequest } from '../../api/api';
+import { toastvariant, toastposition } from '../Packages';
+import { GetRequest, PostRequest, PutRequest } from '../../API/api';
 import { Patient, Specialization, Case } from '../../API/Paths';
 import { StatusHandler } from '../../Utils/StatusHandler';
 

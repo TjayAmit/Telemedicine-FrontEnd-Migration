@@ -3,9 +3,9 @@ import { FaUserAlt, FaLock } from 'react-icons/fa';
 import { LoginHeader, CustomFormController } from '../Components/customs.js';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../Hooks/AuthContext.js';
-import '../../App.css';
+import '../Style/App.css';
 import { Flex, Box, Button, Grid, GridItem, Center } from '@chakra-ui/react';
-import { PostRequest } from '../api/api.js';
+import { PostRequest } from '../API/api.js';
 import { StatusHandler } from '../Utils/StatusHandler';
 import { Auth } from '../API/Paths';
 

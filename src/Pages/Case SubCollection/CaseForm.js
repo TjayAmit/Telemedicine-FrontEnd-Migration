@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { TitleColor, TextFormController, useCase } from '../Pages/Packages';
+import { TitleColor } from '../Packages';
+import useCase from './CaseContext';
+import TextFormController from '../../Components/TextFormController';
 import {
   Text,
   Flex,
@@ -18,7 +20,7 @@ import { IoDocumentAttachOutline } from 'react-icons/io5';
 import { TiAttachment } from 'react-icons/ti';
 import { MdCancel } from 'react-icons/md';
 import { useEffect, useState } from 'react';
-import { GetRequest } from '../API/api';
+import { GetRequest } from '../../API/api';
 import { Patient, Specialization } from '../../API/Paths';
 import { StatusHandler } from '../../Utils/StatusHandler';
 import { CustomPatient } from './CustomPatient';

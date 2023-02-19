@@ -11,18 +11,16 @@ import { GiSkills } from 'react-icons/gi';
 import { TbFileReport } from 'react-icons/tb';
 import { RiFileListFill } from 'react-icons/ri';
 
-import {
-  Dashboard,
-  Doctor,
-  User,
-  Patient,
-  Case,
-  Archived,
-  Hospital,
-  Specialization,
-  Report,
-  HistoryLogs,
-} from '../Pages/Packages';
+import Dashboard from '../Pages/Dashboard'
+import Doctors from '../Pages/Doctor'
+import Users from '../Pages/User'
+import Patients from '../Pages/Patient'
+import Case from '../Pages/Case'
+import Archived from '../Pages/Archived'
+import Hospitals from '../Pages/Hospital'
+import Specializations from '../Pages/Specialization'
+import Reports from '../Pages/Report'
+import HistoryLogs from '../Pages/HistoryLogs';
 
 const RouteData = {
   path: [
@@ -43,7 +41,7 @@ const RouteData = {
       icon: <FaUserMd />,
       href: '/doctors',
       label: 'Doctors',
-      element: <Doctor />,
+      element: <Doctors />,
       superadmin: true,
       admin: true,
       doctor: false,
@@ -55,7 +53,7 @@ const RouteData = {
       icon: <FaUsers />,
       href: '/users',
       label: 'Users',
-      element: <User />,
+      element: <Users />,
       superadmin: true,
       admin: false,
       doctor: false,
@@ -67,7 +65,7 @@ const RouteData = {
       icon: <FaUserFriends />,
       href: '/patients',
       label: 'Patients',
-      element: <Patient />,
+      element: <Patients />,
       superadmin: false,
       admin: false,
       doctor: false,
@@ -103,7 +101,7 @@ const RouteData = {
       icon: <FaRegHospital />,
       href: '/hospital',
       label: 'Hospital',
-      element: <Hospital />,
+      element: <Hospitals />,
       superadmin: true,
       admin: true,
       doctor: false,
@@ -115,7 +113,7 @@ const RouteData = {
       icon: <GiSkills />,
       href: '/specialization',
       label: 'Specialization',
-      element: <Specialization />,
+      element: <Specializations />,
       superadmin: true,
       admin: true,
       doctor: false,
@@ -127,7 +125,7 @@ const RouteData = {
       icon: <TbFileReport />,
       href: '/report',
       label: 'Report',
-      element: <Report />,
+      element: <Reports />,
       superadmin: true,
       admin: false,
       doctor: false,

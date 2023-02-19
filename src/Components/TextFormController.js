@@ -1,7 +1,7 @@
 import { Input, FormControl, FormLabel, Textarea } from '@chakra-ui/react';
 import moment from 'moment';
 import { useToast } from '@chakra-ui/react';
-import { toastposition, toastvariant } from '../Packages';
+import { toastposition, toastvariant } from '../Pages/Packages';
 
 const TextFormController = ({
   title,

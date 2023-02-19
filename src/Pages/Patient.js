@@ -3,14 +3,14 @@ import { Text, Flex, Box, Container } from '@chakra-ui/react';
 import '../Style/App.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TitleColor } from '../Packages';
+import { TitleColor } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import { FaUserFriends } from 'react-icons/fa';
 import { GetRequest } from '../API/api';
 import { Patient } from '../API/Paths';
-import { StatusHandler } from '../Utils/StatusHandler';
+import StatusHandler from '../Utils/StatusHandler';
 
-const Patient = () => {
+const Patients = () => {
   const [search, setSearch] = useState('');
   const [fetch, setFetch] = useState(false);
   const [patients, setPatients] = useState([]);
@@ -115,4 +115,4 @@ const Patient = () => {
   );
 };
 
-export default Patient;
+export default Patients;

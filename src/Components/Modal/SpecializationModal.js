@@ -1,39 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Text,
-  Grid,
-  GridItem,
-  IconButton,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  FormHelperText,
-  Select,
-  Flex,
-  Spacer,
-  Center,
-  Stack,
-  useDisclosure,
-} from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { useToast } from '@chakra-ui/react';
 import {
   toastposition,
   toastvariant,
-  CustomModal,
-  TextFormController,
-} from '../../Packages';
-
+} from '../../Pages/Packages';
+import CustomModal from '../CustomModal';
+import TextFormController from '../TextFormController';
 import { StatusHandler } from '../../Utils/StatusHandler';
-import { PutRequest } from '../../api/api';
+import { PutRequest } from '../../API/api';
 import { Specialization } from '../../API/Paths';
 
 export const SpecializationModal = ({

@@ -17,8 +17,8 @@ import {
   Badge,
   Button,
 } from '@chakra-ui/react';
-import useAuth from '../../context/AuthContext';
-import Searchfield from '../Component/Searchfield';
+import useAuth from '../Hooks/AuthContext';
+import Searchfield from '../Components/Searchfield';
 import { MdOutlineMessage } from 'react-icons/md';
 import SearchNotFound from './SearchNotFound';
 import { BiReset } from 'react-icons/bi';
@@ -28,13 +28,8 @@ import {
   ChevronRightIcon,
   ChevronLeftIcon,
 } from '@chakra-ui/icons';
-
-import {
-  CustomViewButton,
-  CustomEditButton,
-  CustomDeleteButton,
-} from '../Packages';
-
+import {CustomViewButton} from '../Components/Modal/CustomViewModal'
+import {CustomEditButton,CustomDeleteButton} from './Modal/ActionModal'
 import '../Style/Table.css';
 import moment from 'moment/moment';
 import { useNavigate } from 'react-router-dom';
@@ -305,7 +300,7 @@ const CustomTablePaginate = ({
                               <Avatar
                                 src={
                                   cell.row.values.profile === 'NONE'
-                                    ? require('../../../assets/default_profile.png')
+                                    ? require('../assets/default_profile.png')
                                     : cell.row.values.profile
                                 }
                               />

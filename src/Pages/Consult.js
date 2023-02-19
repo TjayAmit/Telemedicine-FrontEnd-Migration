@@ -24,11 +24,13 @@ import ConsultInfoMain from '../Components/ConsultInfoMain';
 import ConsultMessages from '../Components/ConsultMessages';
 import ConsultRefInfo from '../Components/ConsultRefInfo';
 import ConsultFollowUpInfo from '../Components/ConsultFollowUpInfo';
+import CustomModal from '../Components/CustomModal';
+import {CustomSelectionS} from '../Components/CustomSelection'
 import CustomeSkeletonLoader from '../Components/CustomeSkeletonLoader';
 import { useLocation } from 'react-router-dom';
 import { Specialization, Case, Message } from '../API/Paths';
 import { GetRequest, PutRequest } from '../API/api';
-import { StatusHandler } from '../Utils/StatusHandler';
+import StatusHandler from '../Utils/StatusHandler';
 
 const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
   const title = 'ADD Specialization';

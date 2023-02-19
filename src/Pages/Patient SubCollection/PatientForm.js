@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TitleColor } from '../Packages';
-import TextFormController from '../Components/TextFormController';
+import TextFormController from '../../Components/TextFormController';
 import usePatient from './PatientContext';
 import moment from 'moment';
 import {

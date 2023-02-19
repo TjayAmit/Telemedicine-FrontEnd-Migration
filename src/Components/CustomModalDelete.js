@@ -14,7 +14,7 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import useAuth from "../../context/AuthContext.js";
+import useAuth from "../Hooks/AuthContext.js";
 
 const CustomModalDelete = ({ title, isOpen, onClose }) => {
   const [dissable, setDissable] = useState(true);

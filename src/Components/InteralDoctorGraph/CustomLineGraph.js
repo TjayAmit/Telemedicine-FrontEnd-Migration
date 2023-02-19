@@ -1,7 +1,7 @@
 import { ResponsiveLine, Line } from '@nivo/line';
 import { useState, useEffect } from 'react';
 import { Box, Select } from '@chakra-ui/react';
-import useAuth from '../../../context/AuthContext';
+import useAuth from '../../Hooks/AuthContext';
 
 const CustomLineGraph = () => {
   const [lineGraphData, setLineGraphData] = useState();

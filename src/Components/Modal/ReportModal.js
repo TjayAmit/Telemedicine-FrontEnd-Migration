@@ -8,17 +8,16 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
-import { ReportPutRequest } from '../../../../api/Report_Request';
 import {
   toastposition,
   toastvariant,
-  CustomModal,
-  TextFormController,
-} from '../../Packages';
+} from '../../Pages/Packages';
+import TextFormController from '../TextFormController';
+import CustomModal from '../CustomModal';
 import moment from 'moment';
-import { PutRequest } from '../../api/api';
 import { Report } from '../../API/Paths';
-import { StatuHandler } from '../../Utils/StatusHandler';
+import { StatusHandler } from '../../Utils/StatusHandler';
+import { PutRequest } from '../../API/api';
 
 export const ReportModal = ({
   title,

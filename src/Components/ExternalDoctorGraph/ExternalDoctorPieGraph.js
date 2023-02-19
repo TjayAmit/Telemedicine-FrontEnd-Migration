@@ -1,7 +1,7 @@
 import { ResponsivePie } from '@nivo/pie';
 import { Box } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
-import api from '../../../../api/api';
+import api from '../../API/api';
 
 const ExternalDoctorPieGraph = () => {
   const { data, isLoading, error } = useQuery('pie', () =>

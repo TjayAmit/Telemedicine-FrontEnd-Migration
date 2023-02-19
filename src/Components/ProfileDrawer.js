@@ -57,7 +57,7 @@ function ProfileDrawer(props) {
                 name={user.name}
                 src={
                   user.url === 'NONE'
-                    ? require('../Assets/default_profile.png')
+                    ? require('../assets/default_profile.png')
                     : user.url
                 }
               />

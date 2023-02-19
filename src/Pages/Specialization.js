@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Box, Text, Container, useDisclosure, Flex } from '@chakra-ui/react';
-import { TitleColor, toastposition, toastvariant } from '../Packages';
+import { TitleColor, toastposition, toastvariant } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import TextFormController from '../Components/TextFormController';
 import CustomModal from '../Components/CustomModal';
@@ -9,6 +9,7 @@ import { useToast } from '@chakra-ui/react';
 import { GiSkills } from 'react-icons/gi';
 import { GetRequest, PostRequest } from '../API/api';
 import { Doctor, Specialization } from '../API/Paths';
+import StatusHandler from '../Utils/StatusHandler'
 
 const AddModal = ({ isOpen, onClose, fetch }) => {
   const title = 'New Specialization';
@@ -85,7 +86,7 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
   );
 };
 
-const Specialization = () => {
+const Specializations = () => {
   const [search, setSearch] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [doctors, setDoctors] = useState([]);
@@ -198,4 +199,4 @@ const Specialization = () => {
   );
 };
 
-export default Specialization;
+export default Specializations;

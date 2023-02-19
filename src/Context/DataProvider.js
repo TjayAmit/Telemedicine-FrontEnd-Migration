@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import { GetRequest, PostRequest } from '../API/api';
-import { Auth } from '../API/Paths';
+import { Auth, User, Case } from '../API/Paths';
 import StatusHandler from '../Utils/StatusHandler';
 import { Sanctum } from '../API/Paths';
 
@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
   ///CHART Data
   const [chartDat, setChartDat] = useState([]);
 
-  const [hospitals, setHospital] = useState({});
+  const [hospitals, setHospital] = useState({}); 
   const [specializations, setSpecialization] = useState({});
   const [fetch, setFetch] = useState(true);
 
@@ -42,7 +42,7 @@ export const DataProvider = ({ children }) => {
 
   const getChartData = async () => {
     let msg = '';
-    Get({ url: '/api/getCaseData' })
+    GetRequest({ url: '/api/getCaseData' })
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -86,7 +86,7 @@ export const DataProvider = ({ children }) => {
     bodyFormData.append('name', name);
     bodyFormData.append('password', password);
 
-    Post({ url: `${Auth}/login` }, bodyFormData)
+    PostRequest({ url: `${Auth}/login` }, bodyFormData)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -222,21 +222,18 @@ export const DataProvider = ({ children }) => {
   const [firstCall, setFirstCall] = useState(true);
 
   const checkValidation = async () => {
-    try {
-      if (sessionStorage.getItem('token') !== null) {
-        const res = await UserAllGetRequest();
+    if (sessionStorage.getItem('token') !== null) {
+      GetRequest({url: User}).then((res) => {
+        if(!res.statusText === 'OK'){
+          throw new Error('Bad response.',{cause: res});
+        }
         setUser(res.data.data);
-        return;
-      }
-      setUser({
-        loggedIn: false,
-      });
-    } catch (e) {
-      if (user === null) {
+      }).catch((err) => {
+        console.log(StatusHandler(err))
         setUser({
           loggedIn: false,
         });
-      }
+      })
     }
   };
 
@@ -248,11 +245,14 @@ export const DataProvider = ({ children }) => {
   }, [firstCall]);
 
   const handleFetchCase = async () => {
-    const res = await CaseGetRequest();
-
-    if (res.data.status === 200) {
+    GetRequest({url: `${Case}/card`}).then((res) => {
+      if(!res.statusText === 'OK'){
+        throw new Error('Bad response.',{cause: res})
+      }
       setCases(res.data.data);
-    }
+    }).catch((err) => {
+      console.log(StatusHandler(err))
+    })
   };
 
   useEffect(() => {

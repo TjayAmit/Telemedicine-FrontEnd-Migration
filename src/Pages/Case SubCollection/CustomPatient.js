@@ -1,5 +1,4 @@
-import { useCase } from "../../Packages";
-
+import useCase from './CaseContext'
 import {
   Text,
   Flex,
@@ -17,7 +16,6 @@ import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import moment from "moment";
-import SearchNotFound from "../../Component/SearchNotFound";
 import { RiEmotionSadLine } from "react-icons/ri";
 
 export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {

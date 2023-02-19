@@ -41,7 +41,7 @@ const CustomSidebar = ({ flip }) => {
       >
         <Menu iconShape="circle" color={'#1d8b10'}>
           <MenuItem
-            icon={<Image w={8} src={require('../Assets/zcmc_logo.png')} />}
+            icon={<Image w={8} src={require('../assets/zcmc_logo.png')} />}
           >
             <Heading size={'md'}>TELEMEDICINE </Heading>
           </MenuItem>

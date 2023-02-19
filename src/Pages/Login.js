@@ -21,7 +21,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import './Style/auth.css';
+import '../Style/auth.css';
 
 const Feedback = props => {
   return (

@@ -8,7 +8,6 @@ import {
   Box,
   useMediaQuery,
 } from '@chakra-ui/react';
-import { Login } from '../../../Pages/Login';
 
 const LoginHeader = ({ title }) => {
   // single media query with no options
@@ -27,7 +26,7 @@ const LoginHeader = ({ title }) => {
           <Image
             w={isLargerThan720 ? '50px' : '50px'}
             h={'66px'}
-            src={require('../../../assets/zcmc_logo.png')}
+            src={require('../../assets/zcmc_logo.png')}
           />
         </GridItem>
         <GridItem colSpan={5} rowSpan={2} columnGap={5}>

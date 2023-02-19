@@ -7,8 +7,7 @@ import {
   Flex,
   useDisclosure,
 } from '@chakra-ui/react';
-
-import '../../../App.css';
+import '../Style/App.css';
 import React, { useEffect, useState } from 'react';
 import { TitleColor, toastposition, toastvariant } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
@@ -34,6 +33,7 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
   const [hospital_imgPath, setHospital_imgPath] = useState('');
   const [hospital_FilePath, setHospital_FilePath] = useState('');
   const [loader, setloader] = useState(false);
+  const [msg, setMsg] = useState('');
 
   const resetState = () => {
     setHospital_Name('');
@@ -154,7 +154,7 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
   );
 };
 
-const Hospital = () => {
+const Hospitals = () => {
   const [search, setSearch] = useState('');
   const [msg, setMsg] = useState('');
   let duration = 0;
@@ -210,10 +210,6 @@ const Hospital = () => {
       .catch(err => {
         setMsg(StatusHandler(err));
       });
-
-    if (res.data.status === 200) {
-      setHospitals(res.data.data);
-    }
   };
 
   const hospitalJSONData = hospitals.filter(filter =>
@@ -257,4 +253,4 @@ const Hospital = () => {
   );
 };
 
-export default Hospital;
+export default Hospitals;

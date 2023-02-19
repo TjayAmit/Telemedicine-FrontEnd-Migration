@@ -20,15 +20,16 @@ import {
   useToast,
   Center,
 } from '@chakra-ui/react';
-import useAuth from '../../context/AuthContext';
+import useAuth from '../Hooks/AuthContext';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { IoKeySharp } from 'react-icons/io5';
 import { MdOutlineFileUpload } from 'react-icons/md';
-import { CustomFormController } from '../../authentication/customs';
-import { toastposition, toastvariant } from '../Packages';
+import { CustomFormController } from '../Components/customs';
+import { toastposition, toastvariant } from '../Pages/Packages';
 import { FaLock } from 'react-icons/fa';
-import { PostRequest } from '../api/api';
+import { PostRequest } from '../API/api';
 import { User } from '../API/Paths';
+import StatusHandler from '../Utils/StatusHandler'
 
 function MyAccount(props) {
   const toast = useToast();
@@ -71,7 +72,7 @@ function MyAccount(props) {
       .catch(err => {
         msg = StatusHandler(err);
         toast({
-          title: res.data.message,
+          title: msg,
           position: toastposition,
           variant: toastvariant,
           status: 'error',
@@ -95,7 +96,7 @@ function MyAccount(props) {
                 name={user.name}
                 src={
                   user.url === 'NONE'
-                    ? require('../../../assets/default_profile.png')
+                    ? require('../assets/default_profile.png')
                     : user.url
                 }
               />

@@ -12,7 +12,7 @@ import {
   FormControl,
 } from '@chakra-ui/react';
 
-import { TitleColor,toastposition, toastvariant } from './Packages';
+import { TitleColor, toastposition, toastvariant } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import CustomModal from '../Components/CustomModal';
 import TextFormController from '../Components/TextFormController';
@@ -20,7 +20,7 @@ import { TbFileReport } from 'react-icons/tb';
 import { useToast } from '@chakra-ui/react';
 import moment from 'moment';
 import { PostRequest, GetRequest } from '../API/api';
-import { Report, Hospital, Specialization } from '../API/Paths';
+import { Reports, Hospital, Specialization } from '../API/Paths';
 import { StatusHandler } from '../Utils/StatusHandler';
 
 const AddModal = ({
@@ -218,7 +218,7 @@ const AddModal = ({
   );
 };
 
-const Reports = () => {
+const Report = () => {
   const [search, setSearch] = useState('');
   const [fetch, setFetch] = useState(false);
   const [reports, setReports] = useState([]);
@@ -228,7 +228,7 @@ const Reports = () => {
 
   const handleFetchReport = async () => {
     let msg = '';
-    GetRequest({ url: Report })
+    GetRequest({ url: Reports })
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -336,4 +336,4 @@ const Reports = () => {
   );
 };
 
-export default Reports;
+export default Report;

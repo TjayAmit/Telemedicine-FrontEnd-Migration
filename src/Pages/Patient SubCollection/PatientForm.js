@@ -324,7 +324,7 @@ const PatientForm = () => {
   } = usePatient();
 
   const handleClick = () => {
-    navigate('/h/patients');
+    navigate('/patients');
   };
 
   const initPatientdata = props => {

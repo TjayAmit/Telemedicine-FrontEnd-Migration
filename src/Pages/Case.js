@@ -2,7 +2,6 @@ import {
   Box,
   Text,
   Container,
-  Flex,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -14,12 +13,12 @@ import {
   Checkbox,
   Button,
 } from '@chakra-ui/react';
-import {  TitleColor } from './Packages';
-import CustomTablePaginate from '../Components/CustomTablePaginate'
+import CustomTablePaginate from '../Components/CustomTablePaginate';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { FaHospitalUser } from 'react-icons/fa';
 import useAuth from '../Hooks/AuthContext';
+import { useEffect, useState } from 'react';
+import { GetRequest } from '../API/api';
+import { Case } from '../API/Paths';
 
 const CaseConsent = props => {
   return (
@@ -173,18 +172,19 @@ const CaseConsent = props => {
   );
 };
 
-const Case = () => {
+const Cases = () => {
   const navigate = useNavigate();
-  const { cases, setFetchCase } = useAuth();
-  const [search, setSearch] = useState('');
+  const [cases, setCases] = useState([]);
   const [dissable, setDissable] = useState(true);
-
+  const [fetch, setFetch] = useState(true);
+  const { tableName, setTableName, search, setSearch } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [msg, setMsg] = useState('');
 
   const Title = 'Case';
 
   const redirect = () => {
-    navigate('/h/case/form');
+    navigate('/case/form');
   };
 
   const columns = [
@@ -222,6 +222,36 @@ const Case = () => {
     },
   ];
 
+  const handleFetch = () => {
+    GetRequest({ url: Case })
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad response.', { cause: res });
+        }
+        const {
+          data: { data },
+        } = res;
+
+        setCases(data);
+      })
+      .catch(err => {
+        switch (err) {
+          case 400:
+            setMsg("Process can't complete. try again later.");
+            break;
+          case 401:
+            setMsg('Un-Authorized.');
+            break;
+          case 404:
+            setMsg('No record found.');
+            break;
+          default:
+            setMsg("Can't process right now. try again later.");
+            break;
+        }
+      });
+  };
+
   const filtered = cases.filter(filter =>
     filter.cases_status === 2
       ? null
@@ -233,25 +263,34 @@ const Case = () => {
         filter.patients_CivilStatus.toLowerCase().includes(search.toLowerCase())
   );
 
+  useEffect(() => {
+    const intervalId = setInterval(
+      () => {
+        if (fetch) {
+          setFetch(false);
+        }
+        handleFetch();
+      },
+      fetch ? 0 : 30000
+    );
+
+    if (tableName !== Title) {
+      setTableName(Title);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [fetch]);
+
   return (
     <>
       <Container maxW={'container.xxl'}>
-        <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
-          <Box className="table-head">
-            <Flex color={TitleColor} columnGap={2}>
-              <FaHospitalUser fontSize={35} fontWeight={'900'} ml={5} />
-              <Text fontSize={30} fontWeight={'900'}>
-                {Title}
-              </Text>
-            </Flex>
-          </Box>
-
-          <Box mt={'2rem'}>
+        <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 5]}>
+          <Box>
             <CustomTablePaginate
               title={Title}
               columns={columns}
               data={filtered}
-              fetch={setFetchCase}
+              fetch={setFetch}
               search={search}
               onOpen={onOpen}
               setSearch={setSearch}
@@ -271,4 +310,4 @@ const Case = () => {
   );
 };
 
-export default Case;
+export default Cases;

@@ -9,16 +9,17 @@ import { FaUserFriends } from 'react-icons/fa';
 import { GetRequest } from '../API/api';
 import { Patient } from '../API/Paths';
 import StatusHandler from '../Utils/StatusHandler';
+import useAuth from '../Hooks/AuthContext';
 
 const Patients = () => {
-  const [search, setSearch] = useState('');
   const [fetch, setFetch] = useState(false);
   const [patients, setPatients] = useState([]);
   const navigate = useNavigate();
+  const { setTableName, search, setSearch } = useAuth;
   const Title = 'Patient';
 
   const handleClick = () => {
-    navigate('/h/patients/form');
+    navigate('/patients/form');
   };
 
   const columns = [
@@ -75,6 +76,7 @@ const Patients = () => {
   };
 
   useEffect(() => {
+    setTableName(Title);
     handleFetchPatient();
   }, [fetch]);
 
@@ -89,14 +91,6 @@ const Patients = () => {
     <>
       <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
-          <Box className="table-head">
-            <Flex color={TitleColor} columnGap={2}>
-              <FaUserFriends fontSize={40} fontWeight={'900'} ml={5} />
-              <Text fontSize={30} color={TitleColor} fontWeight={'900'}>
-                {Title}
-              </Text>
-            </Flex>
-          </Box>
           <Box mt={'2rem'}>
             <CustomTablePaginate
               title={Title}

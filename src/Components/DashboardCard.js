@@ -30,7 +30,7 @@ const DashboardCard = ({ cardData }) => {
         <Box
           float={'right'}
           p={1}
-          fontSize={50}
+          fontSize={30}
           bg={cardData.bgColor}
           borderRadius={6}
         >
@@ -41,8 +41,8 @@ const DashboardCard = ({ cardData }) => {
             fill="currentColor"
             strokeWidth="0"
             viewBox={cardData.viewBox}
-            height="1em"
-            width="1em"
+            height="0.8em"
+            width="0.8em"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
@@ -53,12 +53,10 @@ const DashboardCard = ({ cardData }) => {
           </svg>
         </Box>
 
-        <Heading fontSize={30} className={'counter'}>
+        <Heading fontSize={30} className={'counter'} size="lg">
           0
         </Heading>
-        <Text fontSize={15} fontWeight="normal" color={'blackAlpha.700'}>
-          {cardData.title}
-        </Text>
+        <Heading color={'blackAlpha.700'}>{cardData.title}</Heading>
         <Text color={cardData.color} fontSize={15}>
           0
         </Text>
@@ -103,12 +101,13 @@ const DashboardCard = ({ cardData }) => {
           </svg>
         </Box>
 
-        <Heading fontSize={30} className={'counter'}>
+        <Heading size="md" className={'counter'}>
           Something went wrong.
         </Heading>
-        <Text fontSize={15} fontWeight="normal" color={'blackAlpha.700'}>
+
+        <Heading size="sm" color={'blackAlpha.700'}>
           {cardData.title}
-        </Text>
+        </Heading>
         <Text color={cardData.color} fontSize={15}>
           0
         </Text>
@@ -139,7 +138,7 @@ const DashboardCard = ({ cardData }) => {
     ) {
       return;
     }
-    navigate('/h' + cardData.path);
+    navigate('/' + cardData.path);
   };
 
   return (
@@ -179,13 +178,13 @@ const DashboardCard = ({ cardData }) => {
         </svg>
       </Box>
 
-      <Heading fontSize={30} ref={count} className={'counter'}>
+      <Heading size="sm" color={'blackAlpha.700'}>
+        {cardData.title}
+      </Heading>
+      <Heading size="lg" ref={count} className={'counter'}>
         {data.data[0].value}
       </Heading>
-      <Text fontSize={15} fontWeight="normal" color={'blackAlpha.700'}>
-        {cardData.title}
-      </Text>
-      <Text color={cardData.color} fontSize={15}>
+      <Text color={cardData.color} fontSize={14}>
         {cardData.title === 'Total Hospitals'
           ? data.data[0].value - 1
           : data.subdata[0] === undefined

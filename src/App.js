@@ -2,8 +2,9 @@ import React from 'react';
 import { extendTheme, ChakraProvider } from '@chakra-ui/react';
 import '@fontsource/poppins';
 import './Style/App.css';
-import CustomRoute from './Routes/CustomRoute';
+import AnimatedRoutes from './Routes/AnimatedRoutes';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ProSidebarProvider } from 'react-pro-sidebar';
 
 function App() {
   const theme = extendTheme({
@@ -25,9 +26,11 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Router>
-        <CustomRoute />
-      </Router>
+      <ProSidebarProvider>
+        <Router>
+          <AnimatedRoutes />
+        </Router>
+      </ProSidebarProvider>
     </ChakraProvider>
   );
 }

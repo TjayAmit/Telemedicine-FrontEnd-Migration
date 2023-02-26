@@ -66,7 +66,7 @@ export const PatientProvider = ({ children }) => {
         }
 
         setRegisterStatus(false);
-        navigate('/h/patients');
+        navigate('/patients');
         toast({
           title: 'Added Successfully!',
           position: toastposition,
@@ -112,7 +112,7 @@ export const PatientProvider = ({ children }) => {
         }
 
         setUpdateStatus(false);
-        navigate('/h/patients');
+        navigate('/patients');
         toast({
           title: 'Updated Successfully!',
           position: toastposition,

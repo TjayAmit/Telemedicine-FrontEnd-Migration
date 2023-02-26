@@ -128,7 +128,7 @@ export const CaseProvider = ({ children }) => {
             isClosable: true,
           });
 
-          navigate('../../h/case');
+          navigate('../../case');
         })
         .catch(err => {
           msg = StatusHandler(err);
@@ -186,7 +186,7 @@ export const CaseProvider = ({ children }) => {
           isClosable: true,
         });
 
-        navigate('../../home/case');
+        navigate('../../case');
       })
       .catch(err => {
         msg = StatusHandler(err);

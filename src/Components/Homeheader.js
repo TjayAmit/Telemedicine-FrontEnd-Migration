@@ -18,6 +18,7 @@ import {
   Stack,
   useToast,
   useDisclosure,
+  Input,
 } from '@chakra-ui/react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import useAuth from '../Hooks/AuthContext';
@@ -28,6 +29,7 @@ import { useState } from 'react';
 import CustomModal from './CustomModal';
 import { toastposition, toastvariant } from '../Pages/Packages';
 import Notification from './Notification';
+import HeartCase from './HeartCase';
 
 const UpdateProfile = ({ isOpen, onClose }) => {
   const title = 'Change Profile Picture';
@@ -93,17 +95,11 @@ const UpdateProfile = ({ isOpen, onClose }) => {
   );
 };
 
-const Homeheader = ({ flip, setflip }) => {
+const Homeheader = props => {
   const { user, setUser } = useAuth();
-  const { collapseSidebar, toggleSidebar } = useProSidebar();
   const { isOpen, onClose } = useDisclosure();
+  const { search, setSearch, tableName } = useAuth();
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    setflip(!flip);
-    toggleSidebar();
-    collapseSidebar();
-  };
 
   const signOutUser = e => {
     e.preventDefault();
@@ -117,51 +113,41 @@ const Homeheader = ({ flip, setflip }) => {
     <>
       <Box
         w={'100%'}
-        h={'50px'}
-        p={2}
+        h={'55px'}
+        pt={2}
+        pr={2}
+        pb={2}
         display={'flex'}
         justifyContent={'space-between'}
-        boxShadow={'lg'}
-        className={'header'}
       >
         <Box
-          transform={'translateY(20%)'}
+          p={2}
           cursor={'pointer'}
-          onClick={() => handleClick()}
+          fontSize={[25, 25, 30, 30]}
+          onClick={() => props.action()}
         >
-          <Flex>
-            <Box id="btnflip" style={{ marginLeft: flip ? '70px' : '' }}>
-              {flip ? <MdClose size={28} /> : <MdMenu size={28} />}
-            </Box>
-            <Box ml={2}>
-              {!flip ? (
-                <Heading
-                  fontSize={17}
-                  mt={1}
-                  fontWeight={'bolder'}
-                  color={'#0F531E'}
-                  display={['block', 'block', 'none']}
-                >
-                  TeleMedicine
-                </Heading>
-              ) : (
-                ''
-              )}
-            </Box>
-          </Flex>
+          {props.collapsed ? <MdClose /> : <MdMenu />}
+        </Box>
+        <Box
+          w={[200, 200, 350, 350]}
+          maxW={350}
+          minW={200}
+          bg="rgba(0,0,0,0.04)"
+          rounded={25}
+          overflow="hidden"
+        >
+          <Input
+            border={'none'}
+            placeholder="Search"
+            value={search}
+            rounded={5}
+            onChange={e => setSearch(e.target.value)}
+          />
         </Box>
 
         <Box>
-          <Flex mr={0} p={1} columnGap={3}>
-            <Heading
-              transform={'translateY(20%)'}
-              size={'sm'}
-              fontWeight={'normal'}
-              fontSize={'15'}
-              mr={1}
-            >
-              {user.name}
-            </Heading>
+          <Flex mr={0} p={1} columnGap={3} alignItems="center">
+            <HeartCase />
             {user.user_role !== 'Super Admin' ? <Notification /> : null}
             <Box>
               <Menu>

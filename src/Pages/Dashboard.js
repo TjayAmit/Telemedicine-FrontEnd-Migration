@@ -10,6 +10,7 @@ import CustomPieGraph from '../Components/InteralDoctorGraph/CustomPieGraph';
 import { TitleColor } from './Packages.js';
 
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { useEffect } from 'react';
 
 const AdminGraphs = () => {
   ///** Dashboard display for Admin or head doctor, Internal doctor and navigator or doctor secretary */
@@ -55,10 +56,8 @@ const ExternalGraphs = () => {
 };
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, setTableName } = useAuth();
   const queryClient = new QueryClient();
-
-  const Title = 'Dashboard Overview';
 
   const handleCardBaseRole = title => {
     if (title === 'Total Hospitals') {
@@ -76,20 +75,19 @@ const Dashboard = () => {
     return true;
   };
 
+  const handleTitle = () => {
+    setTableName('Dashboard');
+  };
+
+  useEffect(() => {
+    handleTitle();
+  }, []);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Box>
-          <Box p={5} mt={7}>
-            <Flex color={TitleColor} columnGap={2}>
-              <MdSpaceDashboard fontSize={35} fontWeight={'900'} ml={5} />
-              <Text fontSize={25} color={TitleColor} fontWeight={'900'}>
-                {Title}
-              </Text>
-            </Flex>
-          </Box>
-
-          <Container maxW={'container.xxl'} mt={'2rem'} mb={'4rem'}>
+        <Box mt={10}>
+          <Container maxW={'container.xxl'} mt={'2rem'} mb={'1rem'}>
             <Grid
               templateColumns={[
                 'repeat(1, 1fr)',
@@ -103,7 +101,14 @@ const Dashboard = () => {
                 return handleCardBaseRole(data.title) === true ? (
                   <GridItem
                     key={data.title}
-                    colSpan={user.user_role === 'External Doctor' ? 6 : 3}
+                    colSpan={
+                      user.user_role === 'External Doctor'
+                        ? 6
+                        : user.user_role === 'Internal Doctor' ||
+                          user.user_role === 'Admin'
+                        ? 4
+                        : 3
+                    }
                     width={'100%'}
                   >
                     <DashboardCard cardData={data} />

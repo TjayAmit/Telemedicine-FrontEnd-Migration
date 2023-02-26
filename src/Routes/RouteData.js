@@ -11,15 +11,15 @@ import { GiSkills } from 'react-icons/gi';
 import { TbFileReport } from 'react-icons/tb';
 import { RiFileListFill } from 'react-icons/ri';
 
-import Dashboard from '../Pages/Dashboard'
-import Doctors from '../Pages/Doctor'
-import Users from '../Pages/User'
-import Patients from '../Pages/Patient'
-import Case from '../Pages/Case'
-import Archived from '../Pages/Archived'
-import Hospitals from '../Pages/Hospital'
-import Specializations from '../Pages/Specialization'
-import Reports from '../Pages/Report'
+import Dashboard from '../Pages/Dashboard';
+import Doctors from '../Pages/Doctor';
+import Users from '../Pages/User';
+import Patients from '../Pages/Patient';
+import Cases from '../Pages/Case';
+import Archived from '../Pages/Archived';
+import Hospitals from '../Pages/Hospital';
+import Specializations from '../Pages/Specialization';
+import Report from '../Pages/Report';
 import HistoryLogs from '../Pages/HistoryLogs';
 
 const RouteData = {
@@ -77,7 +77,7 @@ const RouteData = {
       icon: <FaHospitalUser />,
       href: '/case',
       label: 'Active Case',
-      element: <Case />,
+      element: <Cases />,
       superadmin: false,
       admin: true,
       doctor: true,
@@ -125,7 +125,7 @@ const RouteData = {
       icon: <TbFileReport />,
       href: '/report',
       label: 'Report',
-      element: <Reports />,
+      element: <Report />,
       superadmin: true,
       admin: false,
       doctor: false,

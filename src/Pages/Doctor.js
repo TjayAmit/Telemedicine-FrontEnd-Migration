@@ -199,7 +199,6 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
 };
 
 const Doctors = () => {
-  const [search, setSearch] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [fetch, setFetch] = useState(false);
 
@@ -208,6 +207,7 @@ const Doctors = () => {
   const [hospitals, setHospitals] = useState([]);
   const [users, setUsers] = useState([]);
   const [doctor, setDoctor] = useState([]);
+  const { setTableName, search, setSearch } = useAuth();
 
   const handleFetchDoctor = async () => {
     let msg = '';
@@ -225,14 +225,15 @@ const Doctors = () => {
 
   const serviceTypeData = async () => {
     let msg = '';
-    GetRequest({ url: Specialization }).
-      then(res => {
+    GetRequest({ url: Specialization })
+      .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
 
         setSpecializationData(res.data.data);
-      }).catch(err => {
+      })
+      .catch(err => {
         msg = StatusHandler(err);
       });
   };
@@ -247,6 +248,7 @@ const Doctors = () => {
 
   //check if theres a changes. then update the data
   useEffect(() => {
+    setTableName('Doctor');
     serviceTypeData();
     handleFetchDoctor();
     setFetch(false);
@@ -295,30 +297,19 @@ const Doctors = () => {
   return (
     <>
       <Container maxW={'container.xxl'}>
-        <Box mt={5} p={[0, 0, 5, 10]}>
-          <Box className="table-head">
-            <Flex color={TitleColor} columnGap={2}>
-              <FaUserMd fontSize={35} fontWeight={'900'} ml={5} />
-              <Text fontSize={30} fontWeight={'900'}>
-                {Title}
-              </Text>
-            </Flex>
-          </Box>
-
-          <Box mt={'2rem'}>
-            <CustomTablePaginate
-              title={'Navigator'}
-              columns={column}
-              data={Doctors}
-              SpecializationData={SpecializationData}
-              hospitalData={hospitalData}
-              fetch={setFetch}
-              search={search}
-              setSearch={setSearch}
-              onOpen={onOpen}
-              isModal={true}
-            />
-          </Box>
+        <Box mt={5} p={[0, 0, 2, 3]}>
+          <CustomTablePaginate
+            title={'Navigator'}
+            columns={column}
+            data={Doctors}
+            SpecializationData={SpecializationData}
+            hospitalData={hospitalData}
+            fetch={setFetch}
+            search={search}
+            setSearch={setSearch}
+            onOpen={onOpen}
+            isModal={true}
+          />
         </Box>
       </Container>
       <AddModal

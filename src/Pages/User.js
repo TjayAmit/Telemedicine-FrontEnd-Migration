@@ -210,12 +210,12 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
 
 const Users = () => {
   const [user, setUser] = useState([]);
-  const [search, setSearch] = useState('');
   const [duration, setDuration] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [SpecializationData, setSpecializationData] = useState([]);
   const [users, setUsers] = useState([]);
   const [fetch, setFetch] = useState(false);
+  const { setTableName, search, setSearch } = useAuth();
   const Title = 'User';
 
   const columns = [
@@ -282,6 +282,7 @@ const Users = () => {
   );
 
   useEffect(() => {
+    setTableName(Title);
     serviceTypeData();
     handleFetchUser();
     setFetch(false);

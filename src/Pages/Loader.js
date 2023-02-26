@@ -4,7 +4,7 @@ import loaderlogo from '../assets/zcmc_logo.png';
 import '../Style/loader.css';
 import { ThreeDots } from 'react-loader-spinner';
 
-function Loader(props) {
+const Loader = () => {
   return (
     <Box w={'100%'} h={'100vh'}>
       <Center>
@@ -35,6 +35,6 @@ function Loader(props) {
       </Center>
     </Box>
   );
-}
+};
 
 export default Loader;

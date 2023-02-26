@@ -25,7 +25,7 @@ import ConsultMessages from '../Components/ConsultMessages';
 import ConsultRefInfo from '../Components/ConsultRefInfo';
 import ConsultFollowUpInfo from '../Components/ConsultFollowUpInfo';
 import CustomModal from '../Components/CustomModal';
-import {CustomSelectionS} from '../Components/CustomSelection'
+import { CustomSelectionS } from '../Components/CustomSelection';
 import CustomeSkeletonLoader from '../Components/CustomeSkeletonLoader';
 import { useLocation } from 'react-router-dom';
 import { Specialization, Case, Message } from '../API/Paths';

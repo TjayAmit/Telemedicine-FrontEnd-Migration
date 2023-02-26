@@ -1,39 +1,22 @@
 import { useTable, usePagination } from 'react-table';
 import { IoAddCircleOutline } from 'react-icons/io5';
 import {
-  Avatar,
   Table,
   Thead,
   Tbody,
   Tr,
   Th,
-  Td,
   Flex,
-  IconButton,
   Text,
-  Tooltip,
   Select,
   Box,
-  Badge,
   Button,
 } from '@chakra-ui/react';
 import useAuth from '../Hooks/AuthContext';
-import Searchfield from '../Components/Searchfield';
-import { MdOutlineMessage } from 'react-icons/md';
 import SearchNotFound from './SearchNotFound';
-import { BiReset } from 'react-icons/bi';
-import {
-  ArrowRightIcon,
-  ArrowLeftIcon,
-  ChevronRightIcon,
-  ChevronLeftIcon,
-} from '@chakra-ui/icons';
-import {CustomViewButton} from '../Components/Modal/CustomViewModal'
-import {CustomEditButton,CustomDeleteButton} from './Modal/ActionModal'
 import '../Style/Table.css';
-import moment from 'moment/moment';
-import { useNavigate } from 'react-router-dom';
-import { UserResetPassword } from '../API/User_Request';
+import TableRow from './Table/TableRow';
+import TableFooter from './Table/TableFooter';
 
 const CustomTablePaginate = ({
   title,
@@ -44,8 +27,6 @@ const CustomTablePaginate = ({
   hospitalData,
   doctors,
   onOpen,
-  search,
-  setSearch,
   handleClick,
   isModal,
   child,
@@ -75,97 +56,16 @@ const CustomTablePaginate = ({
   );
   const { user } = useAuth();
 
-  const Actions = ({
-    title,
-    fetch,
-    rawData,
-    SpecializationData,
-    hospitalData,
-    cellvalue,
-    row,
-  }) => {
-    const navigate = useNavigate();
-
-    const handleResetPassword = async () => {
-      const res = UserResetPassword({ email: row.email });
-    };
-
-    return (
-      <>
-        {title === 'Admin Doctor' ? (
-          <>
-            <IconButton
-              className="btn-message"
-              fontSize={17}
-              fontWeight={'normal'}
-              color={'blue.400'}
-              onClick={() => handleResetPassword()}
-            >
-              <BiReset />
-            </IconButton>
-          </>
-        ) : null}
-        {title == 'Case' || title == 'Archived Case' ? (
-          <>
-            <IconButton
-              className="btn-message"
-              fontSize={17}
-              fontWeight={'normal'}
-              color={'blue.400'}
-              onClick={() => {
-                navigate('/h/case/case-data', {
-                  state: {
-                    data: cellvalue,
-                    rawData: data.filter(
-                      x => x.PK_cases_ID == cellvalue.PK_cases_ID
-                    ),
-                  },
-                });
-              }}
-            >
-              <MdOutlineMessage />
-            </IconButton>
-          </>
-        ) : null}
-
-        {title !== 'Archived Case' ? (
-          <CustomEditButton
-            title={title}
-            data={cellvalue}
-            fetch={fetch}
-            rawData={data}
-            SpecializationData={SpecializationData}
-            hospitalData={hospitalData}
-            row={row}
-          />
-        ) : null}
-        {title !== 'User' ? (
-          <CustomDeleteButton fetch={fetch} title={title} id={[cellvalue]} />
-        ) : null}
-      </>
-    );
-  };
-
-  const CustomBtnTheme = {
-    backgroundColor: '#9AE6B4',
-    borderRadius: '52px',
-    fontSize: '20px',
-  };
-
-  let i = pageIndex * 10;
-
   return (
-    <>
-      <Box w={'100%'}>
+    <Box>
+      <Box w={'inherit'}>
         <Flex
           justifyContent={'space-between'}
           flexDirection={['column', 'column', 'row', 'row']}
         >
-          <Searchfield
-            search={search}
-            placeholder={`Search ${title}`}
-            currsearch={setSearch}
-          />
+          <Text color="rgba(0,0,0,0.7)" fontSize={30} fontWeight={'900'}>
+            {title === 'Navigator' ? 'Doctors' : title}
+          </Text>
           <Box>
             <Flex columnGap={3} justifyContent={'end'}>
               {(user.user_role === 'External Doctor' && title === 'Case') ||
@@ -181,7 +81,6 @@ const CustomTablePaginate = ({
                   className={''}
                   onClick={isModal ? onOpen : handleClick}
                   columnGap={2}
-                  mt={5}
                 >
                   <IoAddCircleOutline fontSize={20} marginRight="5px" />
                   {title}
@@ -189,8 +88,8 @@ const CustomTablePaginate = ({
               ) : null}
               {child !== null ? child : null}
               <Select
+                bg="white"
                 w={32}
-                mt={5}
                 size={'sm'}
                 value={pageSize}
                 focusBorderColor={'gray.400'}
@@ -209,244 +108,64 @@ const CustomTablePaginate = ({
           </Box>
         </Flex>
       </Box>
-      <div className="table-responsive">
-        <Table
-          mt={5}
-          className={'table'}
-          variant="unstyled"
-          {...getTableProps()}
-        >
-          <Thead className="">
-            {headerGroups.map(headerGroup => (
-              <Tr fontSize={13} {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <Th
-                    bg={'green.100'}
-                    color={'gray.600'}
-                    fontSize={14}
-                    {...column.getHeaderProps()}
-                  >
-                    {column.render('Header')}
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-          </Thead>
-          <Tbody {...getTableBodyProps()}>
-            {page.length >= 1 ? (
-              page.map(row => {
-                prepareRow(row);
-                i++;
-                return (
-                  <Tr className="td" {...row.getRowProps()}>
-                    {row.cells.map(cell => {
-                      return (
-                        <Td {...cell.getCellProps()}>
-                          {cell.column.id === 'action' ? (
-                            <Flex columnGap={3}>
-                              {title === 'Patient' || title === 'User' ? (
-                                <CustomViewButton
-                                  title={title}
-                                  data={data}
-                                  id={[cell.row.values]}
-                                />
-                              ) : (
-                                ''
-                              )}
-                              {title === 'Case' ? (
-                                user.user_role === 'Super Admin' ||
-                                user.user_role === 'Admin' ? (
-                                  /* Restrict Admin */
-                                  <>
-                                    <Actions
-                                      title={title}
-                                      cellvalue={cell.row.values}
-                                      fetch={fetch}
-                                      rawData={data}
-                                      SpecializationData={SpecializationData}
-                                      hospitalData={hospitalData}
-                                      row={row.values}
-                                    />
-                                  </>
-                                ) : (
-                                  <>
-                                    <Actions
-                                      title={title}
-                                      cellvalue={cell.row.values}
-                                      fetch={fetch}
-                                      rawData={data}
-                                      SpecializationData={SpecializationData}
-                                      hospitalData={hospitalData}
-                                      row={row.values}
-                                    />
-                                  </>
-                                )
-                              ) : (
-                                <>
-                                  <Actions
-                                    title={title}
-                                    cellvalue={cell.row.values}
-                                    fetch={fetch}
-                                    rawData={data}
-                                    SpecializationData={SpecializationData}
-                                    hospitalData={hospitalData}
-                                    row={row.values}
-                                  />
-                                </>
-                              )}
-                            </Flex>
-                          ) : cell.column.id === 'profile' ? (
-                            <>
-                              <Avatar
-                                src={
-                                  cell.row.values.profile === 'NONE'
-                                    ? require('../assets/default_profile.png')
-                                    : cell.row.values.profile
-                                }
-                              />
-                            </>
-                          ) : cell.column.id === 'cases_status' ? (
-                            <>
-                              <Badge
-                                variant="subtle"
-                                colorScheme={
-                                  cell.row.values.cases_status == 0
-                                    ? 'red'
-                                    : cell.row.values.cases_status == 1
-                                    ? 'green'
-                                    : 'blue'
-                                }
-                              >
-                                {cell.row.values.cases_status == 0
-                                  ? 'Pending'
-                                  : cell.row.values.cases_status == 1
-                                  ? 'Active'
-                                  : 'Done'}
-                              </Badge>
-                            </>
-                          ) : cell.column.id === 'specializations_Title' ? (
-                            <Text fontWeight={'bold'} color={'green.600'}>
-                              {cell.row.values.specializations_Title}
-                            </Text>
-                          ) : cell.column.id === 'created_at' ? (
-                            moment(cell.row.values.created_at).format(
-                              'hh:mm a MM-DD-YYYY'
-                            )
-                          ) : cell.column.id === 'updated_at' ? (
-                            moment(cell.row.values.updated_at).format(
-                              'hh:mm a MM-DD-YYYY'
-                            )
-                          ) : cell.column.id === 'hospital_Name' ? (
-                            <Text
-                              fontWeight={'bold'}
-                              textTransform={'uppercase'}
-                              color={'green.600'}
-                            >
-                              {cell.row.values.hospital_Name}
-                            </Text>
-                          ) : cell.column.Header === 'ID' ? (
-                            <Text fontWeight={'bold'} color={'green.600'}>
-                              {i}
-                            </Text>
-                          ) : cell.column.Header === 'STATUS' ? (
-                            <Text fontWeight={'bold'} color={'green.600'}>
-                              {cell.row.values.status === 1
-                                ? 'ACTIVE'
-                                : cell.row.values.status === 2
-                                ? 'DISSABLED'
-                                : 'PENDING'}
-                            </Text>
-                          ) : cell.column.Header === 'DOCTORS' ? (
-                            <>
-                              {
-                                doctors.filter(
-                                  x =>
-                                    x.FK_specializations_ID ==
-                                    cell.row.values.PK_specializations_ID
-                                ).length
-                              }
-                            </>
-                          ) : (
-                            cell.render('Cell')
-                          )}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })
-            ) : (
-              <SearchNotFound />
-            )}
-          </Tbody>
-        </Table>
-      </div>
+      <Table
+        boxShadow={'lg'}
+        mt={5}
+        variant="unstyled"
+        bg="white"
+        rounded={15}
+        size={'sm'}
+        {...getTableProps()}
+      >
+        <Thead>
+          {headerGroups.map(headerGroup => (
+            <Tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <Th
+                  h={'3rem'}
+                  color={'gray.600'}
+                  fontSize={15}
+                  {...column.getHeaderProps()}
+                >
+                  {column.render('Header')}
+                </Th>
+              ))}
+            </Tr>
+          ))}
+        </Thead>
+        <Tbody {...getTableBodyProps()}>
+          {page.length >= 1 ? (
+            <TableRow
+              page={page}
+              prepareRow={prepareRow}
+              pageIndex={pageIndex}
+              title={title}
+              doctors={doctors}
+              hospitalData={hospitalData}
+              SpecializationData={SpecializationData}
+              data={data}
+            />
+          ) : (
+            <SearchNotFound />
+          )}
+        </Tbody>
+      </Table>
 
       {page.length >= 1 ? (
-        <Flex justifyContent={'end'} mt={5}>
-          <div id="btnleft">
-            <Tooltip label="First Page">
-              <IconButton
-                style={CustomBtnTheme}
-                onClick={() => gotoPage(0)}
-                isDisabled={!canPreviousPage}
-                icon={<ArrowLeftIcon h={3} w={3} />}
-                mr={4}
-              />
-            </Tooltip>
-            <Tooltip label="Previous Page">
-              <IconButton
-                style={CustomBtnTheme}
-                className="paginationbtn"
-                onClick={previousPage}
-                isDisabled={!canPreviousPage}
-                icon={<ChevronLeftIcon h={6} w={6} />}
-              />
-            </Tooltip>
-          </div>
-
-          <Box bg={'white.200'} p={2} borderRadius={5}>
-            <Flex>
-              <Box fontSize={13}>Page</Box>
-              <Text fontWeight="bold" fontSize={13} ml={2} as="span">
-                {pageIndex + 1}
-              </Text>
-              <Box ml={2} fontSize={13} w={'2rem'}>
-                of
-              </Box>
-
-              <Text fontSize={13} fontWeight="bold" as="span">
-                {pageOptions.length}
-              </Text>
-            </Flex>
-          </Box>
-
-          <div id="btnright">
-            <Tooltip label="Next Page">
-              <IconButton
-                style={CustomBtnTheme}
-                className="paginationbtn"
-                onClick={nextPage}
-                isDisabled={!canNextPage}
-                icon={<ChevronRightIcon h={6} w={6} />}
-              />
-            </Tooltip>
-            <Tooltip label="Last Page">
-              <IconButton
-                style={CustomBtnTheme}
-                className="paginationbtn"
-                onClick={() => gotoPage(pageCount - 1)}
-                isDisabled={!canNextPage}
-                icon={<ArrowRightIcon h={3} w={3} />}
-                ml={4}
-              />
-            </Tooltip>
-          </div>
-        </Flex>
+        <TableFooter
+          canPreviousPage={canPreviousPage}
+          previousPage={previousPage}
+          pageIndex={pageIndex}
+          pageOptions={pageOptions}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          pageCount={pageCount}
+          gotoPage={gotoPage}
+        />
       ) : (
         ''
       )}
-    </>
+    </Box>
   );
 };
 

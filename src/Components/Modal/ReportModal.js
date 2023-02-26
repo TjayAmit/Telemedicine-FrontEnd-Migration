@@ -8,14 +8,11 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
-import {
-  toastposition,
-  toastvariant,
-} from '../../Pages/Packages';
+import { toastposition, toastvariant } from '../../Pages/Packages';
 import TextFormController from '../TextFormController';
 import CustomModal from '../CustomModal';
 import moment from 'moment';
-import { Report } from '../../API/Paths';
+import { Reports } from '../../API/Paths';
 import { StatusHandler } from '../../Utils/StatusHandler';
 import { PutRequest } from '../../API/api';
 
@@ -79,7 +76,7 @@ export const ReportModal = ({
       bodyFormData.append('report_DateTo', todate);
       bodyFormData.append('report_Sex', sex);
 
-      PutRequest({ url: Report }, bodyFormData)
+      PutRequest({ url: Reports }, bodyFormData)
         .then(res => {
           if (!res.statusText === 'OK') {
             throw new Error('Bad response.', { cause: res });

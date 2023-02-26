@@ -46,7 +46,7 @@ const ConsultClientInfo = ({ userinfo, addinfo, caseinfo, onOpen }) => {
           throw new Error('Bad response.', { cause: res });
         }
 
-        navigate('/h/case', { replace: true });
+        navigate('/case', { replace: true });
       })
       .catch(err => {
         msg = StatusHandler(err);
@@ -64,7 +64,7 @@ const ConsultClientInfo = ({ userinfo, addinfo, caseinfo, onOpen }) => {
           variant={'outline'}
           mb={1}
           onClick={() => {
-            navigate('/h/case');
+            navigate('/case');
           }}
         >
           Back

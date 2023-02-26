@@ -21,7 +21,10 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
+import { Auth } from '../API/Paths.js';
+import { PostRequest } from '../API/api';
 import '../Style/auth.css';
+import { IoCloseSharp } from 'react-icons/io5';
 
 const Feedback = props => {
   return (
@@ -62,56 +65,103 @@ const Feedback = props => {
   );
 };
 
+const ExceptionDisplay = props => {
+  return props.msg === '' ? null : (
+    <Box display="flex" justifyContent={'end'}>
+      <Box
+        maxW={'14rem'}
+        pl={4}
+        pt={2}
+        pr={4}
+        pb={2}
+        rounded={8}
+        display="flex"
+        justifyContent={'space-between'}
+        alignItems="center"
+        columnGap={3}
+        color="red"
+      >
+        <Text fontSize={13} fontWeight={500}>
+          {props.msg}
+        </Text>
+        <Box _hover={{ cursor: 'pointer' }} onClick={() => props.setMsg('')}>
+          <IoCloseSharp fontSize={22} />
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
 const Login = () => {
-  const toast = useToast();
   const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [msg, setMsg] = useState('');
   const approval =
     'Your account still pending. You can contact ZCMC Telemedicine Doctors to request of account approval.';
 
   const [header, setHeader] = useState('');
   const [feedback, setFeedback] = useState('');
 
-  const {
-    authException,
-    setAuthException,
-    password,
-    setPassword,
-    name,
-    setName,
-    isErrorEmail,
-    isErrorPassword,
-    login,
-    resetState,
-  } = useAuth();
+  const { setUser } = useAuth();
+
+  console.log('login');
+
+  const handleReset = () => {
+    setName('');
+    setPassword('');
+  };
 
   const handleSubmitLogin = async e => {
     e.preventDefault();
     setLoading(true);
 
-    let res = await login();
+    let form = new FormData();
+    form.append('name', name);
+    form.append('password', password);
 
-    if (res === 'warning') {
-      setHeader('Account Pending');
-      setFeedback(approval);
-      resetState();
-      onOpen();
-    }
+    PostRequest({ url: `${Auth}/signin` }, form)
+      .then(res => {
+        const {
+          statusText,
+          data: { data },
+        } = res;
+        if (!statusText === 'OK') {
+          throw new Error('Bad response.', { cause: res });
+        }
 
-    if (res === 'success') {
-      navigate('/');
-    }
-
-    if (res === 'E-P error') {
-      setHeader('Invalid');
-      setFeedback('Email or password incorrect');
-      resetState();
-      onOpen();
-    }
-
-    setAuthException(res);
+        if (res === 'warning') {
+          setHeader('Account Pending');
+          setFeedback(approval);
+          handleReset();
+          onOpen();
+          return;
+        }
+        sessionStorage.setItem('token', data.token);
+        setUser(data);
+        navigate('/');
+      })
+      .catch(err => {
+        switch (err) {
+          case 400:
+            setMsg('No Account found.');
+            break;
+          case 401:
+            setMsg('Your account not approved yet.');
+            break;
+          case 403:
+            setMsg('Email or password incorrect!');
+            break;
+          case 404:
+            setMsg('No Record found.');
+            break;
+          default:
+            setMsg('Please try again later.');
+            break;
+        }
+      });
     setLoading(false);
   };
 
@@ -134,20 +184,10 @@ const Login = () => {
         bg={['white', '#f7f5f9', '#f7f5f9', '#f7f5f9']}
         rounded={8}
       >
-        <Button
-          position={'absolute'}
-          _hover={{
-            bg: 'transparent',
-          }}
-          _active={{
-            bg: 'transparent',
-          }}
-          bg={'transparent'}
-          onClick={e => navigate('/admin')}
-        ></Button>
         <Box
           w={['27rem', '27rem', '27rem', '27rem']}
-          h={'32rem'}
+          h={'34rem'}
+          rounded={7}
           overflow="hidden"
           boxShadow={['none', 'none', '2xl', '2xl']}
           m={'auto'}
@@ -155,9 +195,7 @@ const Login = () => {
           padding={['25px', '25px', '40px', '40px']}
         >
           <LoginHeader title={'Sign In'} />
-          {authException === '' ? (
-            <Text color={'red'}>{authException}</Text>
-          ) : null}
+          <ExceptionDisplay msg={msg} setMsg={setMsg} />
           <form className="form-container" onSubmit={e => handleSubmitLogin(e)}>
             <Grid
               templateRows={`repeat( 3, 1fr)`}
@@ -175,7 +213,7 @@ const Login = () => {
                   setValue={setName}
                   errorMessage={` 'Email'
                    is required.`}
-                  isError={isErrorEmail}
+                  isError={''}
                   children={
                     <Box
                       w={8}
@@ -198,7 +236,7 @@ const Login = () => {
                   placeholder={`Enter password`}
                   setValue={setPassword}
                   errorMessage={`Password is required.`}
-                  isError={isErrorPassword}
+                  isError={''}
                   children={
                     <Box
                       w={8}

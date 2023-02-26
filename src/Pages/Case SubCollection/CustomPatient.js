@@ -1,4 +1,4 @@
-import useCase from './CaseContext'
+import useCase from './CaseContext';
 import {
   Text,
   Flex,
@@ -11,21 +11,21 @@ import {
   Stack,
   Center,
   Skeleton,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { FaTimes } from "react-icons/fa";
-import { AiOutlineSearch } from "react-icons/ai";
-import moment from "moment";
-import { RiEmotionSadLine } from "react-icons/ri";
+} from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
+import { AiOutlineSearch } from 'react-icons/ai';
+import moment from 'moment';
+import { RiEmotionSadLine } from 'react-icons/ri';
 
 export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
   const { setFK_patients_ID, patients } = useCase();
   const [selected, setSelected] = useState();
   const [loader, setloader] = useState(true);
   const [search, setSearch] = useState(false);
-  const [searchValue, setSearcValue] = useState("");
+  const [searchValue, setSearcValue] = useState('');
 
-  const filtered = patients.filter((x) =>
+  const filtered = patients.filter(x =>
     x.name.toLowerCase().includes(searchValue.toLowerCase())
   );
 
@@ -37,25 +37,25 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
 
   return (
     <Box
-      border={"1px solid"}
-      borderColor={isUpdate ? "green.50" : "gray.300"}
+      border={'1px solid'}
+      borderColor={isUpdate ? 'green.50' : 'gray.300'}
       mt={2}
       p={2}
-      backgroundColor={"blackAlpha.200"}
+      backgroundColor={'blackAlpha.200'}
       borderRadius={5}
-      cursor={"pointer"}
+      cursor={'pointer'}
       onClick={() => {
         setSearch(true);
       }}
     >
       {selected && (
         <Button
-          color={"red.400"}
-          float={"right"}
+          color={'red.400'}
+          float={'right'}
           onClick={() => {
-            setSelected("");
-            setFK_patients_ID("");
-            setSearcValue("");
+            setSelected('');
+            setFK_patients_ID('');
+            setSearcValue('');
           }}
         >
           <FaTimes />
@@ -93,11 +93,11 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
           ) : (
             <Box borderRadius={5}>
               {patientdata
-                .filter((filter) => filter.PK_patients_ID == patientID)
-                .map((row) => {
+                .filter(filter => filter.PK_patients_ID == patientID)
+                .map(row => {
                   return (
                     <>
-                      <Text fontSize={11} color={"gray.400"}>
+                      <Text fontSize={11} color={'gray.400'}>
                         Patient Information
                       </Text>
                       <Stack p={4} fontSize={15}>
@@ -105,18 +105,18 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                           <Text
                             mb={5}
                             fontSize={20}
-                            textTransform={"uppercase"}
-                            fontWeight={"bold"}
+                            textTransform={'uppercase'}
+                            fontWeight={'bold'}
                           >
                             {row.patients_FirstName +
-                              " " +
+                              ' ' +
                               row.patients_MiddleName +
-                              " " +
+                              ' ' +
                               row.patients_LastName}
                           </Text>
                           <Spacer />
-                          <Text fontSize={12} color={"gray.500"}>
-                            {moment().format("@hh:mm a MM-DD-YYYY")}
+                          <Text fontSize={12} color={'gray.500'}>
+                            {moment().format('@hh:mm a MM-DD-YYYY')}
                           </Text>
                         </Flex>
 
@@ -136,7 +136,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                           <Spacer />
                           <Text mr={5}>
                             {moment(row.patients_Birthday).format(
-                              "MMM DD ,YYYY"
+                              'MMM DD ,YYYY'
                             )}
                           </Text>
                         </Flex>
@@ -164,7 +164,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                         </Flex>
                       </Stack>
                       <Stack p={5} fontSize={15}>
-                        <Text textTransform={"uppercase"} color={"blue.800"}>
+                        <Text textTransform={'uppercase'} color={'blue.800'}>
                           Contact Information
                         </Text>
                         <Flex>
@@ -175,9 +175,9 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                         <Text>Address :</Text>
                         <Text>
                           {row.patients_Street +
-                            " " +
+                            ' ' +
                             row.patients_Barangay +
-                            " , " +
+                            ' , ' +
                             row.patients_City}
                         </Text>
                       </Stack>
@@ -192,11 +192,11 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
           {selected ? (
             <>
               {patientdata
-                .filter((filter) => filter.PK_patients_ID == selected)
-                .map((row) => {
+                .filter(filter => filter.PK_patients_ID == selected)
+                .map(row => {
                   return (
                     <>
-                      <Text fontSize={11} color={"gray.400"}>
+                      <Text fontSize={11} color={'gray.400'}>
                         Patient Information
                       </Text>
                       <Stack p={4} fontSize={15}>
@@ -204,18 +204,18 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                           <Text
                             mb={5}
                             fontSize={20}
-                            textTransform={"uppercase"}
-                            fontWeight={"bold"}
+                            textTransform={'uppercase'}
+                            fontWeight={'bold'}
                           >
                             {row.patients_FirstName +
-                              " " +
+                              ' ' +
                               row.patients_MiddleName +
-                              " " +
+                              ' ' +
                               row.patients_LastName}
                           </Text>
                           <Spacer />
-                          <Text fontSize={12} color={"gray.500"}>
-                            {moment().format("@hh:mm a MM-DD-YYYY")}
+                          <Text fontSize={12} color={'gray.500'}>
+                            {moment().format('@hh:mm a MM-DD-YYYY')}
                           </Text>
                         </Flex>
 
@@ -235,7 +235,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                           <Spacer />
                           <Text mr={5}>
                             {moment(row.patients_Birthday).format(
-                              "MMM DD ,YYYY"
+                              'MMM DD ,YYYY'
                             )}
                           </Text>
                         </Flex>
@@ -263,7 +263,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                         </Flex>
                       </Stack>
                       <Stack p={5} fontSize={15}>
-                        <Text textTransform={"uppercase"} color={"blue.800"}>
+                        <Text textTransform={'uppercase'} color={'blue.800'}>
                           Contact Information
                         </Text>
                         <Flex>
@@ -274,9 +274,9 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                         <Text>Address :</Text>
                         <Text>
                           {row.patients_Street +
-                            " " +
+                            ' ' +
                             row.patients_Barangay +
-                            " , " +
+                            ' , ' +
                             row.patients_City}
                         </Text>
                       </Stack>
@@ -289,39 +289,39 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
               <InputGroup>
                 <InputLeftAddon children={<AiOutlineSearch />} />
                 <Input
-                  variant={"unstyled"}
+                  variant={'unstyled'}
                   fontSize={14}
-                  placeholder={"Search Patient"}
+                  placeholder={'Search Patient'}
                   value={searchValue}
-                  onChange={(e) => {
+                  onChange={e => {
                     setSearcValue(e.target.value);
                   }}
                   autoFocus
                 />
               </InputGroup>
 
-              <Box height={400} overflowY={"scroll"}>
+              <Box height={400} overflowY={'scroll'}>
                 {filtered.length >= 1 ? (
-                  filtered.map((row) => {
+                  filtered.map(row => {
                     return (
                       <>
                         <Box
-                          border={"1px solid"}
+                          border={'1px solid'}
                           p={2}
                           fontSize={14}
-                          borderColor={"gray.200"}
-                          backgroundColor={"blue.50"}
+                          borderColor={'gray.200'}
+                          backgroundColor={'blue.50'}
                         >
                           <Flex>
                             <Box p={2}>{row.name}</Box>
                             <Spacer />
                             <Button
-                              variant={"solid"}
-                              colorScheme={"green"}
-                              backgroundColor={"green.400"}
-                              color={"green.50"}
-                              size={"sm"}
-                              fontWeight={"normal"}
+                              variant={'solid'}
+                              colorScheme={'green'}
+                              backgroundColor={'green.400'}
+                              color={'green.50'}
+                              size={'sm'}
+                              fontWeight={'normal'}
                               onClick={() => {
                                 setSelected(row.id);
                                 setFK_patients_ID(row.id);
@@ -339,9 +339,9 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
                     <Center p={20}>
                       <Stack>
                         <Center>
-                          <Text textAlign={"center"}>
+                          <Text textAlign={'center'}>
                             <RiEmotionSadLine
-                              style={{ fontSize: "70px", color: "#d65f5f" }}
+                              style={{ fontSize: '70px', color: '#d65f5f' }}
                             />
                           </Text>
                         </Center>
@@ -356,7 +356,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
           )}
         </>
       ) : (
-        <Text fontSize={14} textAlign={"center"}>
+        <Text fontSize={14} textAlign={'center'}>
           -- Select Patient --
         </Text>
       )}

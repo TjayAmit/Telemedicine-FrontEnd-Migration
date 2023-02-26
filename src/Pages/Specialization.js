@@ -9,7 +9,8 @@ import { useToast } from '@chakra-ui/react';
 import { GiSkills } from 'react-icons/gi';
 import { GetRequest, PostRequest } from '../API/api';
 import { Doctor, Specialization } from '../API/Paths';
-import StatusHandler from '../Utils/StatusHandler'
+import StatusHandler from '../Utils/StatusHandler';
+import useAuth from '../Hooks/AuthContext';
 
 const AddModal = ({ isOpen, onClose, fetch }) => {
   const title = 'New Specialization';
@@ -87,11 +88,11 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
 };
 
 const Specializations = () => {
-  const [search, setSearch] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [doctors, setDoctors] = useState([]);
   const [fetch, setFetch] = useState(false);
   const [specializations, setSpecializations] = useState([]);
+  const { setTableName, search, setSearch } = (useAuth = {});
 
   const handleFetchSpecialization = async () => {
     let msg = '';
@@ -129,6 +130,7 @@ const Specializations = () => {
 
   //check if theres a changes. then update the data
   useEffect(() => {
+    setTableName(Title);
     handleFetchSpecialization();
     displayData();
     setFetch(false);

@@ -1,4 +1,4 @@
-import { CiBellOn } from 'react-icons/ci';
+import { useState } from 'react';
 import {
   IconButton,
   Box,
@@ -10,9 +10,9 @@ import {
   MenuList,
   MenuItem,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import useAuth from '../Hooks/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 const MenuItemComponent = props => {
   const { data } = props;
@@ -78,18 +78,13 @@ const dataSample = [
 
 const Notification = () => {
   const navigate = useNavigate();
-  const { cases } = useAuth();
   const [active, setActive] = useState(false);
+  const { cases } = useAuth();
 
   const handleClick = e => {
     e.preventDefault();
     setActive(!active);
-    // navigate('case');
   };
-
-  const filtered = cases.filter(filter =>
-    filter.cases_status === 2 ? null : filter
-  );
 
   return (
     <Box>
@@ -97,14 +92,17 @@ const Notification = () => {
         <MenuButton>
           <button>
             <IconButton
-              w="30px"
+              w={30}
               size={['sm', 'sm', 'md', 'md']}
               mt={-1}
               rounded={100}
               onClick={e => handleClick(e)}
               icon={
-                <Box fontSize={[25, 25, 30, 30]}>
-                  <CiBellOn color={active ? 'orange' : 'grey'} />
+                <Box
+                  color={active ? 'red' : 'grey'}
+                  fontSize={[24, 24, 29, 29]}
+                >
+                  {active ? <AiFillHeart /> : <AiOutlineHeart />}
                 </Box>
               }
             />

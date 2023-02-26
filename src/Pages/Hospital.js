@@ -155,13 +155,13 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
 };
 
 const Hospitals = () => {
-  const [search, setSearch] = useState('');
   const [msg, setMsg] = useState('');
   let duration = 0;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hospitals, setHospitals] = useState([]);
   const Title = 'Hospital';
   const [fetch, setFetch] = useState(false);
+  const { setTableName, search, setSearch } = useState();
 
   const columns = [
     {
@@ -217,6 +217,7 @@ const Hospitals = () => {
   );
 
   useEffect(() => {
+    setTableName(Title);
     handleFetchHospital();
     setFetch(false);
   }, [fetch]);

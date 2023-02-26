@@ -9,10 +9,14 @@ const DataContext = createContext({});
 export const DataProvider = ({ children }) => {
   const [authException, setAuthException] = useState('Error');
   const [user, setUser] = useState(null);
+
+  const [search, setSearch] = useState('');
+  const [tableName, setTableName] = useState('Dashboard');
+
   ///CHART Data
   const [chartDat, setChartDat] = useState([]);
 
-  const [hospitals, setHospital] = useState({}); 
+  const [hospitals, setHospital] = useState({});
   const [specializations, setSpecialization] = useState({});
   const [fetch, setFetch] = useState(true);
 
@@ -188,7 +192,7 @@ export const DataProvider = ({ children }) => {
   const requestSanctumCSRF = async () => {
     GetRequest({ url: Sanctum })
       .then(res => {
-        if (!res.statusText === 'OK') {
+        if (!res.status === 200) {
           throw new Error('Bad response.');
         }
 
@@ -219,40 +223,17 @@ export const DataProvider = ({ children }) => {
     setFK_hospital_ID('');
   };
 
-  const [firstCall, setFirstCall] = useState(true);
-
-  const checkValidation = async () => {
-    if (sessionStorage.getItem('token') !== null) {
-      GetRequest({url: User}).then((res) => {
-        if(!res.statusText === 'OK'){
-          throw new Error('Bad response.',{cause: res});
-        }
-        setUser(res.data.data);
-      }).catch((err) => {
-        console.log(StatusHandler(err))
-        setUser({
-          loggedIn: false,
-        });
-      })
-    }
-  };
-
-  useEffect(() => {
-    if (user === null && firstCall === true) {
-      setFirstCall(false);
-      setTimeout(() => checkValidation(), [200]);
-    }
-  }, [firstCall]);
-
   const handleFetchCase = async () => {
-    GetRequest({url: `${Case}/card`}).then((res) => {
-      if(!res.statusText === 'OK'){
-        throw new Error('Bad response.',{cause: res})
-      }
-      setCases(res.data.data);
-    }).catch((err) => {
-      console.log(StatusHandler(err))
-    })
+    GetRequest({ url: `${Case}/card` })
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad response.', { cause: res });
+        }
+        setCases(res.data.data);
+      })
+      .catch(err => {
+        console.log(StatusHandler(err));
+      });
   };
 
   useEffect(() => {
@@ -313,6 +294,10 @@ export const DataProvider = ({ children }) => {
         setFetchCase,
         chartDat,
         getChartData,
+        search,
+        setSearch,
+        tableName,
+        setTableName,
       }}
     >
       {children}

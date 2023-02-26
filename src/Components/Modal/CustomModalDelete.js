@@ -21,11 +21,11 @@ import { StatusHandler } from '../../Utils/StatusHandler';
 import { DeleteRequest } from '../../API/api';
 import {
   Hospital,
-  Report,
+  Reports,
   Patient,
   Doctor,
   Case,
-  Specialization
+  Specialization,
 } from '../../API/Paths';
 
 export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
@@ -87,7 +87,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
           });
         break;
       case 'Report':
-        DeleteRequest({ url: Report }, { id: id[0].report_No })
+        DeleteRequest({ url: Reports }, { id: id[0].report_No })
           .then(res => {
             if (!res.statusText === 'OK') {
               throw new Error('Bad response.', { cause: res });
@@ -106,12 +106,13 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
         break;
 
       case 'Patient':
-        DeleteRequest({ url: Patient }, { id: id[0].PK_patients_ID }).
-          then(res => {
+        DeleteRequest({ url: Patient }, { id: id[0].PK_patients_ID })
+          .then(res => {
             if (!res.statusText === 'OK') {
               throw new Error('Bad response.', { cause: res });
             }
-          }).catch(err => {
+          })
+          .catch(err => {
             const responseMessage = StatusHandler(err);
             toast({
               title: responseMessage,

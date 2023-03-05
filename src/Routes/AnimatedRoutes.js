@@ -64,37 +64,39 @@ const AnimatedRoute = () => {
               path="/*"
               exact
               element={
-                <Layout>
-                  <Routes>
-                    {RouteData.path.map(data => {
-                      return (
-                        <Route
-                          key={data.index}
-                          path={data.href}
-                          element={data.element}
-                        />
-                      );
-                    })}
-                    <Route path="/case/case-data" element={<Consult />} />
-                    <Route
-                      path="/case/form"
-                      element={
-                        <CaseProvider>
-                          <CaseForm />
-                        </CaseProvider>
-                      }
-                    />
-                    <Route
-                      path="/patients/form"
-                      element={
-                        <PatientProvider>
-                          <PatientForm />
-                        </PatientProvider>
-                      }
-                    />
-                    <Route path="/MyAccount" element={<MyAccount />} />
-                  </Routes>
-                </Layout>
+                <>
+                  <Layout>
+                    <Routes>
+                      {RouteData.path.map(data => {
+                        return (
+                          <Route
+                            key={data.index}
+                            path={data.href}
+                            element={data.element}
+                          />
+                        );
+                      })}
+                      <Route path="/MyAccount" element={<MyAccount />} />
+                    </Routes>
+                  </Layout>
+                </>
+              }
+            />
+            <Route path="/case-view" element={<Consult />} />
+            <Route
+              path="/case/form"
+              element={
+                <CaseProvider>
+                  <CaseForm />
+                </CaseProvider>
+              }
+            />
+            <Route
+              path="/patients/form"
+              element={
+                <PatientProvider>
+                  <PatientForm />
+                </PatientProvider>
               }
             />
           </Route>

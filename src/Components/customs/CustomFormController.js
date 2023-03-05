@@ -1,5 +1,5 @@
-import React from "react";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import React from 'react';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import {
   FormControl,
   FormLabel,
@@ -8,8 +8,8 @@ import {
   InputGroup,
   InputLeftElement,
   InputRightElement,
-} from "@chakra-ui/react";
-import "../../Style/App.css";
+} from '@chakra-ui/react';
+import '../../Style/App.css';
 
 const CustomFormController = ({
   isSignup,
@@ -25,10 +25,15 @@ const CustomFormController = ({
 }) => {
   const [show, setShow] = React.useState(false);
 
+  const handleOnChange = e => {
+    let textInput = e.target.value;
+    setValue(textInput.trim());
+  };
+
   return (
     <>
-      <FormControl marginTop={5} isInvalid={isError} border={"red"} isRequired>
-        <FormLabel fontSize={"14"} fontWeight="500" color={"#272727"}>
+      <FormControl marginTop={5} isInvalid={isError} border={'red'} isRequired>
+        <FormLabel fontSize={'14'} fontWeight="500" color={'#272727'}>
           {title}
         </FormLabel>
         <InputGroup>
@@ -36,21 +41,21 @@ const CustomFormController = ({
             <InputLeftElement pointerEvents="none" children={children} />
           )}
           <Input
-            onPaste={(e) => (type === "password" ? e.preventDefault() : null)}
-            type={type !== "password" ? type : show ? "text" : type}
+            onPaste={e => (type === 'password' ? e.preventDefault() : null)}
+            type={type !== 'password' ? type : show ? 'text' : type}
             value={value}
             placeholder={placeholder}
             fontSize={13}
-            focusBorderColor={"rgba(100, 189, 120,0.5)"}
-            onChange={(e) => setValue(e.target.value)}
-            className={"inputs"}
+            focusBorderColor={'rgba(100, 189, 120,0.5)'}
+            onChange={e => handleOnChange(e)}
+            className={'inputs'}
           />
-          {type === "password" ? (
+          {type === 'password' ? (
             <InputRightElement width="3rem" onClick={() => setShow(!show)}>
               {show ? (
-                <MdVisibility size={"22px"} color="#718096" />
+                <MdVisibility size={'22px'} color="#718096" />
               ) : (
-                <MdVisibilityOff size={"22px"} color="#718096" />
+                <MdVisibilityOff size={'22px'} color="#718096" />
               )}
             </InputRightElement>
           ) : null}

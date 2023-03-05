@@ -177,7 +177,7 @@ const Cases = () => {
   const [cases, setCases] = useState([]);
   const [dissable, setDissable] = useState(true);
   const [fetch, setFetch] = useState(true);
-  const { tableName, setTableName, search, setSearch } = useAuth();
+  const { search, setSearch } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [msg, setMsg] = useState('');
 
@@ -190,11 +190,11 @@ const Cases = () => {
   const columns = [
     {
       Header: 'ID',
-      accessor: 'PK_cases_ID',
+      accessor: 'id',
     },
     {
       Header: 'Case #',
-      accessor: 'cases_No',
+      accessor: 'case_number',
     },
     {
       Header: 'PATIENTS',
@@ -206,15 +206,15 @@ const Cases = () => {
     },
     {
       Header: 'GENDER',
-      accessor: 'patients_Gender',
+      accessor: 'sex',
     },
     {
       Header: 'SERVICE',
-      accessor: 'specializations_Title',
+      accessor: 'specialization',
     },
     {
       Header: 'STATUS',
-      accessor: 'cases_status',
+      accessor: 'case_status',
     },
     {
       Header: 'ACTION',
@@ -273,10 +273,6 @@ const Cases = () => {
       },
       fetch ? 0 : 30000
     );
-
-    if (tableName !== Title) {
-      setTableName(Title);
-    }
 
     return () => clearInterval(intervalId);
   }, [fetch]);

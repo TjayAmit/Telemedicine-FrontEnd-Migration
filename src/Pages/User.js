@@ -19,7 +19,7 @@ import CustomTablePaginate from '../Components/CustomTablePaginate';
 import CustomModal from '../Components/CustomModal';
 import { FaUsers } from 'react-icons/fa';
 import useAuth from '../Hooks/AuthContext';
-import { CustomSelection } from '../Components/CustomSelection';
+import { SelectionSpecialization } from '../Components/CustomSelection';
 import { GetRequest } from '../API/api';
 import { StatusHandler } from '../Utils/StatusHandler';
 import { Specialization, User } from '../API/Paths';
@@ -160,7 +160,7 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
                 </Box>
               }
             />
-            <CustomSelection
+            <SelectionSpecialization
               title={'Specialization'}
               value={FK_specializations_ID}
               setValue={setFK_specializations_ID}
@@ -251,11 +251,12 @@ const Users = () => {
 
   const handleFetchUser = async () => {
     let msg = '';
-    GetRequest({ url: User })
+    GetRequest({ url: `${User}s` })
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
+        console.log(res.data.data);
         setUsers(res.data.data);
       })
       .catch(err => {

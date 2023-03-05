@@ -1,0 +1,22 @@
+.selection-main {
+  cursor: pointer;
+  padding: 4;
+}
+
+.selection-header {
+  display: block;
+}
+
+.selection-list {
+  display: none;
+  width: 8rem;
+  background-color: white;
+}
+
+.selection-main:hover .selection-header {
+  display: none;
+}
+
+.selection-main:hover .selection-list {
+  display: block;
+}

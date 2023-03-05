@@ -166,6 +166,7 @@ const Login = () => {
   };
 
   const handleNavigateToRegister = e => {
+    e.preventDefault();
     navigate('/register');
   };
 
@@ -180,7 +181,6 @@ const Login = () => {
       <Flex
         h={['90vh', '100vh', '100vh', '100vh']}
         display={'flex'}
-        justifyContent={'center'}
         bg={['white', '#f7f5f9', '#f7f5f9', '#f7f5f9']}
         rounded={8}
       >

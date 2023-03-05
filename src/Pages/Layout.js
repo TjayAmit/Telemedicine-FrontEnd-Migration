@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
       <Spacer />
       <Flex w={'100%'} h={'100vh'} display={'flex'} flexDirection={'column'}>
         <Homeheader action={actionHandle} collapsed={collapsed} />
-        <Box w={'100%'} h={'93.2vh'} bg={'#F2F3F5'} overflow="auto">
+        <Box w={'100%'} h={'inherit'} bg={'#F2F3F5'} overflow="auto">
           {children}
         </Box>
       </Flex>

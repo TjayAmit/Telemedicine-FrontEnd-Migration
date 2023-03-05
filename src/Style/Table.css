@@ -1,10 +1,10 @@
-.btn-message{
+.btn-message {
   transition: all ease-in-out 0.4s;
   padding: 2px;
 }
 
-.btn-message:hover{
-    background-color: #e0e7f7;
+.btn-message:hover {
+  background-color: #e0e7f7;
 }
 
 .table {
@@ -21,17 +21,15 @@
 .td {
   border-top: 1px solid rgb(190, 221, 240);
   border-bottom: 1px solid rgb(218, 230, 223);
-  transition: all ease-in-out 0.3s;
+  transition: all ease-in-out 0.02s;
 
   cursor: pointer;
   color: rgb(80, 80, 80);
-
   border-left: 4px solid transparent;
 }
 .td:hover {
   background-color: rgb(235, 250, 237);
   border-left: 4px solid #35be75;
-
   box-shadow: 1px 0px 10px 0px rgba(1, 19, 43, 0.253);
 }
 

@@ -16,76 +16,86 @@ import { CustomViewButton } from '../../Components/Modal/CustomViewModal';
 import { CustomEditButton, CustomDeleteButton } from '../Modal/ActionModal';
 import useAuth from '../../Hooks/AuthContext';
 
+const Actions = ({
+  title,
+  fetch,
+  rawData,
+  SpecializationData,
+  hospitalData,
+  cellvalue,
+  row,
+  props,
+}) => {
+  const navigate = useNavigate();
+  const handleResetPassword = async () => {
+    UserResetPassword({ email: row.email });
+  };
+
+  return (
+    <>
+      {title === 'Admin Doctor' ? (
+        <>
+          <IconButton
+            className="btn-message"
+            fontSize={17}
+            fontWeight={'normal'}
+            color={'blue.400'}
+            onClick={() => handleResetPassword()}
+          >
+            <BiReset />
+          </IconButton>
+        </>
+      ) : null}
+      {title === 'Case' || title === 'Archived Case' ? (
+        <>
+          <IconButton
+            className="btn-message"
+            fontSize={17}
+            fontWeight={'normal'}
+            color={'blue.400'}
+            onClick={() => {
+              navigate('/case/case-data', {
+                state: {
+                  data: cellvalue,
+                  rawData: props.data.filter(
+                    x => x.PK_cases_ID === cellvalue.PK_cases_ID
+                  ),
+                },
+              });
+            }}
+          >
+            <MdOutlineMessage />
+          </IconButton>
+        </>
+      ) : null}
+
+      {title !== 'Archived Case' ? (
+        <CustomEditButton
+          title={title}
+          data={cellvalue}
+          fetch={fetch}
+          rawData={props.data}
+          SpecializationData={SpecializationData}
+          hospitalData={hospitalData}
+          row={row}
+        />
+      ) : null}
+      {title !== 'User' ? (
+        <CustomDeleteButton fetch={fetch} title={title} id={[cellvalue]} />
+      ) : null}
+    </>
+  );
+};
+
 const TableRow = props => {
   const { user } = useAuth();
-  const Actions = ({
-    title,
-    fetch,
-    rawData,
-    SpecializationData,
-    hospitalData,
-    cellvalue,
-    row,
-  }) => {
-    const navigate = useNavigate();
-    const handleResetPassword = async () => {
-      UserResetPassword({ email: row.email });
-    };
+  const navigate = useNavigate();
 
-    return (
-      <>
-        {title === 'Admin Doctor' ? (
-          <>
-            <IconButton
-              className="btn-message"
-              fontSize={17}
-              fontWeight={'normal'}
-              color={'blue.400'}
-              onClick={() => handleResetPassword()}
-            >
-              <BiReset />
-            </IconButton>
-          </>
-        ) : null}
-        {title === 'Case' || title === 'Archived Case' ? (
-          <>
-            <IconButton
-              className="btn-message"
-              fontSize={17}
-              fontWeight={'normal'}
-              color={'blue.400'}
-              onClick={() => {
-                navigate('/case/case-data', {
-                  state: {
-                    data: cellvalue,
-                    rawData: props.data.filter(
-                      x => x.PK_cases_ID === cellvalue.PK_cases_ID
-                    ),
-                  },
-                });
-              }}
-            >
-              <MdOutlineMessage />
-            </IconButton>
-          </>
-        ) : null}
-
-        {title !== 'Archived Case' ? (
-          <CustomEditButton
-            title={title}
-            data={cellvalue}
-            fetch={fetch}
-            rawData={props.data}
-            SpecializationData={SpecializationData}
-            hospitalData={hospitalData}
-            row={row}
-          />
-        ) : null}
-        {title !== 'User' ? (
-          <CustomDeleteButton fetch={fetch} title={title} id={[cellvalue]} />
-        ) : null}
-      </>
-    );
+  const handleClick = (e, data) => {
+    e.preventDefault();
+    if (props.title.toLowerCase().includes('case')) {
+      navigate('/case-view', { state: data });
+    }
   };
 
   return (
@@ -93,10 +103,14 @@ const TableRow = props => {
       {props.page.map((row, i) => {
         props.prepareRow(row);
         return (
-          <Tr className="td" {...row.getRowProps()}>
+          <Tr
+            onClick={e => handleClick(e, row.original)}
+            className="td"
+            {...row.getRowProps()}
+          >
             {row.cells.map(cell => {
               return (
-                <Td {...cell.getCellProps()}>
+                <Td textAlign="center" {...cell.getCellProps()}>
                   {cell.column.id === 'action' ? (
                     <Flex columnGap={3}>
                       {props.title === 'Patient' || props.title === 'User' ? (
@@ -121,6 +135,7 @@ const TableRow = props => {
                               SpecializationData={props.SpecializationData}
                               hospitalData={props.hospitalData}
                               row={row.values}
+                              props={props}
                             />
                           </>
                         ) : (
@@ -133,6 +148,7 @@ const TableRow = props => {
                               SpecializationData={props.SpecializationData}
                               hospitalData={props.hospitalData}
                               row={row.values}
+                              props={props}
                             />
                           </>
                         )
@@ -146,6 +162,7 @@ const TableRow = props => {
                             SpecializationData={props.SpecializationData}
                             hospitalData={props.hospitalData}
                             row={row.values}
+                            props={props}
                           />
                         </>
                       )}
@@ -185,13 +202,9 @@ const TableRow = props => {
                       {cell.row.values.specializations_Title}
                     </Text>
                   ) : cell.column.id === 'created_at' ? (
-                    moment(cell.row.values.created_at).format(
-                      'hh:mm a MM-DD-YYYY'
-                    )
+                    moment(cell.row.values.created_at).format('MMM DD, YYYY')
                   ) : cell.column.id === 'updated_at' ? (
-                    moment(cell.row.values.updated_at).format(
-                      'hh:mm a MM-DD-YYYY'
-                    )
+                    moment(cell.row.values.updated_at).format('MMM DD, YYYY')
                   ) : cell.column.id === 'hospital_Name' ? (
                     <Text fontWeight={'bold'} textTransform={'uppercase'}>
                       {cell.row.values.hospital_Name}

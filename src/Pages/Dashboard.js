@@ -105,7 +105,8 @@ const Dashboard = () => {
                       user.user_role === 'External Doctor'
                         ? 6
                         : user.user_role === 'Internal Doctor' ||
-                          user.user_role === 'Admin'
+                          user.user_role === 'Admin' ||
+                          user.user_role === 'Staff'
                         ? 4
                         : 3
                     }

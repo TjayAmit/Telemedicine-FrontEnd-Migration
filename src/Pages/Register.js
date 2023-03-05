@@ -4,14 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../Hooks/AuthContext.js';
 import '../Style/App.css';
 import {
-  Flex,
   Box,
   Button,
   Heading,
   Grid,
   GridItem,
   Text,
-  useToast,
   Modal,
   ModalHeader,
   ModalBody,
@@ -21,9 +19,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
-  CustomSelection,
-  CustomSelectionS,
+  SelectionHospital,
+  SelectionSpecialization,
 } from '../Components/CustomSelection.js';
+import { PostRequest } from '../API/api.js';
+import { Auth, User } from '../API/Paths.js';
 
 const Feedback = props => {
   return (
@@ -65,10 +65,26 @@ const Feedback = props => {
 };
 
 const Register = () => {
-  const toast = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [badRequest, setBadRequest] = useState('');
+  const [emailEx, setEmailEx] = useState(false);
+  const [nameEx, setNameEx] = useState(false);
+  const [passwordEx, setPasswordEx] = useState(false);
+  const [passwordVEx, setPasswordVEx] = useState(false);
+  const [fnameEx, setFnameEx] = useState(false);
+  const [lnameEx, setLnameEx] = useState(false);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordV, setPasswordV] = useState('');
+  const [profile, setProfile] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [FK_specializations_ID, setFK_specializations_ID] = useState('');
+  const [FK_hospital_ID, setFK_hospital_ID] = useState('');
 
   const successFeedBack =
     'Your account is pending for approval. Please wait patiently or contact ZCMC Telemedicine doctors and request for approval to activate your account. Thank You!';
@@ -82,42 +98,7 @@ const Register = () => {
   const [header, setHeader] = useState('Registration Success');
   const [feedback, setFeedback] = useState(successFeedBack);
 
-  const {
-    authException,
-    setAuthException,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    vpassword,
-    setVPassword,
-    doctors_FirstName,
-    setDoctors_FirstName,
-    doctors_LastName,
-    setDoctors_LastName,
-    name,
-    setName,
-    isErrorFN,
-    setIsErrorFN,
-    isErrorL,
-    setIsErrorLN,
-    isErrorEmail,
-    setIsErrorEmail,
-    isErrorPassword,
-    setIsErrorPassword,
-    isErrorVP,
-    setIsErrorVP,
-    user,
-    FK_hospital_ID,
-    setFK_hospital_ID,
-    FK_specializations_ID,
-    setFK_specializations_ID,
-    login,
-    register,
-    hospitals,
-    specializations,
-    resetState,
-  } = useAuth();
+  const { setUser } = useAuth();
 
   const handleNavigateToLogin = e => {
     e.preventDefault();
@@ -125,57 +106,103 @@ const Register = () => {
     navigate('/login');
   };
 
+  const resetStates = () => {
+    setEmail('');
+    setName('');
+    setProfile('');
+    setFirstname('');
+    setLastname('');
+    setFK_hospital_ID('');
+    setFK_specializations_ID('');
+    setPassword('');
+    setPasswordV('');
+  };
+
   const handleSubmitRegistration = async e => {
     e.preventDefault();
     setLoading(true);
 
-    const res = await register();
+    let formdata = new FormData();
 
-    if (res === 'success') {
-      setHeader('Register Successfully');
-      setFeedback(successFeedBack);
-      onOpen();
-      resetState();
-    } else if (res === 'already exist') {
-      setHeader('Opps! Something went wrong.');
-      setFeedback(accountExist);
-      onOpen();
-    } else {
-      setHeader('Opps! Something went wrong.');
-      setFeedback(badFeedBack);
-      onOpen();
-    }
+    formdata.append('name', name);
+    formdata.append('email', email);
+    formdata.append('password', password);
+    formdata.append('profile', profile);
+    formdata.append('profile_FirstName', firstname);
+    formdata.append('profile_LastName', lastname);
+    formdata.append('FK_hospital_ID', FK_hospital_ID);
+    formdata.append(
+      'FK_specializations_ID',
+      FK_hospital_ID === '1' ? FK_specializations_ID : null
+    );
+
+    PostRequest({ url: `${Auth}/signup` }, formdata)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad resposne.', { cause: res });
+        }
+        setHeader('Register Successfully');
+        setFeedback(successFeedBack);
+        onOpen();
+        resetStates();
+      })
+      .catch(err => {
+        const {
+          response: {
+            data: { message },
+            status,
+          },
+        } = err;
+        console.log(status);
+        switch (status) {
+          case 400:
+            setHeader('Registration Failed.');
+            setFeedback(badFeedBack);
+            break;
+          case 409:
+            setHeader('Already Exist');
+            setFeedback(message);
+            break;
+          default:
+            setHeader('Registration Failed.');
+            setFeedback(badFeedBack);
+            break;
+        }
+        onOpen();
+      });
 
     setLoading(false);
   };
 
   return (
     <>
-      <Flex
-        h={'100vh'}
+      <Feedback
+        isOpen={isOpen}
+        onClose={onClose}
+        header={header}
+        feedback={feedback}
+      />
+      <Box
+        w="100%"
+        h="100vh"
         display={'flex'}
         justifyContent={'center'}
         bg={'#f7f5f9'}
-        rounded={8}
       >
-        <Feedback
-          isOpen={isOpen}
-          onClose={onClose}
-          header={header}
-          feedback={feedback}
-        />
         <Box
-          w={'40rem'}
+          w="40rem"
           h={['58rem', '54rem', '38rem', '38rem']}
           overflow="hidden"
-          className="authbox"
           m={'auto'}
           bg={'white'}
+          pt={10}
+          pr={8}
+          pl={8}
+          rounded={15}
+          boxShadow="lg"
         >
           <LoginHeader title={'Sign Up'} />
-          {authException === '' ? (
-            <Text color={'red'}>{authException}</Text>
-          ) : null}
+          {badRequest === '' ? <Text color={'red'}>{badRequest}</Text> : null}
           <form
             class="form-container"
             onSubmit={e => handleSubmitRegistration(e)}
@@ -191,32 +218,32 @@ const Register = () => {
                   isSignup={true}
                   title={'First name'}
                   type={'Text'}
-                  value={doctors_FirstName}
+                  value={firstname}
                   placeholder={`Enter First Name`}
-                  setValue={setDoctors_FirstName}
+                  setValue={setFirstname}
                   errorMessage={`First name is required.`}
-                  isError={isErrorFN}
+                  isError={fnameEx}
                   children={null}
                 />
                 <CustomFormController
                   isSignup={true}
                   title={'Last name'}
                   type={'Text'}
-                  value={doctors_LastName}
+                  value={lastname}
                   placeholder={`Enter Last name`}
-                  setValue={setDoctors_LastName}
+                  setValue={setLastname}
                   errorMessage={`Last name is required.`}
-                  isError={isErrorPassword}
+                  isError={lnameEx}
                 />
                 {
-                  <CustomSelection
+                  <SelectionHospital
                     value={FK_hospital_ID}
                     setValue={setFK_hospital_ID}
                     mt={'1.14rem'}
                   />
                 }
                 {FK_hospital_ID === '1' ? (
-                  <CustomSelectionS
+                  <SelectionSpecialization
                     value={FK_specializations_ID}
                     setValue={setFK_specializations_ID}
                     mt={5}
@@ -233,7 +260,7 @@ const Register = () => {
                     placeholder={'Enter email'}
                     setValue={setEmail}
                     errorMessage={'Email is required.'}
-                    isError={isErrorEmail}
+                    isError={emailEx}
                   />
                   <CustomFormController
                     isSignup={true}
@@ -243,7 +270,7 @@ const Register = () => {
                     placeholder={'Enter username'}
                     setValue={setName}
                     errorMessage={'Username is required.'}
-                    isError={isErrorEmail}
+                    isError={nameEx}
                   />
                   <CustomFormController
                     isSignup={true}
@@ -253,18 +280,18 @@ const Register = () => {
                     placeholder={'Enter password'}
                     setValue={setPassword}
                     errorMessage={'Password is required.'}
-                    isError={isErrorPassword}
+                    isError={passwordEx}
                   />
                   {
                     <CustomFormController
                       isSignup={true}
                       title={'Confirm Password'}
                       type={'password'}
-                      value={vpassword}
+                      value={passwordV}
                       placeholder={'Type password again'}
-                      setValue={setVPassword}
+                      setValue={setPasswordV}
                       errorMessage={'Confirm password is required.'}
-                      isError={isErrorPassword}
+                      isError={passwordVEx}
                     />
                   }
                 </GridItem>
@@ -311,7 +338,7 @@ const Register = () => {
             </Grid>
           </form>
         </Box>
-      </Flex>
+      </Box>
     </>
   );
 };

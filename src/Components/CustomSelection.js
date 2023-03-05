@@ -88,17 +88,17 @@ const SpecializationHSelection = ({ value, setValue, mt }) => {
   );
 };
 
-export const CustomSelection = ({ value, setValue, mt }) => {
+export const SelectionSpecialization = ({ value, setValue, mt }) => {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <HospitalSeclection value={value} setValue={setValue} mt={mt} />
+      <SpecializationHSelection value={value} setValue={setValue} mt={mt} />
     </QueryClientProvider>
   );
 };
 
-const HospitalSeclection = ({ value, setValue, mt }) => {
+const HospitalSelection = ({ value, setValue, mt }) => {
   const title = 'Hospital';
 
   const { data, isLoading, error } = useQuery(title, () =>
@@ -124,12 +124,12 @@ const HospitalSeclection = ({ value, setValue, mt }) => {
   );
 };
 
-export const CustomSelectionS = ({ value, setValue, mt }) => {
+export const SelectionHospital = ({ value, setValue, mt }) => {
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SpecializationHSelection value={value} setValue={setValue} mt={mt} />
+      <HospitalSelection value={value} setValue={setValue} mt={mt} />
     </QueryClientProvider>
   );
 };

@@ -5,15 +5,17 @@ import {
   Thead,
   Tbody,
   Tr,
+  Td,
   Th,
   Flex,
   Text,
   Select,
+  Skeleton,
   Box,
   Button,
 } from '@chakra-ui/react';
 import useAuth from '../Hooks/AuthContext';
-import SearchNotFound from './SearchNotFound';
+// import SearchNotFound from './SearchNotFound';
 import '../Style/Table.css';
 import TableRow from './Table/TableRow';
 import TableFooter from './Table/TableFooter';
@@ -125,6 +127,7 @@ const CustomTablePaginate = ({
                   h={'3rem'}
                   color={'gray.600'}
                   fontSize={15}
+                  textAlign="center"
                   {...column.getHeaderProps()}
                 >
                   {column.render('Header')}
@@ -146,11 +149,18 @@ const CustomTablePaginate = ({
               data={data}
             />
           ) : (
-            <SearchNotFound />
+            <Tr>
+              {columns.map(_ => {
+                return (
+                  <Td>
+                    <Skeleton h="2rem" bg="grey" rounded={5} />
+                  </Td>
+                );
+              })}
+            </Tr>
           )}
         </Tbody>
       </Table>
-
       {page.length >= 1 ? (
         <TableFooter
           canPreviousPage={canPreviousPage}

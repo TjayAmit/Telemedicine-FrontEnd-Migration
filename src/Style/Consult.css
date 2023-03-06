@@ -13,10 +13,23 @@
   background-color: white;
 }
 
+
 .selection-main:hover .selection-header {
   display: none;
 }
 
 .selection-main:hover .selection-list {
   display: block;
+}
+
+.message-button-plus:active{
+  background-color: transparent;
+}
+
+.message-button-send:active{
+  background-color: transparent;
+}
+
+.message > .message-button-plus :focus  {
+  color: green
 }

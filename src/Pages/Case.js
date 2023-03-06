@@ -253,14 +253,18 @@ const Cases = () => {
   };
 
   const filtered = cases.filter(filter =>
-    filter.cases_status === 2
+    filter.case_status !== 1
       ? null
-      : filter.patient.toLowerCase().includes(search.toLowerCase()) ||
-        filter.specializations_Title
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        filter.patients_Gender.toLowerCase().includes(search.toLowerCase()) ||
-        filter.patients_CivilStatus.toLowerCase().includes(search.toLowerCase())
+      : filter.patient
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        filter.specialization
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        filter.sex.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+        filter.hospital_Name
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase())
   );
 
   useEffect(() => {

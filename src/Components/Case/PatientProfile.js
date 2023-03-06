@@ -59,7 +59,7 @@ const PatientProfile = props => {
       >
         <TextDisplay
           title="Name (Last, First Mi)"
-          value={`${patient.patients_LastName}, ${patient.patients_FirstName}  ${patient.patients_MiddleName[0]}.`}
+          value={`${patient.patients_LastName}, ${patient.patients_FirstName}  ${patient.patients_MiddleName}.`}
         />
         <TextDisplay title="Age" value={`${patient.patients_Birthday}`} />
         <TextDisplay title="Sex" value={`${patient.patients_Gender}`} />

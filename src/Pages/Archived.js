@@ -11,18 +11,18 @@ const Archived = () => {
   const [msg, setMsg] = useState('');
   const [fetch, setFetch] = useState(true);
   const [cases, setCases] = useState([]);
-  const { tableName, setTableName, search, setSearch } = useAuth();
+  const { search, setSearch } = useAuth();
   const Title = 'Archived Case';
   const handleClick = () => {};
 
   const columns = [
     {
       Header: 'ID',
-      accessor: 'PK_cases_ID',
+      accessor: 'id',
     },
     {
       Header: 'Case #',
-      accessor: 'cases_No',
+      accessor: 'case_number',
     },
     {
       Header: 'PATIENTS',
@@ -34,15 +34,15 @@ const Archived = () => {
     },
     {
       Header: 'GENDER',
-      accessor: 'patients_Gender',
+      accessor: 'sex',
     },
     {
       Header: 'SERVICE',
-      accessor: 'specializations_Title',
+      accessor: 'specialization',
     },
     {
       Header: 'STATUS',
-      accessor: 'cases_status',
+      accessor: 'case_status',
     },
     {
       Header: 'ACTION',
@@ -81,19 +81,12 @@ const Archived = () => {
   };
 
   const filtered = cases.filter(filter =>
-    filter.cases_status !== 2
+    filter.case_status === 2
       ? null
       : filter.patient.toLowerCase().includes(search.toLowerCase()) ||
-        filter.specializations_Title
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        filter.patients_Gender.toLowerCase().includes(search.toLowerCase()) ||
-        filter.patients_CivilStatus.toLowerCase().includes(search.toLowerCase())
+        filter.specialization.toLowerCase().includes(search.toLowerCase()) ||
+        filter.sex.toLowerCase().includes(search.toLowerCase())
   );
-
-  useEffect(() => {
-    setTableName(Title);
-  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(
@@ -106,17 +99,13 @@ const Archived = () => {
       fetch ? 0 : 30000
     );
 
-    if (tableName !== Title) {
-      setTableName(Title);
-    }
-
     return () => clearInterval(intervalId);
   }, [fetch]);
 
   return (
     <>
       <Container maxW={'container.xxl'}>
-        <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
+        <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 5]}>
           <CustomTablePaginate
             title={Title}
             columns={columns}

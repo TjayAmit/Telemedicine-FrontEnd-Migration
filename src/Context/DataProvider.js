@@ -11,11 +11,9 @@ export const DataProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const [search, setSearch] = useState('');
-  const [tableName, setTableName] = useState('Dashboard');
 
   ///CHART Data
   const [chartDat, setChartDat] = useState([]);
-
   const [hospitals, setHospital] = useState({});
   const [specializations, setSpecialization] = useState({});
   const [fetch, setFetch] = useState(true);
@@ -296,8 +294,6 @@ export const DataProvider = ({ children }) => {
         getChartData,
         search,
         setSearch,
-        tableName,
-        setTableName,
       }}
     >
       {children}

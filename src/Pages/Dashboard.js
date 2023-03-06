@@ -56,7 +56,7 @@ const ExternalGraphs = () => {
 };
 
 const Dashboard = () => {
-  const { user, setTableName } = useAuth();
+  const { user } = useAuth();
   const queryClient = new QueryClient();
 
   const handleCardBaseRole = title => {
@@ -74,14 +74,6 @@ const Dashboard = () => {
     }
     return true;
   };
-
-  const handleTitle = () => {
-    setTableName('Dashboard');
-  };
-
-  useEffect(() => {
-    handleTitle();
-  }, []);
 
   return (
     <>

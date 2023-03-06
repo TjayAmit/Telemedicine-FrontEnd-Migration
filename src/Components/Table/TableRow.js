@@ -1,11 +1,13 @@
 import {
   Avatar,
   Badge,
+  Box,
   Text,
   Tr,
   Td,
   Flex,
   IconButton,
+  Heading,
 } from '@chakra-ui/react';
 import moment from 'moment/moment';
 import { useNavigate } from 'react-router-dom';
@@ -167,6 +169,17 @@ const TableRow = props => {
                         </>
                       )}
                     </Flex>
+                  ) : cell.column.Header === 'ID' ? (
+                    <Box display="flex" columnGap={3}>
+                      <Text>{cell.row.values.id}</Text>
+                      {row.original.notif === 1 ? (
+                        <Badge fontSize={10} colorScheme={'green'}>
+                          New message
+                        </Badge>
+                      ) : (
+                        ''
+                      )}
+                    </Box>
                   ) : cell.column.id === 'profile' ? (
                     <>
                       <Avatar
@@ -178,21 +191,21 @@ const TableRow = props => {
                         }
                       />
                     </>
-                  ) : cell.column.id === 'cases_status' ? (
+                  ) : cell.column.id === 'case_status' ? (
                     <>
                       <Badge
                         variant="subtle"
                         colorScheme={
-                          cell.row.values.cases_status === 0
+                          cell.row.values.case_status === 0
                             ? 'red'
-                            : cell.row.values.cases_status === 1
+                            : cell.row.values.case_status === 1
                             ? 'green'
                             : 'blue'
                         }
                       >
-                        {cell.row.values.cases_status === 0
+                        {cell.row.values.case_status === 0
                           ? 'Pending'
-                          : cell.row.values.cases_status === 1
+                          : cell.row.values.case_status === 1
                           ? 'Active'
                           : 'Done'}
                       </Badge>

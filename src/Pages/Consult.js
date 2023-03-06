@@ -196,7 +196,7 @@ const Consult = () => {
         >
           <MessageComponentHeader />
           <CaseMessage id={caseinfo.id} date={caseinfo.date} />
-          <CaseCreateMessage />
+          <CaseCreateMessage id={caseinfo.id} />
         </Box>
       </Flex>
     </>

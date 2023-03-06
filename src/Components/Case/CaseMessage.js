@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Avatar, Box, Text } from '@chakra-ui/react';
 import { GetRequest } from '../../API/api';
 import { Message } from '../../API/Paths';
@@ -29,7 +29,7 @@ const MessageComponent = ({
       columnGap={5}
       mb={5}
     >
-      <Avatar src={profile} name="Tristan" size="sm" />
+      <Avatar src={profile} name={name} size="sm" />
       <Box>
         <Box>
           <Box dir={PK_hospital_ID === 1 ? 'rtl' : 'none'}>
@@ -74,6 +74,7 @@ const MessageComponent = ({
 const CaseMessage = props => {
   const [messages, setMessages] = useState([]);
   const [init, setInit] = useState(true);
+  const messageRef = useRef(null);
 
   const handleInitialization = () => {
     GetRequest({ url: `${Message}/${props.id}` })
@@ -85,6 +86,7 @@ const CaseMessage = props => {
           data: { data },
         } = res;
         setMessages(data);
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -101,6 +103,10 @@ const CaseMessage = props => {
     return () => setInit(false);
   }, [init]);
 
+  useEffect(() => {
+    messageRef.current?.scrollIntoView();
+  }, [messages]);
+
   return (
     <Box
       w="inherit"
@@ -114,11 +120,12 @@ const CaseMessage = props => {
           {moment(props.date).format('MMMM DD, YYYY')}
         </Text>
       </Box>
-      <Box mt="12rem">
+      <Box mt="12rem" scrollBehavior="smooth">
         {messages.map(value => {
           return <MessageComponent value={value} />;
         })}
       </Box>
+      <div ref={messageRef} />
     </Box>
   );
 };

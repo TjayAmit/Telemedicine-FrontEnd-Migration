@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Button, Input, useToast, Flex } from '@chakra-ui/react';
+import { Box, Button, Input, Textarea, useToast, Flex } from '@chakra-ui/react';
 import { IoMdAddCircle, IoMdSend } from 'react-icons/io';
 import { toastposition, toastvariant } from '../../Pages/Packages';
 import { PostRequest } from '../../API/api';
@@ -47,7 +47,8 @@ const CaseCreateMessage = props => {
     handleFileUpload(chosenFiles);
   };
 
-  const HandleSendMessage = async () => {
+  const handleSendMessage = async e => {
+    e.preventDefault();
     if (!!message && selectedFiles.length === 0) {
       return;
     }
@@ -162,6 +163,7 @@ const CaseCreateMessage = props => {
         boxShadow="lg"
         alignItems="center"
         className="message"
+        overflow="hidden"
       >
         <Button
           leftIcon={<IoMdAddCircle size={40} />}
@@ -181,15 +183,20 @@ const CaseCreateMessage = props => {
           multiple={true}
           onChange={handleFileEvent}
         />
-        <Input
-          focusBorderColor="white"
-          bg="white"
-          minW={200}
-          maxW={500}
-          placeholder="Follow up here."
-          rounded={100}
-          className="message-input"
-        />
+        <Box
+          h={message.includes('\n') ? '3rem' : '2rem'}
+          className="message-input-container"
+        >
+          <Textarea
+            size="sm"
+            variant="flushed"
+            placeholder="Type here."
+            focusBorderColor="white"
+            className="message-input"
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+          />
+        </Box>
         <Button
           leftIcon={<IoMdSend size={30} />}
           bg="transparent"
@@ -197,6 +204,7 @@ const CaseCreateMessage = props => {
           rounded={100}
           pr={5}
           className="message-button-send"
+          onClick={e => handleSendMessage(e)}
         />
       </Box>
     </Box>

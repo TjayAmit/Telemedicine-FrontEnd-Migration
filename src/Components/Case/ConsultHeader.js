@@ -26,6 +26,7 @@ const ConsultHeader = props => {
       bg="white"
       pl={5}
       pr={5}
+      pt={1}
       zIndex={99}
       display="flex"
       columnGap={5}
@@ -35,9 +36,10 @@ const ConsultHeader = props => {
     >
       <IconButton
         size="lg"
+        bg="white"
         icon={<IoArrowBackOutline fontSize={25} />}
         rounded={25}
-        _hover={{ bg: 'green', color: 'white', boxShadow: 'lg' }}
+        _hover={{ color: 'green', boxShadow: 'lg' }}
         onClick={e => handleBack(e)}
       />
       <Box display="flex" columnGap={10}>

@@ -22,6 +22,28 @@
   display: block;
 }
 
+.message-input-container{
+  width: 100%;
+  /* height: 2rem; */
+  overflow: hidden;
+}
+
+.message-input{
+  min-width: 10rem;
+  max-width: 50rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+
+.message-input::-webkit-scrollbar{
+  display:none;
+}
+
+.message-input:hover{
+  outline-color: white;
+}
+
 .message-button-plus:active{
   background-color: transparent;
 }

@@ -5,9 +5,20 @@ import { Message } from '../../API/Paths';
 import moment from 'moment/moment';
 
 const MessageFile = props => {
+  let ext = props.filename.split('.')[1] === '';
   return (
-    <Box w={props.filename.length * 12} bg="gray.200" pl={3} pr={3} rounded={5}>
-      <Text>{props.filename}</Text>
+    <Box w={20} bg="gray.200" pl={3} pr={3} rounded={5}>
+      <a href={`http://${props.file}`} target="_blank" rel="noreferrer">
+        <Text>
+          {ext === 'png' || ext === 'jpg' || ext === 'jpeg'
+            ? 'IMAGE'
+            : ext === 'mp4'
+            ? 'VIDEO'
+            : ext === 'mp3'
+            ? 'AUDIO'
+            : 'FILE'}
+        </Text>
+      </a>
     </Box>
   );
 };
@@ -57,8 +68,9 @@ const MessageComponent = ({
             // console.log(desctuctureFileURL[desctuctureFileURL.length - 1]);
             return (
               <MessageFile
+                file={file.file_url}
                 filename={
-                  !!file.file_url
+                  file.file_url === null
                     ? 'File Missing.'
                     : desctuctureFileURL[desctuctureFileURL.length - 1]
                 }

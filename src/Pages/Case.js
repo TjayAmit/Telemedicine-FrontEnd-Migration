@@ -289,7 +289,7 @@ const Cases = () => {
             <CustomTablePaginate
               title={Title}
               columns={columns}
-              data={filtered}
+              data={cases}
               fetch={setFetch}
               search={search}
               onOpen={onOpen}

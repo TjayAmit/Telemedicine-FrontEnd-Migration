@@ -12,6 +12,7 @@ import {
   Center,
   Text,
   useToast,
+  Image,
   Modal,
   ModalContent,
   ModalBody,
@@ -21,10 +22,14 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
+import AuthBackground from '../Components/AuthModule/AuthBackground.js';
+import AuthHeader from '../Components/AuthModule/AuthHeader.js';
+import AuthFooter from '../Components/AuthModule/AuthFooter.js';
 import { Auth } from '../API/Paths.js';
 import { PostRequest } from '../API/api';
 import '../Style/auth.css';
 import { IoCloseSharp } from 'react-icons/io5';
+import { IoMdSad, IoMdClose } from 'react-icons/io';
 
 const Feedback = props => {
   return (
@@ -97,6 +102,9 @@ const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [feedbackDescription, setFeedBackDescription] = useState('');
+  const [emailExc, setEmailExc] = useState('');
+  const [passExc, setPassExc] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [msg, setMsg] = useState('');
   const approval =
@@ -114,7 +122,7 @@ const Login = () => {
     setPassword('');
   };
 
-  const handleSubmitLogin = async e => {
+  const handleSignin = async e => {
     e.preventDefault();
     setLoading(true);
 
@@ -170,6 +178,11 @@ const Login = () => {
     navigate('/register');
   };
 
+  const handleNavigateToRecovery = e => {
+    e.preventDefault();
+    navigate('/account-recovery');
+  };
+
   return (
     <>
       <Feedback
@@ -178,142 +191,186 @@ const Login = () => {
         header={header}
         feedback={feedback}
       />
-      <Flex
-        h={['90vh', '100vh', '100vh', '100vh']}
-        display={'flex'}
-        bg={['white', '#f7f5f9', '#f7f5f9', '#f7f5f9']}
-        rounded={8}
+      <Box
+        w={'100%'}
+        h={'100vh'}
+        bg={'rgba(0,0,0,0.1)'}
+        position={'absolute'}
+        backgroundImage={'linear-gradient(#B0F3F1,#FFCFDF)'}
       >
         <Box
-          w={['27rem', '27rem', '27rem', '27rem']}
-          h={'34rem'}
-          rounded={7}
-          overflow="hidden"
-          boxShadow={['none', 'none', '2xl', '2xl']}
-          m={'auto'}
-          bg={'white'}
-          padding={['25px', '25px', '40px', '40px']}
+          w={'60%'}
+          h={'70%'}
+          left={'50%'}
+          top={'50%'}
+          transform="translate(-50%, -50%)"
+          position={'absolute'}
+          boxShadow={'2xl'}
+          rounded={15}
+          overflow={'hidden'}
         >
-          <LoginHeader title={'Sign In'} />
-          <ExceptionDisplay msg={msg} setMsg={setMsg} />
-          <form className="form-container" onSubmit={e => handleSubmitLogin(e)}>
-            <Grid
-              templateRows={`repeat( 3, 1fr)`}
-              templateColumns={`repeat( 1, 1fr)`}
-              gap={2}
-              overflow={'hidden'}
-            >
-              <GridItem rowSpan={4} colSpan={[2, 1]}>
-                <CustomFormController
-                  isSignup={false}
-                  title={'Username'}
-                  type={'Text'}
-                  value={name}
-                  placeholder={`Enter username`}
-                  setValue={setName}
-                  errorMessage={` 'Email'
-                   is required.`}
-                  isError={''}
-                  children={
-                    <Box
-                      w={8}
-                      h={4}
-                      mt={6}
-                      mb={6}
-                      borderRight={'1px solid #e0e0e0'}
-                    >
-                      <Center>
-                        <FaUserAlt color="#1f894c" size={15} />
-                      </Center>
-                    </Box>
-                  }
-                />
-                <CustomFormController
-                  isSignup={false}
-                  title={'Password'}
-                  type={'password'}
-                  value={password}
-                  placeholder={`Enter password`}
-                  setValue={setPassword}
-                  errorMessage={`Password is required.`}
-                  isError={''}
-                  children={
-                    <Box
-                      w={8}
-                      h={4}
-                      mt={6}
-                      mb={6}
-                      borderRight={'1px solid #e0e0e0'}
-                    >
-                      <Center>
-                        <FaLock color="#1f894c" size={15} />
-                      </Center>
-                    </Box>
-                  }
-                />
-              </GridItem>
-            </Grid>
-            <Grid
-              templateRows={`repeat( 3, 1fr)`}
-              templateColumns={`repeat(1, 1fr)`}
-              gap={2}
-              mt={'5'}
-              overflow={'hidden'}
-            >
-              {
-                <GridItem rowSpan={1}>
-                  <Button
-                    width={'100%'}
-                    bg={'white'}
-                    _hover={{
-                      bg: 'white',
-                    }}
-                    _active={{
-                      bg: 'white',
-                    }}
-                    color="grey"
-                    onClick={e => navigate('/recovery')}
-                    fontWeight={'400'}
+          <Grid
+            templateRows={'repeat(1, 1fr)'}
+            templateColumns="repeat(12, 1fr)"
+          >
+            <GridItem rowSpan={1} colSpan={7}>
+              <AuthBackground />
+            </GridItem>
+            <GridItem colSpan={5}>
+              <Box w={'100%'} h={'100%'} bg={'whiteAlpha.600'}>
+                <Flex
+                  flexDirection={'column'}
+                  justifyContent={'space-between'}
+                  pl={10}
+                  pt={8}
+                  pr={10}
+                  pb={3}
+                  h={'70vh'}
+                >
+                  <AuthHeader title="Sign In" />
+                  <Text
+                    color={'darkred'}
+                    fontWeight={500}
+                    fontSize={15}
+                    textAlign="center"
+                    mt={10}
+                    display={'flex'}
+                    justifyContent={'center'}
+                    alignItems="center"
+                    columnGap={3}
                   >
-                    {'forgot password ?'}
-                  </Button>
-                </GridItem>
-              }
-              <GridItem rowSpan={1}>
-                <Button
-                  isLoading={loading}
-                  loadingText={'Submitting'}
-                  type={'submit'}
-                  value={'Submit'}
-                  marginTop="0px"
-                  width={'100%'}
-                  bg={'rgb(28, 180, 93)'}
-                  _hover={{
-                    bg: 'primary.800',
-                  }}
-                  color="white"
-                >
-                  {'Sign In'}
-                </Button>
-              </GridItem>
-              <GridItem rowSpan={1}>
-                <Button
-                  marginTop={'5px'}
-                  width={'100%'}
-                  bg={'grey'}
-                  _hover={{
-                    bg: 'grey',
-                  }}
-                  color="white"
-                  onClick={e => handleNavigateToRegister(e)}
-                >
-                  {'Create Account'}
-                </Button>
-              </GridItem>
-            </Grid>
-          </form>
+                    {feedbackDescription === '' ? null : (
+                      <Box
+                        color="white"
+                        display="flex"
+                        columnGap={2}
+                        bg="red"
+                        opacity={0.8}
+                        p={2}
+                        borderRadius={15}
+                        alignItems="center"
+                      >
+                        <IoMdSad fontSize={20} />
+                        <Box maxWidth={'200px'} textAlign="start">
+                          <Text fontWeight={700}>Email or password.</Text>
+                        </Box>
+                        <Box w="green" zIndex={99}>
+                          <Text
+                            bg="transparent"
+                            fontSize={20}
+                            _hover={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              setFeedBackDescription('');
+                            }}
+                          >
+                            <IoMdClose color={'white'} />
+                          </Text>
+                        </Box>
+                      </Box>
+                    )}
+                  </Text>
+                  <Box
+                    w={'inherit'}
+                    h={'inherit'}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    mt={feedbackDescription === '' ? '2rem' : '1.1rem'}
+                  >
+                    <CustomFormController
+                      isSignup={false}
+                      type={'text'}
+                      title={''}
+                      value={name}
+                      setValue={setName}
+                      placeholder={'Username'}
+                      errorMessage={emailExc}
+                      isError={false}
+                      mt={5}
+                      children={
+                        <Box
+                          w={8}
+                          h={4}
+                          mt={6}
+                          mb={6}
+                          borderRight={'1px solid rgba(0,0,0,0.2)'}
+                        >
+                          <Center>
+                            <FaUserAlt color="teal" size={15} />
+                          </Center>
+                        </Box>
+                      }
+                      isRequired={false}
+                    />
+                    <CustomFormController
+                      isSignup={false}
+                      type={'password'}
+                      title={''}
+                      value={password}
+                      setValue={setPassword}
+                      placeholder={'Password'}
+                      errorMessage={passExc}
+                      isError={false}
+                      mt={3}
+                      children={
+                        <Box
+                          w={8}
+                          h={4}
+                          mt={6}
+                          mb={6}
+                          borderRight={'1px solid rgba(0,0,0,0.2)'}
+                        >
+                          <Center>
+                            <FaLock color="teal" size={15} />
+                          </Center>
+                        </Box>
+                      }
+                      isRequired={false}
+                    />
+                    <Button
+                      color={'blackAlpha.500'}
+                      bg="transparent"
+                      mt={8}
+                      _hover={{
+                        bg: 'transparent',
+                        color: 'blackAlpha.700',
+                      }}
+                      _active={{ bg: 'white', color: 'gray' }}
+                      onClick={e => handleNavigateToRecovery(e)}
+                    >
+                      <Text fontWeight={400} fontSize={14}>
+                        Forgot password?
+                      </Text>
+                    </Button>
+                    <Button
+                      isLoading={loading}
+                      loadingText={'Signing In'}
+                      mt={8}
+                      bg={'teal'}
+                      color={'white'}
+                      _hover={{ bg: 'teal' }}
+                      onClick={e => handleSignin(e)}
+                    >
+                      <Text>Login</Text>
+                    </Button>
+                    <Button
+                      bg={'gray'}
+                      color={'white'}
+                      mt={3}
+                      _hover={{
+                        bg: 'darkorange',
+                      }}
+                      onClick={e => handleNavigateToRegister(e)}
+                    >
+                      <Text>Create account?</Text>
+                    </Button>
+                  </Box>
+                  <AuthFooter />
+                </Flex>
+              </Box>
+            </GridItem>
+          </Grid>
         </Box>
-      </Flex>
+      </Box>
     </>
   );
 };

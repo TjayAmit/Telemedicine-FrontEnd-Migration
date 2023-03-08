@@ -21,7 +21,8 @@ const CustomFormController = ({
   errorMessage,
   isError,
   children,
-  rounded,
+  mt,
+  isRequired,
 }) => {
   const [show, setShow] = React.useState(false);
 
@@ -32,7 +33,12 @@ const CustomFormController = ({
 
   return (
     <>
-      <FormControl marginTop={5} isInvalid={isError} border={'red'} isRequired>
+      <FormControl
+        marginTop={mt}
+        isInvalid={isError}
+        border={'red'}
+        isRequired={isRequired}
+      >
         <FormLabel fontSize={'14'} fontWeight="500" color={'#272727'}>
           {title}
         </FormLabel>
@@ -46,7 +52,9 @@ const CustomFormController = ({
             value={value}
             placeholder={placeholder}
             fontSize={13}
-            focusBorderColor={'rgba(100, 189, 120,0.5)'}
+            bg="white"
+            boxShadow="sm"
+            focusBorderColor={'rgba(0, 128, 128,0.5)'}
             onChange={e => handleOnChange(e)}
             className={'inputs'}
           />

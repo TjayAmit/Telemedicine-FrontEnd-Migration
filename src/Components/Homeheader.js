@@ -147,7 +147,7 @@ const Homeheader = props => {
 
         <Box>
           <Flex mr={0} p={1} columnGap={3} alignItems="center">
-            <HeartCase />
+            {/* <HeartCase /> */}
             {user.user_role !== 'Super Admin' ? <Notification /> : null}
             <Box>
               <Menu>

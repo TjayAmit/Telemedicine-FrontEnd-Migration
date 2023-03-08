@@ -61,7 +61,13 @@ const PatientProfile = props => {
           title="Name (Last, First Mi)"
           value={`${patient.patients_LastName}, ${patient.patients_FirstName}  ${patient.patients_MiddleName}.`}
         />
-        <TextDisplay title="Age" value={`${patient.patients_Birthday}`} />
+        <TextDisplay
+          title="Age"
+          value={`${
+            new Date().getFullYear() -
+            new Date(patient.patients_Birthday).getFullYear()
+          }`}
+        />
         <TextDisplay title="Sex" value={`${patient.patients_Gender}`} />
         <TextDisplay
           title="Civil Status"

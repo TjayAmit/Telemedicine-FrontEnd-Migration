@@ -15,15 +15,17 @@ import Recovery from '../Pages/Recovery.js';
 import Loader from '../Pages/Loader';
 import { Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import AccountRegistration from '../Pages/AccountRegistration.js';
 
 import { AnimatePresence } from 'framer-motion';
 
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { GetRequest } from '../API/api.js';
 import { User } from '../API/Paths.js';
+import PasswordRecovery from '../Pages/PasswordRecovery.js';
 
 const LoginPage = lazy(() => import('../Pages/Login'));
-const RegisterPage = lazy(() => import('../Pages/Register'));
+const RegisterPage = lazy(() => import('../Pages/Registration'));
 
 const ProtectedRoutes = () => {
   const { user } = useAuth();
@@ -105,6 +107,8 @@ const AnimatedRoute = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/admin" element={<AdminAuthentication />} />
+          <Route path="/account-recovery" element={<PasswordRecovery />} />
+          <Route path="/account" element={<AccountRegistration />} />
           {/* catch all */}
           <Route path="*" element={<PageNotFound />} />
           <Route path="/credits" element={<Credits />} />

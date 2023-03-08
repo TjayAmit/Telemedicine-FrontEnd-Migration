@@ -207,7 +207,7 @@ const Doctors = () => {
   const [hospitals, setHospitals] = useState([]);
   const [users, setUsers] = useState([]);
   const [doctor, setDoctor] = useState([]);
-  const { setTableName, search, setSearch } = useAuth();
+  const { search, setSearch } = useAuth();
 
   const handleFetchDoctor = async () => {
     let msg = '';
@@ -248,7 +248,7 @@ const Doctors = () => {
 
   //check if theres a changes. then update the data
   useEffect(() => {
-    setTableName('Doctor');
+    // setTableName('Doctor');
     serviceTypeData();
     handleFetchDoctor();
     setFetch(false);

@@ -6,15 +6,14 @@ import { Specialization, Hospital } from '../API/Paths';
 const Selection = ({ label, value, setValue, datas, mt }) => {
   return (
     <FormControl mt={mt}>
-      <FormLabel fontSize={14}>{label}</FormLabel>
       <Select
+        bg="white"
+        boxShadow="sm"
         fontSize={14}
-        focusBorderColor={'primary.900'}
-        placeholder="- Please Select -"
+        focusBorderColor={'rgba(0, 128, 128, 0.5)'}
+        placeholder={`- Please Select ${label} -`}
         value={value}
-        onChange={e => {
-          setValue(e.target.value);
-        }}
+        onChange={e => setValue(e.target.value)}
         required
       >
         {datas.data.map(data => {
@@ -35,7 +34,7 @@ const SelectionLoading = ({ label, mt }) => {
       <FormLabel fontSize={14}>{label}</FormLabel>
       <Select
         fontSize={14}
-        focusBorderColor={'primary.900'}
+        focusBorderColor={'rgba(0, 128, 128, 0.5)'}
         placeholder="- Please Select -"
         required
       >
@@ -51,7 +50,7 @@ const SelectionError = ({ label, mt }) => {
       <FormLabel fontSize={14}>{label}</FormLabel>
       <Select
         fontSize={14}
-        focusBorderColor={'primary.900'}
+        focusBorderColor={'rgba(0, 128, 128, 0.5)'}
         placeholder={'Failed to fetch ' + label}
         borderColor={'red'}
         required

@@ -54,9 +54,9 @@ const CustomFormController = ({
             fontSize={13}
             bg="white"
             boxShadow="sm"
+            pl={placeholder.includes('code') ? '3.5rem' : 10}
             focusBorderColor={'rgba(0, 128, 128,0.5)'}
             onChange={e => handleOnChange(e)}
-            className={'inputs'}
           />
           {type === 'password' ? (
             <InputRightElement width="3rem" onClick={() => setShow(!show)}>
@@ -68,7 +68,6 @@ const CustomFormController = ({
             </InputRightElement>
           ) : null}
         </InputGroup>
-        {!isError ? null : <FormErrorMessage>{errorMessage}</FormErrorMessage>}
       </FormControl>
     </>
   );

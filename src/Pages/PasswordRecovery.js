@@ -20,8 +20,10 @@ import AuthHeader from '../Components/AuthModule/AuthHeader';
 import AuthFooter from '../Components/AuthModule/AuthFooter';
 import { CustomFormController } from '../Components/customs';
 import { useState } from 'react';
-import { FaUserAlt, FaLock } from 'react-icons/fa';
+import { MdEmail, FaLock } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { PostRequest } from '../API/api';
+import { Auth } from '../API/Paths';
 
 const Feedback = props => {
   return (
@@ -49,7 +51,8 @@ const PasswordRecovery = () => {
   const [feedbackDescription, setFeedBackDescription] = useState('');
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [code, setCode] = useState('');
 
   const [emailExc, setEmailExc] = useState('');
   const [passExc, setPassExc] = useState('');
@@ -59,13 +62,18 @@ const PasswordRecovery = () => {
   const handleClick = e => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      console.log('Called');
-      onOpen();
-      setFeedBackTitle('Account Registered');
-      setFeedBackDescription('Please wait for approval of your account.');
-    }, [1000]);
+    PostRequest({ url: `${Auth}/sendOtp` }, { email: email })
+      .then(res => res.data)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad response', { cause: res });
+        }
+
+        setSuccess(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleNavigateToLogin = e => {
@@ -127,30 +135,67 @@ const PasswordRecovery = () => {
                       will redirect to a change password to update your account
                       password.
                     </Text>
-                    <CustomFormController
-                      isSignup={false}
-                      type={'text'}
-                      title={'Email'}
-                      value={email}
-                      setValue={setEmail}
-                      placeholder={'Email'}
-                      errorMessage={emailExc}
-                      isError={false}
-                      mt={5}
-                      children={
-                        <Box
-                          w={8}
-                          h={4}
-                          mt={6}
-                          mb={6}
-                          borderRight={'1px solid rgba(0,0,0,0.2)'}
-                        >
-                          <Center>
-                            <FaUserAlt color="teal" size={15} />
-                          </Center>
-                        </Box>
-                      }
-                    />
+                    {success ? (
+                      <CustomFormController
+                        isSignup={false}
+                        type={'text'}
+                        title={''}
+                        value={code}
+                        setValue={setCode}
+                        placeholder={'Enter code'}
+                        errorMessage={emailExc}
+                        isError={false}
+                        mt={5}
+                        children={
+                          <Box
+                            w="3rem"
+                            bg="teal"
+                            p="0.64rem"
+                            mt={0.49}
+                            ml={2.5}
+                            borderRight={'1px solid rgba(0,0,0,0.1)'}
+                            borderTopLeftRadius={5}
+                            borderBottomLeftRadius={5}
+                          >
+                            <Center>
+                              <Text
+                                color="white"
+                                fontSize={12}
+                                fontWeight={600}
+                              >
+                                CODE
+                              </Text>
+                            </Center>
+                          </Box>
+                        }
+                      />
+                    ) : (
+                      <CustomFormController
+                        isSignup={false}
+                        type={'text'}
+                        title={''}
+                        value={email}
+                        setValue={setEmail}
+                        placeholder={'Email'}
+                        errorMessage={emailExc}
+                        isError={false}
+                        mt={5}
+                        children={
+                          <Box
+                            w={8}
+                            h={4}
+                            mt={6}
+                            mb={6}
+                            borderRight={'1px solid rgba(0,0,0,0.2)'}
+                          >
+                            <Center>
+                              <MdEmail color="teal" size={15} />
+                            </Center>
+                          </Box>
+                        }
+                      />
+                    )}
+
                     <Button
                       isLoading={loading}
                       loadingText={'Signing In'}
@@ -160,7 +205,7 @@ const PasswordRecovery = () => {
                       _hover={{ bg: 'teal' }}
                       onClick={e => handleClick(e)}
                     >
-                      <Text>Send Recovery Link</Text>
+                      <Text>Send Code</Text>
                     </Button>
                     <Button
                       bg={'gray'}

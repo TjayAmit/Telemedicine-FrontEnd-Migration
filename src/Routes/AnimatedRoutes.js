@@ -40,11 +40,14 @@ const AnimatedRoute = () => {
 
   const handleFetch = () => {
     GetRequest({ url: User })
+      .then(res => res.data)
       .then(res => {
         if (!res.data.status === 200) {
           throw new Error('Bad response', { cause: res });
         }
-        setUser(res.data.data);
+
+        const { data } = res;
+        setUser(data);
         navigate('/', { replace: true });
       })
       .catch(_ => {
@@ -112,7 +115,6 @@ const AnimatedRoute = () => {
           {/* catch all */}
           <Route path="*" element={<PageNotFound />} />
           <Route path="/credits" element={<Credits />} />
-          <Route path="/recovery" element={<Recovery />} />
         </Routes>
       </Suspense>
     </AnimatePresence>

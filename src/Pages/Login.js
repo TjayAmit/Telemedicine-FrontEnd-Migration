@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
-import { LoginHeader, CustomFormController } from '../Components/customs.js';
+import { CustomFormController } from '../Components/customs.js';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../Hooks/AuthContext.js';
 import {
@@ -102,20 +102,9 @@ const Login = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [feedbackDescription, setFeedBackDescription] = useState('');
-  const [emailExc, setEmailExc] = useState('');
-  const [passExc, setPassExc] = useState('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [msg, setMsg] = useState('');
-  const approval =
-    'Your account still pending. You can contact ZCMC Telemedicine Doctors to request of account approval.';
-
-  const [header, setHeader] = useState('');
   const [feedback, setFeedback] = useState('');
 
   const { setUser } = useAuth();
-
-  console.log('login');
 
   const handleReset = () => {
     setName('');
@@ -140,33 +129,35 @@ const Login = () => {
           throw new Error('Bad response.', { cause: res });
         }
 
-        if (res === 'warning') {
-          setHeader('Account Pending');
-          setFeedback(approval);
-          handleReset();
-          onOpen();
-          return;
-        }
         sessionStorage.setItem('token', data.token);
         setUser(data);
         navigate('/');
+        handleReset();
       })
       .catch(err => {
-        switch (err) {
+        console.log(err);
+        const {
+          response: {
+            status,
+            data: { message },
+          },
+        } = err;
+
+        switch (status) {
           case 400:
-            setMsg('No Account found.');
+            setFeedback(message);
             break;
           case 401:
-            setMsg('Your account not approved yet.');
+            setFeedback(message);
             break;
           case 403:
-            setMsg('Email or password incorrect!');
+            setFeedback(message);
             break;
           case 404:
-            setMsg('No Record found.');
+            setFeedback(message);
             break;
           default:
-            setMsg('Please try again later.');
+            setFeedback('Please try again later.');
             break;
         }
       });
@@ -185,12 +176,6 @@ const Login = () => {
 
   return (
     <>
-      <Feedback
-        isOpen={isOpen}
-        onClose={onClose}
-        header={header}
-        feedback={feedback}
-      />
       <Box
         w={'100%'}
         h={'100vh'}
@@ -239,7 +224,7 @@ const Login = () => {
                     alignItems="center"
                     columnGap={3}
                   >
-                    {feedbackDescription === '' ? null : (
+                    {feedback === '' ? null : (
                       <Box
                         color="white"
                         display="flex"
@@ -251,16 +236,16 @@ const Login = () => {
                         alignItems="center"
                       >
                         <IoMdSad fontSize={20} />
-                        <Box maxWidth={'200px'} textAlign="start">
-                          <Text fontWeight={700}>Email or password.</Text>
+                        <Box w="inherit" textAlign="start">
+                          <Text fontWeight={400}>{feedback}.</Text>
                         </Box>
                         <Box w="green" zIndex={99}>
                           <Text
                             bg="transparent"
-                            fontSize={20}
+                            fontSize={15}
                             _hover={{ cursor: 'pointer' }}
                             onClick={() => {
-                              setFeedBackDescription('');
+                              setFeedback('');
                             }}
                           >
                             <IoMdClose color={'white'} />
@@ -274,7 +259,7 @@ const Login = () => {
                     h={'inherit'}
                     display={'flex'}
                     flexDirection={'column'}
-                    mt={feedbackDescription === '' ? '2rem' : '1.1rem'}
+                    mt={feedback === '' ? '2rem' : '1.1rem'}
                   >
                     <CustomFormController
                       isSignup={false}
@@ -283,8 +268,6 @@ const Login = () => {
                       value={name}
                       setValue={setName}
                       placeholder={'Username'}
-                      errorMessage={emailExc}
-                      isError={false}
                       mt={5}
                       children={
                         <Box
@@ -308,8 +291,6 @@ const Login = () => {
                       value={password}
                       setValue={setPassword}
                       placeholder={'Password'}
-                      errorMessage={passExc}
-                      isError={false}
                       mt={3}
                       children={
                         <Box
@@ -349,6 +330,7 @@ const Login = () => {
                       color={'white'}
                       _hover={{ bg: 'teal' }}
                       onClick={e => handleSignin(e)}
+                      disabled={name === '' || password === ''}
                     >
                       <Text>Login</Text>
                     </Button>

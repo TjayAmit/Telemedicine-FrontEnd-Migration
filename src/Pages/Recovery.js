@@ -1,7 +1,7 @@
 import { Box, Button, Center } from '@chakra-ui/react';
 import { useState } from 'react';
 import { CustomFormController } from '../Components/customs';
-import { FaUserAlt } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
 import LoginHeader from '../Components/customs/LoginHeader';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,7 +36,7 @@ const Recovery = () => {
             <CustomFormController
               isSignup={false}
               title={'Email'}
-              type={'Text'}
+              type={''}
               value={name}
               placeholder={`Enter email`}
               setValue={setName}
@@ -52,7 +52,7 @@ const Recovery = () => {
                   borderRight={'1px solid #e0e0e0'}
                 >
                   <Center>
-                    <FaUserAlt color="#1f894c" size={15} />
+                    <MdEmail color="#1f894c" size={15} />
                   </Center>
                 </Box>
               }

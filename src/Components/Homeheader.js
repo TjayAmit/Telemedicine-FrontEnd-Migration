@@ -5,7 +5,6 @@ import '../Style/App.css';
 import '../Style/Sidebar.css';
 import {
   Box,
-  Heading,
   Avatar,
   Flex,
   Menu,
@@ -22,14 +21,14 @@ import {
 } from '@chakra-ui/react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import useAuth from '../Hooks/AuthContext';
-import { useProSidebar } from 'react-pro-sidebar';
 import { useNavigate } from 'react-router-dom';
 import ProfileDrawer from './ProfileDrawer';
 import { useState } from 'react';
 import CustomModal from './CustomModal';
 import { toastposition, toastvariant } from '../Pages/Packages';
 import Notification from './Notification';
-import HeartCase from './HeartCase';
+import { DeleteRequest } from '../API/api';
+import { User } from '../API/Paths';
 
 const UpdateProfile = ({ isOpen, onClose }) => {
   const title = 'Change Profile Picture';
@@ -98,15 +97,28 @@ const UpdateProfile = ({ isOpen, onClose }) => {
 const Homeheader = props => {
   const { user, setUser } = useAuth();
   const { isOpen, onClose } = useDisclosure();
-  const { search, setSearch, tableName } = useAuth();
+  const { search, setSearch } = useAuth();
   const navigate = useNavigate();
 
   const signOutUser = e => {
     e.preventDefault();
-    sessionStorage.removeItem('token');
-    setUser({
-      loggedIn: false,
-    });
+
+    DeleteRequest({ url: `${User}/logout` })
+      .then(res => res.data)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad repsonse', { cause: res });
+        }
+
+        const { message } = res;
+        console.log(message);
+        sessionStorage.removeItem('token');
+        setUser(null);
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (

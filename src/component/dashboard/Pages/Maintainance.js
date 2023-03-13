@@ -12,7 +12,7 @@ const Maintainance = () => {
           <Text fontSize={100} fontWeight={600} letterSpacing={2}>
             System Maintainance
           </Text>
-          <Text fontSize={30}>Have a time with Family.</Text>
+          <Text fontSize={30}>Have a time with your Family.</Text>
         </Box>
       </Box>
     </Box>

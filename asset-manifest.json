@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.ea8bbf58.css",
-    "main.js": "/static/js/main.558909e2.js",
+    "main.css": "/static/css/main.772981ff.css",
+    "main.js": "/static/js/main.671003cc.js",
     "static/js/787.3b55c226.chunk.js": "/static/js/787.3b55c226.chunk.js",
     "static/media/zcmc_logo.png": "/static/media/zcmc_logo.50d29b4783c0aefb8d80.png",
     "static/media/poppins-all-400-normal.woff": "/static/media/poppins-all-400-normal.6fbfdac99c274b77fe96.woff",
@@ -10,12 +10,12 @@
     "static/media/poppins-latin-400-normal.woff2": "/static/media/poppins-latin-400-normal.405055dd680fa1dcdfa2.woff2",
     "static/media/poppins-latin-ext-400-normal.woff2": "/static/media/poppins-latin-ext-400-normal.4f38b4331448d2313adc.woff2",
     "index.html": "/index.html",
-    "main.ea8bbf58.css.map": "/static/css/main.ea8bbf58.css.map",
-    "main.558909e2.js.map": "/static/js/main.558909e2.js.map",
+    "main.772981ff.css.map": "/static/css/main.772981ff.css.map",
+    "main.671003cc.js.map": "/static/js/main.671003cc.js.map",
     "787.3b55c226.chunk.js.map": "/static/js/787.3b55c226.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea8bbf58.css",
-    "static/js/main.558909e2.js"
+    "static/css/main.772981ff.css",
+    "static/js/main.671003cc.js"
   ]
 }

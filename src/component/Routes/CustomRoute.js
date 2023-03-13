@@ -49,12 +49,11 @@ const CustomRoute = () => {
   return (
     <Routes location={location} key={location.pathname}>
       <Route path="/" element={<Maintainance />} />
-      {/* <Route element={<RedirectAuth user={user} />}>
+      <Route element={<RedirectAuth user={user} />}>
         <Route path="/" element={<Layout />}></Route>
-      </Route> */}
+      </Route>
       {/* Secure Routes */}
-      {/* </Route> */}
-      {/* <Route element={<ProtectedRoute user={user} />}>
+      <Route element={<ProtectedRoute user={user} />}>
         <Route
           path="/h/*"
           element={
@@ -91,19 +90,19 @@ const CustomRoute = () => {
             </Home>
           }
         />
-      </Route> */}
+      </Route>
 
       {/* public authentication Routes */}
-      {/* <Route element={<ProtectedAuthRoute user={user} />}>
+      <Route element={<ProtectedAuthRoute user={user} />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AdminAuthentication />} />
-      </Route> */}
+      </Route>
 
       {/* catch all */}
-      {/* <Route path="*" element={<PageNotFound />} />
+      <Route path="*" element={<PageNotFound />} />
       <Route path="/credits" element={<Credits />} />
-      <Route path="/recovery" element={<Recovery />} /> */}
+      <Route path="/recovery" element={<Recovery />} />
     </Routes>
   );
 };

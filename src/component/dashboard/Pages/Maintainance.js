@@ -1,4 +1,4 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import { GiAutoRepair } from 'react-icons/gi';
 import './style.css';
 

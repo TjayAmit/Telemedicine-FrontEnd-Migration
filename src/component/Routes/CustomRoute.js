@@ -26,19 +26,19 @@ const Layout = () => {
   );
 };
 
-const RedirectAuth = ({ user }) => {
-  const location = useLocation();
+// const RedirectAuth = ({ user }) => {
+//   const location = useLocation();
 
-  if (!user || user.loggedIn === undefined) {
-    return <Loader />;
-  }
+//   if (!user || user.loggedIn === undefined) {
+//     return <Loader />;
+//   }
 
-  if (user.loggedIn === true) {
-    return <Navigate to="/h" state={{ from: location }} replace />;
-  }
+//   if (user.loggedIn === true) {
+//     return <Navigate to="/h" state={{ from: location }} replace />;
+//   }
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
-};
+//   return <Navigate to="/login" state={{ from: location }} replace />;
+// };
 
 const CustomRoute = () => {
   const location = useLocation();

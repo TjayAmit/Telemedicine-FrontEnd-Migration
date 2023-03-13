@@ -11,16 +11,8 @@ import {
   GridItem,
   Center,
   Text,
-  useToast,
-  Image,
-  Modal,
-  ModalContent,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
   Heading,
-  ModalOverlay,
-  useDisclosure,
+  IconButton,
 } from '@chakra-ui/react';
 import AuthBackground from '../Components/AuthModule/AuthBackground.js';
 import AuthHeader from '../Components/AuthModule/AuthHeader.js';
@@ -28,74 +20,7 @@ import AuthFooter from '../Components/AuthModule/AuthFooter.js';
 import { Auth } from '../API/Paths.js';
 import { PostRequest } from '../API/api';
 import '../Style/auth.css';
-import { IoCloseSharp } from 'react-icons/io5';
 import { IoMdSad, IoMdClose } from 'react-icons/io';
-
-const Feedback = props => {
-  return (
-    <Modal
-      closeOnOverlayClick={false}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-      isCentered
-    >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <Heading size={'md'} color={'#103c23'}>
-            {props.header}
-          </Heading>
-        </ModalHeader>
-        <ModalBody>
-          <Text>{props.feedback}</Text>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            w={'100%'}
-            h={'2.5rem'}
-            bg={'primary.900'}
-            _hover={{
-              bg: 'primary.900',
-            }}
-            _active={{
-              bg: 'primary.900',
-            }}
-            onClick={() => props.onClose()}
-          >
-            <Text color={'white'}>Close</Text>
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};
-
-const ExceptionDisplay = props => {
-  return props.msg === '' ? null : (
-    <Box display="flex" justifyContent={'end'}>
-      <Box
-        maxW={'14rem'}
-        pl={4}
-        pt={2}
-        pr={4}
-        pb={2}
-        rounded={8}
-        display="flex"
-        justifyContent={'space-between'}
-        alignItems="center"
-        columnGap={3}
-        color="red"
-      >
-        <Text fontSize={13} fontWeight={500}>
-          {props.msg}
-        </Text>
-        <Box _hover={{ cursor: 'pointer' }} onClick={() => props.setMsg('')}>
-          <IoCloseSharp fontSize={22} />
-        </Box>
-      </Box>
-    </Box>
-  );
-};
 
 const Login = () => {
   const navigate = useNavigate();
@@ -113,6 +38,11 @@ const Login = () => {
 
   const handleSignin = async e => {
     e.preventDefault();
+
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
 
     let form = new FormData();
@@ -184,13 +114,24 @@ const Login = () => {
         backgroundImage={'linear-gradient(#B0F3F1,#FFCFDF)'}
       >
         <Box
-          w={'60%'}
-          h={'70%'}
+          display={['block', 'block', 'none', 'none']}
+          textAlign="center"
+          pt={3}
+          pb={2}
+          letterSpacing={4}
+        >
+          <Heading size={'lg'} color="teal">
+            ZCMC TELEMEDICINE
+          </Heading>
+        </Box>
+        <Box
+          w={['100%', '100%', '70%', '60%']}
+          h={['80%', '80%', '60%', '70%']}
           left={'50%'}
           top={'50%'}
           transform="translate(-50%, -50%)"
           position={'absolute'}
-          boxShadow={'2xl'}
+          boxShadow={['none', 'none', '2xl', '2xl']}
           rounded={15}
           overflow={'hidden'}
         >
@@ -198,62 +139,30 @@ const Login = () => {
             templateRows={'repeat(1, 1fr)'}
             templateColumns="repeat(12, 1fr)"
           >
-            <GridItem rowSpan={1} colSpan={7}>
+            <GridItem rowSpan={1} colSpan={[12, 12, 12, 7]}>
               <AuthBackground />
             </GridItem>
-            <GridItem colSpan={5}>
-              <Box w={'100%'} h={'100%'} bg={'whiteAlpha.600'}>
+            <GridItem rowSpan={[1, 1, 1, 0]} colSpan={[12, 12, 12, 5]}>
+              <Box
+                w={'100%'}
+                h={'100%'}
+                bg={[
+                  'transparent',
+                  'transparent',
+                  'whiteAlpha.900',
+                  'whiteAlpha.600',
+                ]}
+              >
                 <Flex
                   flexDirection={'column'}
                   justifyContent={'space-between'}
                   pl={10}
-                  pt={8}
+                  pt={[2, 2, 0, 8]}
                   pr={10}
                   pb={3}
-                  h={'70vh'}
+                  h={['70vh', '70vh', '40vh', '70vh']}
                 >
                   <AuthHeader title="Sign In" />
-                  <Text
-                    color={'darkred'}
-                    fontWeight={500}
-                    fontSize={15}
-                    textAlign="center"
-                    mt={10}
-                    display={'flex'}
-                    justifyContent={'center'}
-                    alignItems="center"
-                    columnGap={3}
-                  >
-                    {feedback === '' ? null : (
-                      <Box
-                        color="white"
-                        display="flex"
-                        columnGap={2}
-                        bg="red"
-                        opacity={0.8}
-                        p={2}
-                        borderRadius={15}
-                        alignItems="center"
-                      >
-                        <IoMdSad fontSize={20} />
-                        <Box w="inherit" textAlign="start">
-                          <Text fontWeight={400}>{feedback}.</Text>
-                        </Box>
-                        <Box w="green" zIndex={99}>
-                          <Text
-                            bg="transparent"
-                            fontSize={15}
-                            _hover={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              setFeedback('');
-                            }}
-                          >
-                            <IoMdClose color={'white'} />
-                          </Text>
-                        </Box>
-                      </Box>
-                    )}
-                  </Text>
                   <Box
                     w={'inherit'}
                     h={'inherit'}
@@ -261,6 +170,32 @@ const Login = () => {
                     flexDirection={'column'}
                     mt={feedback === '' ? '2rem' : '1.1rem'}
                   >
+                    <Box
+                      bg="red"
+                      pl={2}
+                      pr={2}
+                      rounded={5}
+                      color="white"
+                      display={feedback === '' ? 'none' : 'block'}
+                    >
+                      <Flex
+                        justifyContent="space-between"
+                        alignItems="center"
+                        columnGap={2}
+                      >
+                        <Flex alignItems="center" columnGap={2}>
+                          <IoMdSad size={25} />
+                          <Text fontSize={[12, 12, 14, 14]}>{feedback}</Text>
+                        </Flex>
+                        <IconButton
+                          bg="red"
+                          _hover={{ bg: 'red' }}
+                          _active={{ bg: 'red' }}
+                          icon={<IoMdClose size={30} />}
+                          onClick={() => setFeedback('')}
+                        />
+                      </Flex>
+                    </Box>
                     <CustomFormController
                       isSignup={false}
                       type={'text'}
@@ -310,7 +245,7 @@ const Login = () => {
                     <Button
                       color={'blackAlpha.500'}
                       bg="transparent"
-                      mt={8}
+                      mt={[4, 4, 6, 8]}
                       _hover={{
                         bg: 'transparent',
                         color: 'blackAlpha.700',
@@ -322,29 +257,42 @@ const Login = () => {
                         Forgot password?
                       </Text>
                     </Button>
-                    <Button
-                      isLoading={loading}
-                      loadingText={'Signing In'}
-                      mt={8}
-                      bg={'teal'}
-                      color={'white'}
-                      _hover={{ bg: 'teal' }}
-                      onClick={e => handleSignin(e)}
-                      disabled={name === '' || password === ''}
+                    <Flex
+                      w="100%"
+                      columnGap={5}
+                      rowGap={3}
+                      mt={[4, 4, 4, 8]}
+                      flexDirection={[
+                        'column',
+                        'column',
+                        'row-reverse',
+                        'column',
+                      ]}
                     >
-                      <Text>Login</Text>
-                    </Button>
-                    <Button
-                      bg={'gray'}
-                      color={'white'}
-                      mt={3}
-                      _hover={{
-                        bg: 'darkorange',
-                      }}
-                      onClick={e => handleNavigateToRegister(e)}
-                    >
-                      <Text>Create account?</Text>
-                    </Button>
+                      <Button
+                        w="inherit"
+                        isLoading={loading}
+                        loadingText={'Signing In'}
+                        bg={'teal'}
+                        color={'white'}
+                        _hover={{ bg: 'teal' }}
+                        onClick={e => handleSignin(e)}
+                        disabled={name === '' || password === ''}
+                      >
+                        <Text fontSize={[12, 12, 14, 14]}>Login</Text>
+                      </Button>
+                      <Button
+                        w="inherit"
+                        bg={'gray'}
+                        color={'white'}
+                        _hover={{
+                          bg: 'darkorange',
+                        }}
+                        onClick={e => handleNavigateToRegister(e)}
+                      >
+                        <Text fontSize={[12, 12, 14, 14]}>Create account?</Text>
+                      </Button>
+                    </Flex>
                   </Box>
                   <AuthFooter />
                 </Flex>

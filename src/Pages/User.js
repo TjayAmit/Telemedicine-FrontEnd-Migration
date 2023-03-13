@@ -21,7 +21,6 @@ import { FaUsers } from 'react-icons/fa';
 import useAuth from '../Hooks/AuthContext';
 import { SelectionSpecialization } from '../Components/CustomSelection';
 import { GetRequest } from '../API/api';
-import { StatusHandler } from '../Utils/StatusHandler';
 import { Specialization, User } from '../API/Paths';
 
 const AddModal = ({ isOpen, onClose, fetch, users }) => {
@@ -30,7 +29,6 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
   const [exist, setExist] = useState(false);
   const [loader, setLoader] = useState(false);
 
-  console.log(users);
   const {
     email,
     setEmail,
@@ -210,12 +208,12 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
 
 const Users = () => {
   const [user, setUser] = useState([]);
-  const [duration, setDuration] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [SpecializationData, setSpecializationData] = useState([]);
   const [users, setUsers] = useState([]);
   const [fetch, setFetch] = useState(false);
-  const { setTableName, search, setSearch } = useAuth();
+  const { search, setSearch } = useAuth();
+  const [feedback, setFeedback] = useState('');
   const Title = 'User';
 
   const columns = [
@@ -250,23 +248,35 @@ const Users = () => {
   ];
 
   const handleFetchUser = async () => {
-    let msg = '';
     GetRequest({ url: `${User}s` })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
-        console.log(res.data.data);
-        setUsers(res.data.data);
+
+        setUsers(res.data);
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        console.log(err);
+        const { status } = err;
+        switch (status) {
+          case 400:
+            setFeedback("Can't complete request. try again later.");
+            break;
+          case 404:
+            setFeedback('No record.');
+            break;
+          default:
+            setFeedback("Can't process request. try again later.");
+            break;
+        }
       });
   };
 
   const serviceTypeData = async () => {
-    let msg = '';
     GetRequest({ url: Specialization })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -274,7 +284,7 @@ const Users = () => {
         setSpecializationData(res.data.data);
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        console.log(err);
       });
   };
 
@@ -283,36 +293,38 @@ const Users = () => {
   );
 
   useEffect(() => {
-    setTableName(Title);
     serviceTypeData();
     handleFetchUser();
     setFetch(false);
   }, [fetch]);
 
+  useEffect(() => {
+    const intervalId = setInterval(
+      () => {
+        if (fetch) {
+          setFetch(false);
+        }
+        handleFetchUser();
+      },
+      fetch ? 0 : 30000
+    );
+
+    return () => clearInterval(intervalId);
+  }, [fetch]);
+
   return (
     <>
       <Container maxW={'container.xxl'}>
-        <Box mt={5} p={10}>
-          <Box className="table-head">
-            <Flex color={TitleColor} columnGap={2}>
-              <FaUsers fontSize={40} fontWeight={'900'} ml={5} />
-              <Text fontSize={30} color={TitleColor} fontWeight={'900'}>
-                {Title}
-              </Text>
-            </Flex>
-          </Box>
-
-          <Box mt={'2rem'}>
-            <CustomTablePaginate
-              title={'Admin Doctor'}
-              columns={columns}
-              data={userJSONData}
-              search={search}
-              setSearch={setSearch}
-              onOpen={onOpen}
-              isModal={true}
-            />
-          </Box>
+        <Box mt={5} p={[0, 0, 2, 3]}>
+          <CustomTablePaginate
+            title={'Admin Doctor'}
+            columns={columns}
+            data={userJSONData}
+            search={search}
+            setSearch={setSearch}
+            onOpen={onOpen}
+            isModal={true}
+          />
         </Box>
       </Container>
 

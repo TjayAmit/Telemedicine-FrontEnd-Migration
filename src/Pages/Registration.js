@@ -1,19 +1,13 @@
 import {
   Box,
   Button,
-  Heading,
+  IconButton,
+  Center,
   Flex,
   Text,
-  Image,
   Grid,
   GridItem,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalOverlay,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
+  Heading,
 } from '@chakra-ui/react';
 import CustomFormController from '../Components/customs/CustomFormController';
 import { useState } from 'react';
@@ -23,53 +17,15 @@ import { Auth } from '../API/Paths';
 import AuthHeader from '../Components/AuthModule/AuthHeader';
 import AuthBackground from '../Components/AuthModule/AuthBackground';
 import AuthFooter from '../Components/AuthModule/AuthFooter';
-
-const Feedback = props => {
-  return (
-    <Modal
-      closeOnOverlayClick={false}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-      isCentered
-    >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>
-          <Heading size={'md'} color={'#103c23'}>
-            {props.header}
-          </Heading>
-        </ModalHeader>
-        <ModalBody>
-          <Text>{props.feedback}</Text>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            w={'100%'}
-            h={'2.5rem'}
-            bg={'primary.900'}
-            _hover={{
-              bg: 'primary.900',
-            }}
-            _active={{
-              bg: 'primary.900',
-            }}
-            onClick={() => props.onClose()}
-          >
-            <Text color={'white'}>Close</Text>
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};
+import { FaUserAlt, FaLock } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+import { HiEmojiSad } from 'react-icons/hi';
+import { IoClose } from 'react-icons/io5';
 
 const Registration = () => {
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const defaultProfileURL = `${window.location.origin}/default_profile.png`;
-  const [feedbackTitle, setFeedBackTitle] = useState('');
-  const [feedbackDescription, setFeedBackDescription] = useState('');
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -78,19 +34,12 @@ const Registration = () => {
 
   const [feedback, setFeedback] = useState('');
 
-  const [emailExc, setEmailExc] = useState('');
-  const [passExc, setPassExc] = useState('');
+  const emailExc = useState('');
+  const passExc = useState('');
 
   const [loading, setLoading] = useState(false);
 
   const validatePasword = () => password === confirmPassword;
-
-  const resultFeedBack = () => {
-    setTimeout(() => {
-      setLoading(false);
-      onOpen();
-    }, [200]);
-  };
 
   const reset = () => {
     setUsername('');
@@ -101,6 +50,11 @@ const Registration = () => {
 
   const handleSignup = e => {
     e.preventDefault();
+
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
 
     if (validatePasword) {
@@ -111,6 +65,7 @@ const Registration = () => {
       bodyForm.append('url', defaultProfileURL);
 
       PostRequest({ url: `${Auth}/signup` }, bodyForm)
+        .then(res => res.data)
         .then(res => {
           if (!res.statusText === 'OK') {
             throw new Error('Bad response', { cause: res });
@@ -118,31 +73,32 @@ const Registration = () => {
 
           navigate('/account', {
             replace: true,
-            state: { id: res.data.data, password: password, message: '' },
+            state: { id: res.data, password: password, message: '' },
           });
           reset();
+          setLoading(false);
         })
         .catch(err => {
-          switch (err) {
+          const {
+            response: {
+              status,
+              data: { message },
+            },
+          } = err;
+
+          switch (status) {
             case 400:
-              setFeedBackTitle('A problem encounter. Try again later.');
-              setFeedBackDescription(err.response.data.message);
+              setFeedback(message);
               break;
             case 409:
-              setFeedBackTitle('Account Found.');
-              setFeedBackDescription(
-                'It seems that there is already an registered account with the given email or username.' +
-                  '\nUsername must be unique and email must only be use to one account.'
-              );
+              setFeedback(message);
               break;
             default:
-              setFeedBackTitle("Can't register account. Try again later.");
-              setFeedBackDescription(err.response.data.message);
+              setFeedback(message);
               break;
           }
-          resultFeedBack();
+          setLoading(false);
         });
-      setLoading(false);
     }
   };
 
@@ -153,12 +109,6 @@ const Registration = () => {
 
   return (
     <>
-      <Feedback
-        title={feedbackTitle}
-        description={feedbackDescription}
-        onClose={onClose}
-        isOpen={isOpen}
-      />
       <Box
         w={'100%'}
         h={'100vh'}
@@ -167,13 +117,24 @@ const Registration = () => {
         backgroundImage={'linear-gradient(#B0F3F1,#FFCFDF)'}
       >
         <Box
-          w={'60%'}
-          h={'70%'}
+          display={['block', 'block', 'none', 'none']}
+          textAlign="center"
+          pt={3}
+          pb={2}
+          letterSpacing={4}
+        >
+          <Heading size={'lg'} color="teal">
+            ZCMC TELEMEDICINE
+          </Heading>
+        </Box>
+        <Box
+          w={['100%', '100%', '70%', '60%']}
+          h={['80%', '80%', '70%', '70%']}
           left={'50%'}
           top={'50%'}
           transform="translate(-50%, -50%)"
           position={'absolute'}
-          boxShadow={'2xl'}
+          boxShadow={['none', 'none', '2xl', '2xl']}
           rounded={15}
           overflow={'hidden'}
         >
@@ -181,19 +142,28 @@ const Registration = () => {
             templateRows={'repeat(1, 1fr)'}
             templateColumns="repeat(12, 1fr)"
           >
-            <GridItem rowSpan={1} colSpan={7}>
+            <GridItem rowSpan={1} colSpan={[12, 12, 12, 7]}>
               <AuthBackground />
             </GridItem>
-            <GridItem colSpan={5}>
-              <Box w={'100%'} h={'100%'} bg={'whiteAlpha.600'}>
+            <GridItem rowSpan={[1, 1, 1, 0]} colSpan={[12, 12, 12, 5]}>
+              <Box
+                w={'100%'}
+                h={'100%'}
+                bg={[
+                  'transparent',
+                  'transparent',
+                  'whiteAlpha.900',
+                  'whiteAlpha.600',
+                ]}
+              >
                 <Flex
                   flexDirection={'column'}
                   justifyContent={'space-between'}
                   pl={10}
-                  pt={8}
+                  pt={[2, 2, 0, 8]}
                   pr={10}
                   pb={3}
-                  h={'70vh'}
+                  h={['70vh', '70vh', '50vh', '70vh']}
                 >
                   <AuthHeader title={'Sign up'} />
                   <Box
@@ -201,10 +171,36 @@ const Registration = () => {
                     h={'inherit'}
                     display={'flex'}
                     flexDirection={'column'}
-                    mt={'2rem'}
+                    mt={'1rem'}
                   >
+                    <Box
+                      bg="red"
+                      pl={2}
+                      pr={2}
+                      rounded={5}
+                      color="white"
+                      display={feedback === '' ? 'none' : 'block'}
+                    >
+                      <Flex
+                        justifyContent="space-between"
+                        alignItems="center"
+                        columnGap={2}
+                      >
+                        <Flex alignItems="center" columnGap={2}>
+                          <HiEmojiSad size={25} />
+                          <Text fontSize={[12, 12, 14, 14]}>{feedback}</Text>
+                        </Flex>
+                        <IconButton
+                          bg="red"
+                          _hover={{ bg: 'red' }}
+                          _active={{ bg: 'red' }}
+                          icon={<IoClose size={30} />}
+                          onClick={() => setFeedback('')}
+                        />
+                      </Flex>
+                    </Box>
                     <CustomFormController
-                      isSignup={true}
+                      isSignup={false}
                       type={'text'}
                       title={''}
                       value={username}
@@ -214,9 +210,22 @@ const Registration = () => {
                       isError={false}
                       mt={5}
                       isRequired={false}
+                      children={
+                        <Box
+                          w={8}
+                          h={4}
+                          mt={6}
+                          mb={6}
+                          borderRight={'1px solid rgba(0,0,0,0.2)'}
+                        >
+                          <Center>
+                            <FaUserAlt color="teal" size={15} />
+                          </Center>
+                        </Box>
+                      }
                     />
                     <CustomFormController
-                      isSignup={true}
+                      isSignup={false}
                       type={'text'}
                       title={''}
                       value={email}
@@ -226,9 +235,22 @@ const Registration = () => {
                       isError={false}
                       mt={3}
                       isRequired={false}
+                      children={
+                        <Box
+                          w={8}
+                          h={4}
+                          mt={6}
+                          mb={6}
+                          borderRight={'1px solid rgba(0,0,0,0.2)'}
+                        >
+                          <Center>
+                            <MdEmail color="teal" size={15} />
+                          </Center>
+                        </Box>
+                      }
                     />
                     <CustomFormController
-                      isSignup={true}
+                      isSignup={false}
                       type={'password'}
                       title={''}
                       value={password}
@@ -238,9 +260,22 @@ const Registration = () => {
                       isError={false}
                       mt={3}
                       isRequired={false}
+                      children={
+                        <Box
+                          w={8}
+                          h={4}
+                          mt={6}
+                          mb={6}
+                          borderRight={'1px solid rgba(0,0,0,0.2)'}
+                        >
+                          <Center>
+                            <FaLock color="teal" size={15} />
+                          </Center>
+                        </Box>
+                      }
                     />
                     <CustomFormController
-                      isSignup={true}
+                      isSignup={false}
                       type={'password'}
                       title={''}
                       value={confirmPassword}
@@ -250,29 +285,61 @@ const Registration = () => {
                       isError={false}
                       mt={3}
                       isRequired={false}
+                      children={
+                        <Box
+                          w={8}
+                          h={4}
+                          mt={6}
+                          mb={6}
+                          borderRight={'1px solid rgba(0,0,0,0.2)'}
+                        >
+                          <Center>
+                            <FaLock color="teal" size={15} />
+                          </Center>
+                        </Box>
+                      }
                     />
-                    <Button
-                      isLoading={loading}
-                      loadingText={'Signing In'}
-                      mt={14}
-                      bg={'teal'}
-                      color={'white'}
-                      _hover={{ bg: 'teal' }}
-                      onClick={e => handleSignup(e)}
+                    <Flex
+                      w="100%"
+                      columnGap={5}
+                      rowGap={3}
+                      mt={[10, 10, 12, 14]}
+                      flexDirection={[
+                        'column',
+                        'column',
+                        'row-reverse',
+                        'column',
+                      ]}
                     >
-                      <Text>Register</Text>
-                    </Button>
-                    <Button
-                      bg={'gray'}
-                      color={'white'}
-                      mt={3}
-                      _hover={{
-                        bg: 'darkorange',
-                      }}
-                      onClick={e => handleNavigate(e)}
-                    >
-                      <Text>Sign In</Text>
-                    </Button>
+                      <Button
+                        w="inherit"
+                        isLoading={loading}
+                        loadingText={'Signing In'}
+                        bg={'teal'}
+                        color={'white'}
+                        _hover={{ bg: 'teal' }}
+                        onClick={e => handleSignup(e)}
+                        disabled={
+                          username === '' ||
+                          email === '' ||
+                          password === '' ||
+                          password !== confirmPassword
+                        }
+                      >
+                        <Text fontSize={[12, 12, 14, 14]}>Register</Text>
+                      </Button>
+                      <Button
+                        w="inherit"
+                        bg={'gray'}
+                        color={'white'}
+                        _hover={{
+                          bg: 'darkorange',
+                        }}
+                        onClick={e => handleNavigate(e)}
+                      >
+                        <Text fontSize={[12, 12, 14, 14]}>Sign In</Text>
+                      </Button>
+                    </Flex>
                   </Box>
                   <AuthFooter />
                 </Flex>

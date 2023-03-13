@@ -12,6 +12,7 @@ import {
   ModalCloseButton,
   Checkbox,
   Button,
+  filter,
 } from '@chakra-ui/react';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import { useNavigate } from 'react-router-dom';
@@ -255,7 +256,10 @@ const Cases = () => {
   const filtered = cases.filter(filter =>
     filter.case_status !== 1
       ? null
-      : filter.patient
+      : filter.case_number
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        filter.patient
           .toLocaleLowerCase()
           .includes(search.toLocaleLowerCase()) ||
         filter.specialization
@@ -289,7 +293,7 @@ const Cases = () => {
             <CustomTablePaginate
               title={Title}
               columns={columns}
-              data={cases}
+              data={filtered}
               fetch={setFetch}
               search={search}
               onOpen={onOpen}

@@ -61,25 +61,14 @@ const HistoryLogs = () => {
     <>
       <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
-          <Box className="table-head">
-            <Flex color={TitleColor} columnGap={2}>
-              <RiFileListFill fontSize={40} fontWeight={'900'} ml={5} />
-              <Text fontSize={30} color={TitleColor} fontWeight={'900'}>
-                {Title}
-              </Text>
-            </Flex>
-          </Box>
-
-          <Box mt={'2rem'}>
-            <CustomTablePaginate
-              title={Title}
-              columns={columns}
-              data={logs}
-              search={search}
-              setSearch={setSearch}
-              isModal={true}
-            />
-          </Box>
+          <CustomTablePaginate
+            title={Title}
+            columns={columns}
+            data={logs}
+            search={search}
+            setSearch={setSearch}
+            isModal={true}
+          />
         </Box>
       </Container>
     </>

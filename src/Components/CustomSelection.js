@@ -1,6 +1,6 @@
 import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import api from '../API/api';
-import { Select, FormControl, FormLabel } from '@chakra-ui/react';
+import { Select, FormControl } from '@chakra-ui/react';
 import { Specialization, Hospital } from '../API/Paths';
 
 const Selection = ({ label, value, setValue, datas, mt }) => {
@@ -31,7 +31,6 @@ const Selection = ({ label, value, setValue, datas, mt }) => {
 const SelectionLoading = ({ label, mt }) => {
   return (
     <FormControl mt={mt}>
-      <FormLabel fontSize={14}>{label}</FormLabel>
       <Select
         fontSize={14}
         focusBorderColor={'rgba(0, 128, 128, 0.5)'}
@@ -47,7 +46,6 @@ const SelectionLoading = ({ label, mt }) => {
 const SelectionError = ({ label, mt }) => {
   return (
     <FormControl mt={mt}>
-      <FormLabel fontSize={14}>{label}</FormLabel>
       <Select
         fontSize={14}
         focusBorderColor={'rgba(0, 128, 128, 0.5)'}

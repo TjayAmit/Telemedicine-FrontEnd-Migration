@@ -6,17 +6,21 @@ const AuthHeader = ({ title }) => {
       <Flex columnGap={5}>
         <Box>
           <Image
-            w="60px"
-            h={'80px'}
+            w={['50px', '50px', '60px', '60px']}
+            h={['70px', '70px', '80px', '80px']}
             src={require('../../assets/zcmc_logo.png')}
           />
         </Box>
-        <Box mt={4}>
+        <Box mt={[3, 3, 4, 4]}>
           <Flex direction={'column'} justifyContent={'end'}>
-            <Heading fontSize="26px" color="teal">
+            <Heading
+              size={['md', 'md', 'lg', 'lg']}
+              fontSize="26px"
+              color="teal"
+            >
               {title}
             </Heading>
-            <Text fontSize="sm" color="gray">
+            <Text fontSize={[13, 13, 14, 14]} color="gray">
               Enter your credentials to continue.
             </Text>
           </Flex>

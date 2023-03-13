@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Flex,
-  Heading,
-  useToast,
-  useDisclosure,
-  Avatar,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, useToast } from '@chakra-ui/react';
 import { toastposition, toastvariant } from '../Pages/Packages';
 import CustomModal from '../Components/CustomModal';
 import { SelectionSpecialization } from '../Components/CustomSelection';
 import { useLocation } from 'react-router-dom';
-import { Specialization, Case, Message } from '../API/Paths';
-import { PostRequest, PutRequest } from '../API/api';
+import { Specialization, Case } from '../API/Paths';
+import { PutRequest } from '../API/api';
 import StatusHandler from '../Utils/StatusHandler';
-import PatientProfile from '../Components/Case/PatientProfile';
 import ConsultHeader from '../Components/Case/ConsultHeader';
 import CaseInformation from '../Components/Case/CaseInformation';
 import CaseCreateMessage from '../Components/Case/CaseCreateMessage';
@@ -102,17 +94,14 @@ const MessageComponentHeader = () => {
 };
 
 const Consult = () => {
+  const [fetchMessage, setFetchMessage] = useState(true);
   const [sort, setSort] = useState('Newest');
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [decending, setDecending] = useState(true);
   const location = useLocation();
   const json = location.state;
 
   const [caseinfo, setCaseInfo] = useState(location.state);
   const [load, setLoad] = useState(true);
-
-  const [fetch, setFetch] = useState(true);
-  const [messages, setMessages] = useState([]);
 
   console.log(location.state);
 
@@ -142,31 +131,6 @@ const Consult = () => {
     }
   };
 
-  const requestMessages = async () => {
-    let msg = '';
-    PostRequest(
-      { url: `${Message}s` },
-      {
-        id: caseinfo.PK_cases_ID,
-      }
-    )
-      .then(res => {
-        if (!res.statusText === 'OK') {
-          throw new Error('Bad response.', { cause: res });
-        }
-        setMessages(res.data);
-      })
-      .catch(err => {
-        msg = StatusHandler(err);
-        setMessages([]);
-      });
-  };
-
-  useEffect(() => {
-    setFetch(false);
-    requestMessages();
-  }, [fetch]);
-
   useEffect(() => {
     handleUpdateCase();
     setTimeout(() => {
@@ -195,8 +159,16 @@ const Consult = () => {
           flexDirection="column"
         >
           <MessageComponentHeader />
-          <CaseMessage id={caseinfo.id} date={caseinfo.date} />
-          <CaseCreateMessage id={caseinfo.id} />
+          <CaseMessage
+            id={caseinfo.id}
+            date={caseinfo.date}
+            fetchMessage={fetchMessage}
+            setFetchMessage={setFetchMessage}
+          />
+          <CaseCreateMessage
+            id={caseinfo.id}
+            setFetchMessage={setFetchMessage}
+          />
         </Box>
       </Flex>
     </>

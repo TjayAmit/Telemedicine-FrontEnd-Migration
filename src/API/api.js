@@ -27,7 +27,7 @@ export const PostRequest = async ({ url }, data) => {
 };
 
 export const PutRequest = async ({ url }, data) => {
-  return await api.post(url, data);
+  return await api.put(url, data);
 };
 
 export const DeleteRequest = async ({ url }, data) => {

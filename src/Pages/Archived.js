@@ -1,8 +1,6 @@
-import { Box, Text, Container, Flex } from '@chakra-ui/react';
-import { TitleColor } from './Packages';
+import { Box, Container, Flex } from '@chakra-ui/react';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import { useState, useEffect } from 'react';
-import { BsArchive } from 'react-icons/bs';
 import useAuth from '../Hooks/AuthContext';
 import { GetRequest } from '../API/api';
 import { Case } from '../API/Paths';
@@ -82,10 +80,13 @@ const Archived = () => {
 
   const filtered = cases.filter(filter =>
     filter.case_status === 2
-      ? null
-      : filter.patient.toLowerCase().includes(search.toLowerCase()) ||
+      ? filter.case_number
+          .toLocaleLowerCase()
+          .includes(search.toLocaleLowerCase()) ||
+        filter.patient.toLowerCase().includes(search.toLowerCase()) ||
         filter.specialization.toLowerCase().includes(search.toLowerCase()) ||
         filter.sex.toLowerCase().includes(search.toLowerCase())
+      : null
   );
 
   useEffect(() => {

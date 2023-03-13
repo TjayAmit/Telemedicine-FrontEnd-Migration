@@ -7,11 +7,11 @@ import {
   Td,
   Flex,
   IconButton,
-  Heading,
 } from '@chakra-ui/react';
 import moment from 'moment/moment';
 import { useNavigate } from 'react-router-dom';
-import { UserResetPassword } from '../../API/User_Request';
+import { PutRequest } from '../../API/api';
+import { User } from '../../API/Paths';
 import { BiReset } from 'react-icons/bi';
 import { MdOutlineMessage } from 'react-icons/md';
 import { CustomViewButton } from '../../Components/Modal/CustomViewModal';
@@ -29,8 +29,20 @@ const Actions = ({
   props,
 }) => {
   const navigate = useNavigate();
+
   const handleResetPassword = async () => {
-    UserResetPassword({ email: row.email });
+    PutRequest({ url: `${User}/reset` }, { email: row.email })
+      .then(res => res.data)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad response', { cause: res });
+        }
+
+        console.log('Password Reset.');
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -92,7 +104,7 @@ const Actions = ({
 const TableRow = props => {
   const { user } = useAuth();
   const navigate = useNavigate();
-
+  const { user_role } = user;
   const handleClick = (e, data) => {
     e.preventDefault();
     if (props.title.toLowerCase().includes('case')) {
@@ -172,7 +184,9 @@ const TableRow = props => {
                   ) : cell.column.Header === 'ID' ? (
                     <Box display="flex" columnGap={3}>
                       <Text>{cell.row.values.id}</Text>
-                      {row.original.notif === 1 ? (
+                      {!!row.original.notif &&
+                      row.original.notif !== 1 &&
+                      user_role !== 'External Doctor' ? (
                         <Badge fontSize={10} colorScheme={'green'}>
                           New message
                         </Badge>
@@ -205,9 +219,9 @@ const TableRow = props => {
                       >
                         {cell.row.values.case_status === 0
                           ? 'Pending'
-                          : cell.row.values.case_status === 1
-                          ? 'Active'
-                          : 'Done'}
+                          : cell.row.values.case_status !== 1
+                          ? 'Done'
+                          : 'Active'}
                       </Badge>
                     </>
                   ) : cell.column.id === 'specializations_Title' ? (
@@ -224,9 +238,9 @@ const TableRow = props => {
                     </Text>
                   ) : cell.column.Header === 'ID' ? (
                     <Text fontWeight={'bold'} color={'green.600'}>
-                      {props.pageIndex === 0 ? ++i : (1 + i) * props.pageIndex}
+                      {props.pageIndex === 0 ? ++i : (1 + i) * props.pageIndex}s
                     </Text>
-                  ) : cell.column.Header === 'STATUS' ? (
+                  ) : cell.column.id === 'status' ? (
                     <Text fontWeight={'bold'} color={'green.600'}>
                       {cell.row.values.status === 1
                         ? 'ACTIVE'
@@ -234,16 +248,6 @@ const TableRow = props => {
                         ? 'DISSABLED'
                         : 'PENDING'}
                     </Text>
-                  ) : cell.column.Header === 'DOCTORS' ? (
-                    <>
-                      {
-                        props.doctors.filter(
-                          x =>
-                            x.FK_specializations_ID ===
-                            cell.row.values.PK_specializations_ID
-                        ).length
-                      }
-                    </>
                   ) : (
                     cell.render('Cell')
                   )}

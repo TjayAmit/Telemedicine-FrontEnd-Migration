@@ -11,14 +11,10 @@ import CaseProvider from '../Pages/Case SubCollection/CaseProvider';
 import RouteData from './RouteData';
 import Consult from '../Pages/Consult.js';
 import { PatientProvider } from '../Pages/Patient SubCollection/PatientProvider.js';
-import Recovery from '../Pages/Recovery.js';
 import Loader from '../Pages/Loader';
-import { Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import AccountRegistration from '../Pages/AccountRegistration.js';
-
 import { AnimatePresence } from 'framer-motion';
-
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { GetRequest } from '../API/api.js';
 import { User } from '../API/Paths.js';

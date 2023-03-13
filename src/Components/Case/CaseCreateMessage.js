@@ -4,9 +4,72 @@ import { IoMdAddCircle, IoMdSend } from 'react-icons/io';
 import { toastposition, toastvariant } from '../../Pages/Packages';
 import { PostRequest } from '../../API/api';
 import { Message } from '../../API/Paths';
-import { TiAttachment } from 'react-icons/ti';
 import { IoCloseSharp } from 'react-icons/io5';
+import { BsImageFill } from 'react-icons/bs';
+import { MdVideoLibrary } from 'react-icons/md';
+import { RiFolderMusicFill } from 'react-icons/ri';
+import {
+  AiFillFileWord,
+  AiFillFilePpt,
+  AiFillFilePdf,
+  AiFillFileExcel,
+  AiFillFileUnknown,
+} from 'react-icons/ai';
 import '../../Style/Consult.css';
+
+const Files = props => {
+  const handleRemoveFile = (e, index) => {
+    e.preventDefault();
+    props.selectedFiles.splice(index, 1);
+  };
+
+  return (
+    <Box h="2rem" bg="transparent" display="flex" columnGap={3}>
+      {Array.prototype.slice.call(props.selectedFiles).map((e, index) => {
+        let ext = e.name.split('.')[1];
+        return (
+          <Box
+            w="3.5rem"
+            bg={'blackAlpha.200'}
+            p={0.5}
+            fontSize={13}
+            color={'blue.900'}
+            textAlign={'center'}
+            borderRadius={'5'}
+            cursor={'pointer'}
+            border={'1px solid'}
+            borderColor={'gray.400'}
+            className={'attacheditems'}
+          >
+            <Flex columnGap={2}>
+              {ext.toLowerCase().includes('png') ||
+              ext.toLowerCase().includes('jpg') ? (
+                <BsImageFill size={25} color="gray" />
+              ) : ext.toLowerCase().includes('mp4') ? (
+                <MdVideoLibrary size={20} color="gray" />
+              ) : ext.toLowerCase().includes('mp3') ? (
+                <RiFolderMusicFill size={20} color="gray" />
+              ) : ext.toLowerCase().includes('docx') ? (
+                <AiFillFileWord size={20} color="gray" />
+              ) : ext.toLowerCase().includes('ppt') ? (
+                <AiFillFilePpt size={20} color="gray" />
+              ) : ext.toLowerCase().includes('pdf') ? (
+                <AiFillFilePdf size={20} color="gray" />
+              ) : ext.toLowerCase().includes('pdf') ? (
+                <AiFillFileExcel size={20} color="gray" />
+              ) : (
+                <AiFillFileUnknown size={25} color="gray" />
+              )}
+              <Box onClick={e => handleRemoveFile(e, index)}>
+                <IoCloseSharp fontSize={15} />
+              </Box>
+            </Flex>
+          </Box>
+        );
+      })}
+    </Box>
+  );
+};
 
 const CaseCreateMessage = props => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -36,7 +99,7 @@ const CaseCreateMessage = props => {
     if (!limitExceeded) {
       setSelectedFiles(uploaded);
       setValidate(false);
-      if (message == '' || message == null) {
+      if (message === '' || message == null) {
         setMessage('File Attacthments');
       }
     }
@@ -49,7 +112,8 @@ const CaseCreateMessage = props => {
 
   const handleSendMessage = async e => {
     e.preventDefault();
-    if (!!message && selectedFiles.length === 0) {
+    if (message === '' && selectedFiles.length === 0) {
+      console.log('exit early');
       return;
     }
 
@@ -77,6 +141,7 @@ const CaseCreateMessage = props => {
         });
         setSelectedFiles([]);
         setMessage('');
+        props.setFetchMessage(true);
       })
       .catch(err => {
         let messageErr = '';
@@ -100,53 +165,9 @@ const CaseCreateMessage = props => {
     setStatus(false);
   };
 
-  const handleRemoveFile = (e, index) => {
-    e.preventDefault();
-    selectedFiles.splice(index, 1);
-  };
-
-  useEffect(() => {}, [selectedFiles]);
-
   return (
     <Box w="100%" h="7.8rem" m={4} display="flex" flexDirection="column">
-      <Box h="2rem" bg="transparent" display="flex" columnGap={3}>
-        {Array.prototype.slice.call(selectedFiles).map((e, index) => {
-          return (
-            <Box
-              w="6.5rem"
-              bg={'blackAlpha.200'}
-              p={1}
-              fontSize={13}
-              color={'blue.900'}
-              textAlign={'center'}
-              borderRadius={'5'}
-              cursor={'pointer'}
-              border={'1px solid'}
-              borderColor={'gray.400'}
-              className={'attacheditems'}
-            >
-              <Flex columnGap={2}>
-                <TiAttachment
-                  style={{
-                    fontSize: '22px',
-                    marginRight: '2px',
-                  }}
-                />
-                {e.name.split('.')[1] === 'jpg' ||
-                e.name.split('.')[1] === 'png' ||
-                e.name.split('.')[1] === 'jpeg'
-                  ? 'IMAGE'
-                  : e.name.split('.')[1] === 'mp4'
-                  ? 'VIDEO'
-                  : 'FILE'}
-                <Box onClick={e => handleRemoveFile(e, index)}>
-                  <IoCloseSharp fontSize={20} />
-                </Box>
-              </Flex>
-            </Box>
-          );
-        })}
-      </Box>
+      <Files selectedFiles={selectedFiles} />
       <Box
         w="37%"
         h="4rem"
@@ -170,6 +191,12 @@ const CaseCreateMessage = props => {
           bg="transparent"
           color="gray"
           rounded={100}
+          _hover={{
+            bg: 'transparent',
+          }}
+          _active={{
+            bg: 'transparent',
+          }}
           className="message-button-plus"
           onClick={() => {
             document.getElementById('file').click();
@@ -200,9 +227,15 @@ const CaseCreateMessage = props => {
         <Button
           leftIcon={<IoMdSend size={30} />}
           bg="transparent"
-          color="gray"
+          color={!!message || selectedFiles.length !== 0 ? 'green' : 'gray'}
           rounded={100}
           pr={5}
+          _hover={{
+            bg: 'transparent',
+          }}
+          _active={{
+            bg: 'transparent',
+          }}
           className="message-button-send"
           onClick={e => handleSendMessage(e)}
         />

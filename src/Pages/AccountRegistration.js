@@ -5,15 +5,10 @@ import {
   Text,
   Grid,
   GridItem,
-  useDisclosure,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalOverlay,
+  IconButton,
+  Heading,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   SelectionHospital,
@@ -24,61 +19,21 @@ import { Auth } from '../API/Paths';
 import AuthBackground from '../Components/AuthModule/AuthBackground';
 import AuthHeader from '../Components/AuthModule/AuthHeader';
 import AuthFooter from '../Components/AuthModule/AuthFooter';
-import useAuth from '../Hooks/AuthContext';
 import { useLocation } from 'react-router-dom';
-import { IoMdSad, IoMdClose } from 'react-icons/io';
 import { MdNoAccounts } from 'react-icons/md';
 import { CustomFormController } from '../Components/customs';
-
-const Feedback = props => {
-  return (
-    <Modal
-      closeOnOverlayClick={false}
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-    >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader color={props.success ? 'green' : 'red'}>
-          {props.title}
-        </ModalHeader>
-        <ModalBody>
-          <Text>{props.description}</Text>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            bg={props.success ? 'teal' : 'grey'}
-            color={props.success ? 'white' : 'orange'}
-            _hover={{
-              bg: props.success ? 'teal' : 'grey',
-              color: props.success ? 'white' : 'orange',
-            }}
-            _active={{
-              bg: props.success ? 'teal' : 'grey',
-              color: props.success ? 'white' : 'orange',
-            }}
-            onClick={props.handleClose}
-          >
-            <Text>{props.success ? 'Go to Login' : 'Close'}</Text>
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-};
+import { IoMdClose } from 'react-icons/io';
+import { IoClose } from 'react-icons/io5';
+import { HiEmojiSad } from 'react-icons/hi';
+import { BsCheckCircleFill } from 'react-icons/bs';
 
 const AccountRegistration = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { user, setUser, password } = useAuth();
+  const [feedback, setFeedback] = useState('');
 
-  const [feedbackTitle, setFeedBackTitle] = useState('');
-  const [feedbackDescription, setFeedBackDescription] = useState('');
-
-  const [message, setMessage] = useState(state.message);
-  console.log(state);
+  const message = state.message;
 
   const [fname, setFname] = useState('');
   const [mname, setMname] = useState('');
@@ -86,31 +41,12 @@ const AccountRegistration = () => {
   const [hospital, setHospital] = useState('');
   const [specialization, setSpecialization] = useState('');
 
-  const [emailExc, setEmailExc] = useState('');
-  const [passExc, setPassExc] = useState('');
-
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  console.log(state);
-
-  const resultFeedBack = () => {
-    setTimeout(() => {
-      setLoading(false);
-      onOpen();
-    }, [200]);
-  };
-
-  const closeModal = () => {
-    onClose();
-    if (success) {
-      navigate('login', { replace: true });
-    }
-  };
-
-  const navigateAuthorize = e => {
+  const navigateToLogin = e => {
     e.preventDefault();
-    navigate('/', { replace: true });
+    navigate('/login', { replace: true });
   };
 
   const resetState = () => {
@@ -121,6 +57,11 @@ const AccountRegistration = () => {
 
   const handleUserInformation = async e => {
     e.preventDefault();
+
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
 
     let bodyForm = new FormData();
@@ -133,38 +74,40 @@ const AccountRegistration = () => {
     bodyForm.append('password', state.password);
 
     PostRequest({ url: `${Auth}/account` }, bodyForm)
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
         resetState();
         setSuccess(true);
-        console.log(res);
-        setFeedBackTitle('Registered successfully');
-        setFeedBackDescription('Please wait for account approval.');
-        resultFeedBack();
+        setFeedback('Registered successfully, Wait for approval.');
+        setLoading(false);
       })
       .catch(err => {
-        let msg = '';
-        console.log(err);
+        const {
+          response: {
+            data: { message },
+            status,
+          },
+        } = err;
+
+        switch (status) {
+          case 400:
+            setFeedback(message);
+            break;
+          default:
+            setFeedback(message);
+            break;
+        }
 
         setSuccess(false);
-        setFeedBackTitle('Something went wrong!.');
-        setFeedBackDescription(msg);
-        resultFeedBack();
+        setLoading(false);
       });
   };
 
   return (
     <>
-      <Feedback
-        title={feedbackTitle}
-        description={feedbackDescription}
-        onClose={onClose}
-        handleClose={closeModal}
-        isOpen={isOpen}
-        success={success}
-      />
       <Box
         w={'100%'}
         h={'100vh'}
@@ -173,13 +116,24 @@ const AccountRegistration = () => {
         backgroundImage={'linear-gradient(#B0F3F1,#FFCFDF)'}
       >
         <Box
-          w={'60%'}
-          h={'70%'}
+          display={['block', 'block', 'none', 'none']}
+          textAlign="center"
+          pt={3}
+          pb={2}
+          letterSpacing={4}
+        >
+          <Heading size={'lg'} color="teal">
+            ZCMC TELEMEDICINE
+          </Heading>
+        </Box>
+        <Box
+          w={['100%', '100%', '70%', '60%']}
+          h={['80%', '80%', '70%', '70%']}
           left={'50%'}
           top={'50%'}
           transform="translate(-50%, -50%)"
           position={'absolute'}
-          boxShadow={'2xl'}
+          boxShadow={['none', 'none', '2xl', '2xl']}
           rounded={15}
           overflow={'hidden'}
         >
@@ -187,55 +141,30 @@ const AccountRegistration = () => {
             templateRows={'repeat(1, 1fr)'}
             templateColumns="repeat(12, 1fr)"
           >
-            <GridItem rowSpan={1} colSpan={7}>
+            <GridItem rowSpan={1} colSpan={[12, 12, 12, 7]}>
               <AuthBackground />
             </GridItem>
-            <GridItem colSpan={5}>
-              <Box w={'100%'} h={'100%'} bg={'whiteAlpha.600'}>
+            <GridItem rowSpan={[1, 1, 1, 0]} colSpan={[12, 12, 12, 5]}>
+              <Box
+                w={'100%'}
+                h={'100%'}
+                bg={[
+                  'transparent',
+                  'transparent',
+                  'whiteAlpha.900',
+                  'whiteAlpha.600',
+                ]}
+              >
                 <Flex
                   flexDirection={'column'}
                   justifyContent={'space-between'}
                   pl={10}
-                  pt={8}
+                  pt={[2, 2, 2, 8]}
                   pr={10}
                   pb={3}
-                  h={'70vh'}
+                  h={['70vh', '70vh', '50vh', '70vh']}
                 >
                   <AuthHeader title={'User information'} />
-                  {message === '' ? null : (
-                    <Box w={'100%'}>
-                      <Box
-                        float="right"
-                        maxWidth={'200px'}
-                        color="white"
-                        display="flex"
-                        columnGap={2}
-                        bg="red"
-                        opacity={0.8}
-                        p={2}
-                        borderRadius={15}
-                        alignItems="center"
-                        mt={5}
-                      >
-                        <MdNoAccounts fontSize={20} />
-                        <Box maxWidth={'200px'} textAlign="start">
-                          <Text fontWeight={700}>{message}</Text>
-                        </Box>
-                        <Box w="green" zIndex={99}>
-                          <Text
-                            bg="transparent"
-                            fontSize={20}
-                            _hover={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              setFeedBackDescription('');
-                            }}
-                          >
-                            <IoMdClose color={'white'} />
-                          </Text>
-                        </Box>
-                      </Box>
-                    </Box>
-                  )}
                   <Box
                     w={'inherit'}
                     h={'inherit'}
@@ -243,6 +172,34 @@ const AccountRegistration = () => {
                     flexDirection={'column'}
                     mt={message === '' ? '2rem' : '0'}
                   >
+                    <Box
+                      bg={success ? 'green' : 'red'}
+                      pl={2}
+                      pr={2}
+                      rounded={5}
+                      color="white"
+                      display={feedback === '' ? 'none' : 'block'}
+                    >
+                      <Flex
+                        justifyContent="space-between"
+                        alignItems="center"
+                        columnGap={2}
+                      >
+                        <Flex alignItems="center" columnGap={2}>
+                          {success ? (
+                            <BsCheckCircleFill size={25} />
+                          ) : (
+                            <HiEmojiSad size={25} />
+                          )}
+                          <Text fontSize={[12, 12, 14, 14]}>{feedback}</Text>
+                        </Flex>
+                        <IconButton
+                          bg={success ? 'green' : 'red'}
+                          icon={<IoClose size={30} />}
+                          onClick={() => setFeedback('')}
+                        />
+                      </Flex>
+                    </Box>
                     <CustomFormController
                       isSignup={true}
                       type={'text'}
@@ -250,8 +207,6 @@ const AccountRegistration = () => {
                       value={fname}
                       setValue={setFname}
                       placeholder={'First name'}
-                      errorMessage={emailExc}
-                      isError={false}
                       mt={3}
                       isRequired={false}
                     />
@@ -262,8 +217,6 @@ const AccountRegistration = () => {
                       value={mname}
                       setValue={setMname}
                       placeholder={'Middle name'}
-                      errorMessage={emailExc}
-                      isError={false}
                       mt={3}
                       isRequired={false}
                     />
@@ -274,8 +227,6 @@ const AccountRegistration = () => {
                       value={lname}
                       setValue={setLname}
                       placeholder={'Last name'}
-                      errorMessage={emailExc}
-                      isError={false}
                       mt={3}
                       isRequired={false}
                     />
@@ -291,17 +242,35 @@ const AccountRegistration = () => {
                         mt={5}
                       />
                     ) : null}
-                    <Button
-                      isLoading={loading}
-                      loadingText={'Saving'}
-                      mt={14}
-                      bg={'teal'}
-                      color={'white'}
-                      _hover={{ bg: 'teal' }}
-                      onClick={e => handleUserInformation(e)}
-                    >
-                      <Text>Save</Text>
-                    </Button>
+                    {success ? (
+                      <Button
+                        mt={14}
+                        bg={'teal'}
+                        color={'white'}
+                        _hover={{ bg: 'teal' }}
+                        onClick={e => navigateToLogin(e)}
+                      >
+                        <Text>{success ? 'Go to Login' : 'Save'}</Text>
+                      </Button>
+                    ) : (
+                      <Button
+                        isLoading={loading}
+                        loadingText={'Saving'}
+                        mt={14}
+                        bg={'teal'}
+                        color={'white'}
+                        _hover={{ bg: 'teal' }}
+                        isDisabled={
+                          fname === '' ||
+                          mname === '' ||
+                          lname === '' ||
+                          hospital === ''
+                        }
+                        onClick={e => handleUserInformation(e)}
+                      >
+                        <Text>{success ? 'Go to Login' : 'Save'}</Text>
+                      </Button>
+                    )}
                   </Box>
                   <AuthFooter />
                 </Flex>

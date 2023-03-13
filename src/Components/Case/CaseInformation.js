@@ -12,6 +12,7 @@ import { GiBodyHeight } from 'react-icons/gi';
 import PatientProfile from './PatientProfile';
 import { GetRequest } from '../../API/api';
 import { Case } from '../../API/Paths';
+import CaseParaclinicalFiles from './CaseParaclinicalFiles';
 
 const PatientMedicalBodyInformation = props => {
   return (
@@ -193,6 +194,7 @@ const CaseInformation = props => {
         <Box pt={5} pr={5}>
           <BodyInformation case={caseinformation} />
           <CaseMainInformation case={caseinformation} />
+          {/* <CaseParaclinicalFiles id={props.id} /> */}
         </Box>
       </Box>
     </Box>

@@ -9,12 +9,11 @@ import {
 } from '@chakra-ui/react';
 import '../Style/App.css';
 import React, { useEffect, useState } from 'react';
-import { TitleColor, toastposition, toastvariant } from './Packages';
+import { toastposition, toastvariant } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import TextFormController from '../Components/TextFormController';
 import CustomModal from '../Components/CustomModal';
 import { useToast } from '@chakra-ui/react';
-import { FaRegHospital } from 'react-icons/fa';
 import useAuth from '../Hooks/AuthContext';
 import { GetRequest, PostRequest } from '../API/api';
 import { Hospital } from '../API/Paths';
@@ -156,12 +155,12 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
 
 const Hospitals = () => {
   const [msg, setMsg] = useState('');
-  let duration = 0;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hospitals, setHospitals] = useState([]);
   const Title = 'Hospital';
-  const [fetch, setFetch] = useState(false);
-  const { setTableName, search, setSearch } = useAuth();
+  const [fetch, setFetch] = useState(true);
+  const { search, setSearch } = useAuth();
+  const [feedback, setFeedback] = useState('');
 
   const columns = [
     {
@@ -185,14 +184,6 @@ const Hospitals = () => {
       accessor: 'hospital_City',
     },
     {
-      Header: 'CREATED AT',
-      accessor: 'created_at',
-    },
-    {
-      Header: 'DATE UPDATE',
-      accessor: 'updated_at',
-    },
-    {
       Header: 'ACTION',
       accessor: 'action',
     },
@@ -200,44 +191,66 @@ const Hospitals = () => {
 
   const handleFetchHospital = () => {
     GetRequest({ url: Hospital })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
 
-        setHospitals(res.data.data);
+        const { data } = res;
+
+        setHospitals(data);
       })
       .catch(err => {
-        setMsg(StatusHandler(err));
+        const { status, message } = err;
+
+        switch (status) {
+          case 400:
+            setFeedback(message);
+            break;
+          case 404:
+            setFeedback('No record Found.');
+            break;
+          default:
+            setFeedback(message);
+            break;
+        }
       });
   };
 
-  const hospitalJSONData = hospitals.filter(filter =>
+  const filtered = hospitals.filter(filter =>
     filter.hospital_Name.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
-    setTableName(Title);
-    handleFetchHospital();
-    setFetch(false);
+    const intervalId = setInterval(
+      () => {
+        if (fetch) {
+          setFetch(false);
+        }
+
+        handleFetchHospital();
+      },
+      fetch ? 0 : 50000
+    );
+
+    return () => clearInterval(intervalId);
   }, [fetch]);
 
   return (
     <>
       <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
-          <Box mt={'0.02rem'}>
-            <CustomTablePaginate
-              title={Title}
-              columns={columns}
-              data={hospitalJSONData}
-              fetch={setFetch}
-              search={search}
-              setSearch={setSearch}
-              onOpen={onOpen}
-              isModal={true}
-            />
-          </Box>
+          <CustomTablePaginate
+            title={Title}
+            columns={columns}
+            data={filtered}
+            fetch={setFetch}
+            search={search}
+            setSearch={setSearch}
+            onOpen={onOpen}
+            isModal={true}
+          />
         </Box>
       </Container>
       <AddModal isOpen={isOpen} onClose={onClose} fetch={setFetch} />

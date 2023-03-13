@@ -13,6 +13,8 @@ export const CaseProvider = ({ children }) => {
   const [fileLimit, setFileLimit] = useState(false);
   const [sms, SetSms] = useState(null);
 
+  const [fetchMessage, setFetchMessage] = useState(true);
+
   const [FK_patients_ID, setFK_patients_ID] = useState('');
   const [FK_specializations_ID, setFK_specializations_ID] = useState('');
   const [cases_Temperature, setCases_Temperature] = useState('');
@@ -252,6 +254,8 @@ export const CaseProvider = ({ children }) => {
         setSelectedFiles,
         sms,
         SetSms,
+        fetchMessage,
+        setFetchMessage,
       }}
     >
       {children}

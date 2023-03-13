@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Box, Text, Container, useDisclosure, Flex } from '@chakra-ui/react';
-import { TitleColor, toastposition, toastvariant } from './Packages';
+import { Box, Container, useDisclosure, Flex } from '@chakra-ui/react';
+import { toastposition, toastvariant } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import TextFormController from '../Components/TextFormController';
 import CustomModal from '../Components/CustomModal';
 import { useToast } from '@chakra-ui/react';
-import { GiSkills } from 'react-icons/gi';
 import { GetRequest, PostRequest } from '../API/api';
 import { Doctor, Specialization } from '../API/Paths';
 import StatusHandler from '../Utils/StatusHandler';
@@ -89,51 +88,47 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
 
 const Specializations = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [doctors, setDoctors] = useState([]);
-  const [fetch, setFetch] = useState(false);
+  const [fetch, setFetch] = useState(true);
   const [specializations, setSpecializations] = useState([]);
-  const { setTableName, search, setSearch } = useAuth();
+  const { search, setSearch } = useAuth();
+  const [feedback, setFeedback] = useState('');
 
   const handleFetchSpecialization = async () => {
-    let msg = '';
     GetRequest({ url: Specialization })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
-        setSpecializations(res.data.data);
-      })
-      .catch(err => {
-        msg = StatusHandler(err);
-      });
-  };
+        const { data } = res;
 
-  const displayData = async () => {
-    let msg = '';
-    GetRequest({ url: Doctor })
-      .then(res => {
-        if (!res.statusText === 'OK') {
-          throw new Error('Bad response.', { cause: res });
+        console.log(data);
+        if (data.length === specializations.length) {
+          return;
         }
-
-        setDoctors(res.data.data);
+        setSpecializations(data);
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        console.log(err);
       });
   };
 
   //SearchFilter
-  const FilteredItems = specializations.filter(filter =>
-    filter.specializations_Title.toLowerCase().includes(search.toLowerCase())
+  const filtered = specializations.filter(
+    filter =>
+      filter.title.toLowerCase().includes(search.toLowerCase()) ||
+      filter.description.toLowerCase().includes(search.toLowerCase())
   );
 
-  //check if theres a changes. then update the data
   useEffect(() => {
-    setTableName(Title);
-    handleFetchSpecialization();
-    displayData();
-    setFetch(false);
+    const intervalId = setInterval(() => {
+      if (fetch) {
+        setFetch(false);
+      }
+      handleFetchSpecialization();
+    }, [fetch ? 0 : 40000]);
+
+    return () => clearInterval(intervalId);
   }, [fetch]);
 
   const Title = 'Specialization';
@@ -141,27 +136,23 @@ const Specializations = () => {
   const columns = [
     {
       Header: 'ID',
-      accessor: 'PK_specializations_ID',
+      accessor: 'id',
     },
     {
       Header: 'SPECIALIZATION',
-      accessor: 'specializations_Title',
+      accessor: 'title',
     },
     {
       Header: 'DESCRIPTION',
-      accessor: 'specializations_Description',
+      accessor: 'description',
     },
     {
       Header: 'DOCTORS',
       accessor: 'doctors',
     },
     {
-      Header: 'DATE CREATED',
-      accessor: 'created_at',
-    },
-    {
-      Header: 'LAST MODIFIED',
-      accessor: 'updated_at',
+      Header: 'ACTIVE',
+      accessor: 'spestatus',
     },
     {
       Header: 'ACTION',
@@ -173,19 +164,16 @@ const Specializations = () => {
     <>
       <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
-          <Box mt={'0.2rem'}>
-            <CustomTablePaginate
-              title={Title}
-              columns={columns}
-              fetch={setFetch}
-              data={FilteredItems}
-              doctors={doctors}
-              search={search}
-              setSearch={setSearch}
-              isModal={true}
-              onOpen={onOpen}
-            />
-          </Box>
+          <CustomTablePaginate
+            title={Title}
+            columns={columns}
+            fetch={setFetch}
+            data={filtered}
+            search={search}
+            setSearch={setSearch}
+            isModal={true}
+            onOpen={onOpen}
+          />
         </Box>
       </Container>
       <AddModal isOpen={isOpen} onClose={onClose} fetch={setFetch} />

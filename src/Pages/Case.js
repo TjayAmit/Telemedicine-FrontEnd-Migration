@@ -289,18 +289,16 @@ const Cases = () => {
     <>
       <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 5]}>
-          <Box>
-            <CustomTablePaginate
-              title={Title}
-              columns={columns}
-              data={filtered}
-              fetch={setFetch}
-              search={search}
-              onOpen={onOpen}
-              setSearch={setSearch}
-              isModal={true}
-            />
-          </Box>
+          <CustomTablePaginate
+            title={Title}
+            columns={columns}
+            data={filtered}
+            fetch={setFetch}
+            search={search}
+            onOpen={onOpen}
+            setSearch={setSearch}
+            isModal={true}
+          />
         </Box>
         <CaseConsent
           isOpen={isOpen}

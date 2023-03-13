@@ -102,7 +102,6 @@ const Specializations = () => {
         }
         const { data } = res;
 
-        console.log(data);
         if (data.length === specializations.length) {
           return;
         }

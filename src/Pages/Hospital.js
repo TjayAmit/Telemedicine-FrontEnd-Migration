@@ -154,7 +154,6 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
 };
 
 const Hospitals = () => {
-  const [msg, setMsg] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [hospitals, setHospitals] = useState([]);
   const Title = 'Hospital';

@@ -238,7 +238,7 @@ const Doctors = () => {
       });
   };
 
-  const Doctors = doctor.filter(
+  const filtered = doctor.filter(
     filter =>
       filter.profile_LastName.toLowerCase().includes(search.toLowerCase()) ||
       filter.profile_FirstName.toLowerCase().includes(search.toLowerCase()) ||
@@ -301,7 +301,7 @@ const Doctors = () => {
           <CustomTablePaginate
             title={'Navigator'}
             columns={column}
-            data={Doctors}
+            data={filtered}
             SpecializationData={SpecializationData}
             hospitalData={hospitalData}
             fetch={setFetch}

@@ -3,19 +3,17 @@ import { Text, Flex, Box, Container } from '@chakra-ui/react';
 import '../Style/App.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TitleColor } from './Packages';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
-import { FaUserFriends } from 'react-icons/fa';
 import { GetRequest } from '../API/api';
 import { Patient } from '../API/Paths';
 import StatusHandler from '../Utils/StatusHandler';
 import useAuth from '../Hooks/AuthContext';
 
 const Patients = () => {
-  const [fetch, setFetch] = useState(false);
+  const [fetch, setFetch] = useState(true);
   const [patients, setPatients] = useState([]);
   const navigate = useNavigate();
-  const { setTableName, search, setSearch } = useAuth;
+  const { search, setSearch } = useAuth();
   const Title = 'Patient';
 
   const handleClick = () => {
@@ -25,7 +23,7 @@ const Patients = () => {
   const columns = [
     {
       Header: 'ID',
-      accessor: 'PK_patients_ID',
+      accessor: 'id',
     },
     {
       Header: 'FIRST NAME',
@@ -62,47 +60,62 @@ const Patients = () => {
     let msg = '';
 
     GetRequest({ url: Patient })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
 
-        setPatients(res.data.data);
-        msg = 'success';
+        const { data } = res;
+
+        console.log(data);
+        setPatients(data);
       })
       .catch(err => {
         msg = StatusHandler(err);
       });
   };
 
-  useEffect(() => {
-    setTableName(Title);
-    handleFetchPatient();
-  }, [fetch]);
-
-  const FilteredItem = patients.filter(
-    x =>
-      x.patients_FirstName.toLowerCase().includes(search.toLowerCase()) ||
-      x.patients_MiddleName.toLowerCase().includes(search.toLowerCase()) ||
-      x.patients_LastName.toLowerCase().includes(search.toLowerCase())
+  const filtered = patients.filter(
+    filter =>
+      filter.patients_FirstName
+        .toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase()) ||
+      filter.patients_MiddleName
+        .toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase()) ||
+      filter.patients_LastName
+        .toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase())
   );
+
+  useEffect(() => {
+    const intervalId = setInterval(
+      () => {
+        if (fetch) {
+          setFetch(false);
+        }
+        handleFetchPatient();
+      },
+      fetch ? 0 : 30000
+    );
+    return () => clearInterval(intervalId);
+  }, [fetch]);
 
   return (
     <>
       <Container maxW={'container.xxl'}>
         <Box mt={[5, 5, 8, 5]} p={[0, 0, 3, 10]}>
-          <Box mt={'2rem'}>
-            <CustomTablePaginate
-              title={Title}
-              columns={columns}
-              data={FilteredItem}
-              fetch={setFetch}
-              search={search}
-              setSearch={setSearch}
-              handleClick={handleClick}
-              isModal={false}
-            />
-          </Box>
+          <CustomTablePaginate
+            title={Title}
+            columns={columns}
+            data={filtered}
+            fetch={setFetch}
+            search={search}
+            setSearch={setSearch}
+            handleClick={handleClick}
+            isModal={false}
+          />
         </Box>
       </Container>
     </>

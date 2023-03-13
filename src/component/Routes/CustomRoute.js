@@ -42,7 +42,7 @@ const Layout = () => {
 
 const CustomRoute = () => {
   const location = useLocation();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   //Maintaince For Date 13/03/2023
   //This will cover all necessary update that requested by the telemedicine Doctor

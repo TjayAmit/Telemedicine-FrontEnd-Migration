@@ -15,6 +15,9 @@ export const CaseProvider = ({ children }) => {
 
   const [fetchMessage, setFetchMessage] = useState(true);
 
+  const [postStatus, setPostStatus] = useState(false);
+  const [putStatus, setPutStatus] = useState(false);
+
   const [FK_patients_ID, setFK_patients_ID] = useState('');
   const [FK_specializations_ID, setFK_specializations_ID] = useState('');
   const [cases_Temperature, setCases_Temperature] = useState('');
@@ -76,6 +79,11 @@ export const CaseProvider = ({ children }) => {
   const registerCase = async e => {
     e.preventDefault();
 
+    if (postStatus) {
+      return;
+    }
+
+    setPostStatus(true);
     if (FK_patients_ID === '') {
       toast({
         title: 'Error in Saving Case.',
@@ -145,11 +153,20 @@ export const CaseProvider = ({ children }) => {
           });
           return;
         });
+
+      setPostStatus(false);
     }
   };
 
   const updateCase = async e => {
     e.preventDefault();
+
+    if (putStatus) {
+      return;
+    }
+
+    setPutStatus(true);
+
     let msg = '';
     let bodyFormData = new FormData();
     bodyFormData.append('PK_cases_ID', PK_cases_ID);
@@ -193,6 +210,8 @@ export const CaseProvider = ({ children }) => {
       .catch(err => {
         msg = StatusHandler(err);
       });
+
+    setPutStatus(false);
   };
 
   useEffect(() => {

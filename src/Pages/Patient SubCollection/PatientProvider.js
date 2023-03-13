@@ -37,6 +37,10 @@ export const PatientProvider = ({ children }) => {
   const registerPatient = async e => {
     e.preventDefault();
 
+    if (registerStatus) {
+      return;
+    }
+
     let msg = '';
     setRegisterStatus(true);
     let bodyFormData = new FormData();
@@ -86,6 +90,9 @@ export const PatientProvider = ({ children }) => {
     e.preventDefault();
 
     let msg = '';
+    if (updateStatus) {
+      return;
+    }
     setUpdateStatus(true);
     let bodyFormData = new FormData();
     bodyFormData.append('PK_patients_ID', PK_patients_ID);

@@ -163,7 +163,7 @@ const CaseConsent = props => {
             bg={'green.500'}
             color={'white'}
             _hover={{ bg: 'green.600' }}
-            onClick={props.redirect}
+            onClick={() => props.redirect()}
           >
             Yes, I Accept.
           </Button>

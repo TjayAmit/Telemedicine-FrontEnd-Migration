@@ -503,6 +503,8 @@ const CaseForm = () => {
     setCases_Remarks,
     FK_patients_ID,
     setPK_cases_ID,
+    registerCase,
+    updateCase,
   } = useCase();
 
   const initStates = props => {
@@ -527,11 +529,9 @@ const CaseForm = () => {
       setCases_Reason(props[0].cases_Reason);
       setCases_Remarks(props[0].cases_Remarks);
     } catch (e) {
-      // console.log(e);
+      console.log(e);
     }
   };
-
-  const { registerCase, updateCase } = useCase();
 
   useEffect(() => {
     try {
@@ -547,7 +547,7 @@ const CaseForm = () => {
   }, [fetch]);
 
   const handleClick = () => {
-    navigate('/h/case');
+    navigate(-1);
   };
 
   return (

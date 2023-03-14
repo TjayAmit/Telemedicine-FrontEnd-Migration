@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { toastvariant, toastposition } from '../Packages';
 import { GetRequest, PostRequest, PutRequest } from '../../API/api';
 import { Patient, Specialization, Case } from '../../API/Paths';
-import { StatusHandler } from '../../Utils/StatusHandler';
 
 const CaseContext = createContext({});
 
 export const CaseProvider = ({ children }) => {
+  const [feedback, setFeedback] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileLimit, setFileLimit] = useState(false);
   const [sms, SetSms] = useState(null);
@@ -45,34 +45,56 @@ export const CaseProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const initiliazedPatients = async () => {
-    let msg = '';
     GetRequest({ url: `${Patient}s` })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
 
-        setPatients(res.data.data);
-        msg = 'success';
+        setPatients(res.data);
+        setFeedback('success');
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        const { status, message } = err;
+
+        switch (status) {
+          case 400:
+            setFeedback(message);
+            break;
+          case 404:
+            setFeedback(message);
+            break;
+          default:
+            setFeedback(message);
+            break;
+        }
       });
   };
 
   const initiliazedSpecializations = async () => {
-    let msg = '';
     GetRequest({ url: `${Specialization}s` })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response', { cause: res });
         }
 
-        setSpecializations(res.data.data);
-        msg = 'success';
+        setSpecializations(res.data);
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        const { status, message } = err;
+        switch (status) {
+          case 400:
+            setFeedback(message);
+            break;
+          case 404:
+            setFeedback(message);
+            break;
+          default:
+            setFeedback(message);
+            break;
+        }
       });
   };
 
@@ -95,7 +117,6 @@ export const CaseProvider = ({ children }) => {
         isClosable: true,
       });
     } else {
-      let msg = '';
       let bodyFormData = new FormData();
 
       selectedFiles.forEach((element, key) => {
@@ -124,6 +145,7 @@ export const CaseProvider = ({ children }) => {
       bodyFormData.append('FK_doctors_ID', 1);
 
       PostRequest({ url: Case }, bodyFormData)
+        .then(res => res.data)
         .then(res => {
           if (!res.statusText === 'OK') {
             throw new Error('Bad response.', { cause: res });
@@ -141,7 +163,20 @@ export const CaseProvider = ({ children }) => {
           navigate('../../case');
         })
         .catch(err => {
-          msg = StatusHandler(err);
+          const { status, message } = err;
+
+          switch (status) {
+            case 400:
+              setFeedback(message);
+              break;
+            case 404:
+              setFeedback(message);
+              break;
+            default:
+              setFeedback(message);
+              break;
+          }
+
           toast({
             title: 'Something went wrong!',
             description: '',
@@ -167,7 +202,6 @@ export const CaseProvider = ({ children }) => {
 
     setPutStatus(true);
 
-    let msg = '';
     let bodyFormData = new FormData();
     bodyFormData.append('PK_cases_ID', PK_cases_ID);
     bodyFormData.append('FK_patients_ID', FK_patients_ID);
@@ -192,6 +226,7 @@ export const CaseProvider = ({ children }) => {
     bodyFormData.append('FK_doctors_ID', 1);
 
     PutRequest({ url: Case }, bodyFormData)
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -208,7 +243,19 @@ export const CaseProvider = ({ children }) => {
         navigate('../../case');
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        const { status, message } = err;
+
+        switch (status) {
+          case 400:
+            setFeedback(message);
+            break;
+          case 404:
+            setFeedback(message);
+            break;
+          default:
+            setFeedback(message);
+            break;
+        }
       });
 
     setPutStatus(false);
@@ -275,6 +322,7 @@ export const CaseProvider = ({ children }) => {
         SetSms,
         fetchMessage,
         setFetchMessage,
+        feedback,
       }}
     >
       {children}

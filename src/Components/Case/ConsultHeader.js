@@ -16,7 +16,7 @@ const ConsultHeader = props => {
   const navigate = useNavigate();
 
   const handleBack = e => {
-    navigate('/case');
+    navigate(-1);
   };
 
   return (

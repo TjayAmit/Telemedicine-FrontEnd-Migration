@@ -7,7 +7,7 @@ import useAuth from '../Hooks/AuthContext.js';
 import MyAccount from '../Pages/MyAccount.js';
 import PatientForm from '../Pages/Patient SubCollection/PatientForm';
 import CaseForm from '../Pages/Case SubCollection/CaseForm';
-import CaseProvider from '../Pages/Case SubCollection/CaseProvider';
+import { CaseProvider } from '../Pages/Case SubCollection/CaseProvider';
 import RouteData from './RouteData';
 import Consult from '../Pages/Consult.js';
 import { PatientProvider } from '../Pages/Patient SubCollection/PatientProvider.js';

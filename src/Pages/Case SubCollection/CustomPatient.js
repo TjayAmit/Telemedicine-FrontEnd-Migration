@@ -93,7 +93,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
           ) : (
             <Box borderRadius={5}>
               {patientdata
-                .filter(filter => filter.PK_patients_ID == patientID)
+                .filter(filter => filter.PK_patients_ID === patientID)
                 .map(row => {
                   return (
                     <>
@@ -192,7 +192,7 @@ export const CustomPatient = ({ patientdata, isUpdate, patientID }) => {
           {selected ? (
             <>
               {patientdata
-                .filter(filter => filter.PK_patients_ID == selected)
+                .filter(filter => filter.PK_patients_ID === selected)
                 .map(row => {
                   return (
                     <>

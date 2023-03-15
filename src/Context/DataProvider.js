@@ -194,10 +194,10 @@ export const DataProvider = ({ children }) => {
           throw new Error('Bad response.');
         }
 
-        console.log('success.');
+        // console.log('success.');
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

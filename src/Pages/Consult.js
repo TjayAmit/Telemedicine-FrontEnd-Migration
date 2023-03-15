@@ -11,6 +11,7 @@ import ConsultHeader from '../Components/Case/ConsultHeader';
 import CaseInformation from '../Components/Case/CaseInformation';
 import CaseCreateMessage from '../Components/Case/CaseCreateMessage';
 import CaseMessage from '../Components/Case/CaseMessage';
+import useAuth from '../Hooks/AuthContext';
 
 const AddModal = ({ isOpen, onClose, fetch, caseID }) => {
   const title = 'ADD Specialization';
@@ -94,6 +95,7 @@ const MessageComponentHeader = () => {
 };
 
 const Consult = () => {
+  const { user } = useAuth();
   const [fetchMessage, setFetchMessage] = useState(true);
   const [sort, setSort] = useState('Newest');
   const [decending, setDecending] = useState(true);
@@ -130,7 +132,9 @@ const Consult = () => {
   };
 
   useEffect(() => {
-    handleUpdateCase();
+    if (user.user_role !== 'External Doctor') {
+      handleUpdateCase();
+    }
     setTimeout(() => {
       setLoad(false);
     }, 2000);

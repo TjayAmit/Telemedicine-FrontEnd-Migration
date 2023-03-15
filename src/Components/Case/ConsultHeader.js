@@ -10,7 +10,6 @@ import { Case } from '../../API/Paths';
 import useAuth from '../../Hooks/AuthContext';
 
 const ConsultHeader = props => {
-  console.log(props);
   const { user } = useAuth();
   const selectionList = [
     {
@@ -35,7 +34,6 @@ const ConsultHeader = props => {
 
   const [selected, setSelected] = useState(selectionList[props.status]);
   const [feedback, setFeedback] = useState('');
-  const [update, setUpdate] = useState(true);
 
   const navigate = useNavigate();
 
@@ -46,6 +44,7 @@ const ConsultHeader = props => {
   };
 
   const handleBack = e => {
+    e.preventDefault();
     navigate(-1);
   };
 
@@ -80,18 +79,6 @@ const ConsultHeader = props => {
         }
       });
   };
-
-  useEffect(() => {
-    if (update) {
-      setUpdate(false);
-    }
-
-    if (props.status === 0) {
-      handleUpdate(1);
-    }
-
-    return () => setUpdate(false);
-  }, [update]);
 
   return (
     <Box

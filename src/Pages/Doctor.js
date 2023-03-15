@@ -248,13 +248,10 @@ const Doctors = () => {
 
   //check if theres a changes. then update the data
   useEffect(() => {
-    // setTableName('Doctor');
     serviceTypeData();
     handleFetchDoctor();
     setFetch(false);
   }, [fetch]);
-
-  const Title = 'Doctors';
 
   const column = useMemo(
     () => [
@@ -284,7 +281,7 @@ const Doctors = () => {
       },
       {
         Header: 'HOSPITAL',
-        accessor: 'hospital_Name',
+        accessor: 'hospitals',
       },
       {
         Header: 'ACTION',

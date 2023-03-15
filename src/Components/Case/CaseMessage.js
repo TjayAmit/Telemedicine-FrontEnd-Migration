@@ -67,7 +67,14 @@ const MessageComponent = ({
             <Text fontSize={12}>
               {hospital_Name} - {name}
             </Text>
-            <Text w={'auto'} bg="white" p={3} rounded={10} boxShadow="md">
+            <Text
+              w={'auto'}
+              bg="white"
+              p={3}
+              rounded={10}
+              boxShadow="md"
+              dir="ltr"
+            >
               {comment}
             </Text>
           </Box>

@@ -19,13 +19,14 @@ const PatientProfile = props => {
 
   const handleFetchInformation = () => {
     GetRequest({ url: `${Patient}/${props.id}` })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
-        const {
-          data: { data },
-        } = res;
+
+        const { data } = res;
+
         setPatient(data);
       })
       .catch(err => {
@@ -66,7 +67,7 @@ const PatientProfile = props => {
           value={`${
             new Date().getFullYear() -
             new Date(patient.patients_Birthday).getFullYear()
-          } (${moment(patient.patients_Birthday).format('L')})`}
+          }yrs (${moment(patient.patients_Birthday).format('L')})`}
         />
         <TextDisplay title="Sex" value={`${patient.patients_Gender}`} />
         <TextDisplay
@@ -83,6 +84,10 @@ const PatientProfile = props => {
           value={`${patient.patients_Ethnicity}`}
         />
         <TextDisplay title="Dialect" value={`${patient.patients_Dialect}`} />
+        <TextDisplay
+          title="Address (Street, Barangay, City)"
+          value={`${patient.patients_Street}, ${patient.patients_Barangay}, ${patient.patients_City}`}
+        />
       </Box>
     </Box>
   );

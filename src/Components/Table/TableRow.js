@@ -84,7 +84,20 @@ const Actions = ({
         </>
       ) : null}
 
-      {title !== 'Archived Case' && user.user_role === 'Internal Doctor' ? (
+      {title !== 'Archived Case' && user.user_role === 'External Doctor' ? (
+        <CustomEditButton
+          title={title}
+          data={cellvalue}
+          fetch={fetch}
+          rawData={props.data}
+          SpecializationData={SpecializationData}
+          hospitalData={hospitalData}
+          row={row}
+        />
+      ) : null}
+
+      {(title === 'Navigator' && user.user_role === 'Admin') ||
+      user.user_role === 'Super Admin' ? (
         <CustomEditButton
           title={title}
           data={cellvalue}

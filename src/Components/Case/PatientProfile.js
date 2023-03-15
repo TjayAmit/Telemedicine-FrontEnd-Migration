@@ -1,4 +1,5 @@
 import { Avatar, Text, Heading, Box, Image } from '@chakra-ui/react';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { GetRequest } from '../../API/api';
 import { Patient } from '../../API/Paths';
@@ -25,7 +26,6 @@ const PatientProfile = props => {
         const {
           data: { data },
         } = res;
-        console.log(data);
         setPatient(data);
       })
       .catch(err => {
@@ -66,7 +66,7 @@ const PatientProfile = props => {
           value={`${
             new Date().getFullYear() -
             new Date(patient.patients_Birthday).getFullYear()
-          }`}
+          } (${moment(patient.patients_Birthday).format('L')})`}
         />
         <TextDisplay title="Sex" value={`${patient.patients_Gender}`} />
         <TextDisplay

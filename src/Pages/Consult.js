@@ -103,8 +103,6 @@ const Consult = () => {
   const [caseinfo, setCaseInfo] = useState(location.state);
   const [load, setLoad] = useState(true);
 
-  console.log(location.state);
-
   const handleSort = e => {
     setSort(e.target.value);
     setDecending(!decending);
@@ -143,7 +141,8 @@ const Consult = () => {
       <Flex w="inherit" h="100vh" overflow={'hidden'}>
         <Box w="inherit" flex={8}>
           <ConsultHeader
-            id={caseinfo.case_number}
+            id={caseinfo.id}
+            casenumber={caseinfo.case_number}
             specialization={caseinfo.specialization}
             hospital={caseinfo.hospital_Name}
             status={caseinfo.case_status}

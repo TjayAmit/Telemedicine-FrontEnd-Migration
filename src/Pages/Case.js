@@ -254,7 +254,7 @@ const Cases = () => {
   };
 
   const filtered = cases.filter(filter =>
-    filter.case_status !== 1
+    filter.case_status === 2
       ? null
       : filter.case_number
           .toLocaleLowerCase()

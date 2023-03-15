@@ -27,6 +27,7 @@ const Actions = ({
   cellvalue,
   row,
   props,
+  user,
 }) => {
   const navigate = useNavigate();
 
@@ -83,7 +84,7 @@ const Actions = ({
         </>
       ) : null}
 
-      {title !== 'Archived Case' ? (
+      {title !== 'Archived Case' && user.user_role === 'Internal Doctor' ? (
         <CustomEditButton
           title={title}
           data={cellvalue}
@@ -150,6 +151,7 @@ const TableRow = props => {
                               hospitalData={props.hospitalData}
                               row={row.values}
                               props={props}
+                              user={user}
                             />
                           </>
                         ) : (
@@ -163,6 +165,7 @@ const TableRow = props => {
                               hospitalData={props.hospitalData}
                               row={row.values}
                               props={props}
+                              user={user}
                             />
                           </>
                         )
@@ -177,6 +180,7 @@ const TableRow = props => {
                             hospitalData={props.hospitalData}
                             row={row.values}
                             props={props}
+                            user={user}
                           />
                         </>
                       )}

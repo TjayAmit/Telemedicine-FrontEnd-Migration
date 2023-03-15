@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 // let baseURL = 'http://localhost:8000/';
-// telemed server
 let baseURL = 'https://zcmc-telemedserver.online';
 
 const api = new axios.create({

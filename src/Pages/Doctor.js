@@ -204,7 +204,6 @@ const Doctors = () => {
 
   const [SpecializationData, setSpecializationData] = useState([]);
   const [hospitalData, setHospitalData] = useState([]);
-  const [hospitals, setHospitals] = useState([]);
   const [users, setUsers] = useState([]);
   const [doctor, setDoctor] = useState([]);
   const { search, setSearch } = useAuth();
@@ -243,7 +242,7 @@ const Doctors = () => {
       filter.profile_LastName.toLowerCase().includes(search.toLowerCase()) ||
       filter.profile_FirstName.toLowerCase().includes(search.toLowerCase()) ||
       filter.email.toLowerCase().includes(search.toLowerCase()) ||
-      filter.hospital_Name.toLowerCase().includes(search.toLowerCase())
+      filter.hospitals.toLowerCase().includes(search.toLowerCase())
   );
 
   //check if theres a changes. then update the data
@@ -278,6 +277,10 @@ const Doctors = () => {
       {
         Header: 'STATUS',
         accessor: 'status',
+      },
+      {
+        Header: 'EMAIL',
+        accessor: 'email',
       },
       {
         Header: 'HOSPITAL',

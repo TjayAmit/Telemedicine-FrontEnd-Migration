@@ -1,59 +1,62 @@
 import React, { useState } from 'react';
 import { FormControl, FormLabel, Select } from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react';
-import {
-  toastposition,
-  toastvariant,
-} from '../../Pages/Packages';
+import { toastposition, toastvariant } from '../../Pages/Packages';
 import TextFormController from '../TextFormController';
 import CustomModal from '../CustomModal';
 import { PutRequest } from '../../API/api';
 import { StatusHandler } from '../../Utils/StatusHandler';
 
 function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
-  const doctorData = rawData.filter(e => e.PK_doctors_ID == data.PK_doctors_ID);
+  const [status, setStatus] = useState(false);
+
+  const doctorData = rawData.filter(
+    e => e.PK_doctors_ID === data.PK_doctors_ID
+  );
   const toast = useToast();
 
-  const [email, SetEmail] = useState(
-    doctorData === null ? '' : doctorData[0].email
-  );
+  const [email, SetEmail] = useState(row.email);
 
   const [verify, setVerify] = useState(
     data.status === 1 ? 'Active' : 'Dissabled'
   );
 
-  const [hospital, SetHospital] = useState(
-    doctorData === null ? '' : data.hospital_Name
-  );
+  const [hospital, SetHospital] = useState(row.hospitals);
 
-  const [username, SetUsername] = useState(
-    doctorData === null ? '' : doctorData[0].name
+  const [name, setName] = useState(
+    `${row.profile_FirstName} ${row.profile_LastName}`
   );
 
   const [exist, setExist] = useState(false);
 
-  const onSave = async e => {
+  const onSave = e => {
     e.preventDefault();
-
-    const type = parseFloat(verify);
-
-    if (typeof type === 'string') {
-      toast({
-        title: 'Please select account status',
-        position: toastposition,
-        variant: toastvariant,
-        status: 'warning',
-        isClosable: true,
-      });
+    if (status) {
       return;
     }
 
+    setStatus(true);
+
+    // const type = parseFloat(verify);
+
+    // if (typeof type === 'string') {
+    //   toast({
+    //     title: 'Please select account status',
+    //     position: toastposition,
+    //     variant: toastvariant,
+    //     status: 'warning',
+    //     isClosable: true,
+    //   });
+    //   return;
+    // }
+
     let msg = '';
     let formData = new FormData();
-    formData.append('PK_user_ID', row.id);
-    formData.append('Account_status', verify);
+    formData.append('id', row.id);
+    formData.append('status', verify);
 
-    PutRequest({ url: `approved/user` }, formData)
+    PutRequest({ url: `api/approved/user` }, formData)
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -62,7 +65,7 @@ function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
         fetch(true);
 
         toast({
-          title: 'Updated Successfully!',
+          title: 'Account Updated.',
           position: toastposition,
           variant: toastvariant,
           status: 'success',
@@ -70,7 +73,8 @@ function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
         });
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        const { data } = err;
+
         toast({
           title: 'Something went wrong',
           position: toastposition,
@@ -79,6 +83,7 @@ function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
           isClosable: true,
         });
       });
+    setStatus(false);
   };
 
   return (
@@ -95,9 +100,9 @@ function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
         <form>
           <FormControl mt={2}>
             <TextFormController
-              title={'Username'}
-              value={username}
-              setValue={SetUsername}
+              title={'Name'}
+              value={name}
+              setValue={setName}
               isRequired={true}
               isDisabled={true}
             />

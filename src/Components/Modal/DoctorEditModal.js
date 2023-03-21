@@ -51,11 +51,14 @@ function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
     // }
 
     let msg = '';
-    let formData = new FormData();
-    formData.append('id', row.id);
-    formData.append('status', verify);
 
-    PutRequest({ url: `api/approved/user` }, formData)
+    PutRequest(
+      { url: `api/approved/user` },
+      {
+        id: row.id,
+        status: verify,
+      }
+    )
       .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {

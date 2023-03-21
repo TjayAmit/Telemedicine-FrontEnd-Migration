@@ -26,11 +26,6 @@ const CustomFormController = ({
 }) => {
   const [show, setShow] = React.useState(false);
 
-  const handleOnChange = e => {
-    let textInput = e.target.value;
-    setValue(textInput.trim());
-  };
-
   return (
     <>
       <FormControl
@@ -55,7 +50,7 @@ const CustomFormController = ({
             bg="white"
             boxShadow="sm"
             focusBorderColor={'rgba(0, 128, 128,0.5)'}
-            onChange={e => handleOnChange(e)}
+            onChange={e => setValue(e.target.value)}
           />
           {type === 'password' ? (
             <InputRightElement width="3rem" onClick={() => setShow(!show)}>

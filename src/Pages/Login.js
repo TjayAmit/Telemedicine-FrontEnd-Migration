@@ -46,7 +46,7 @@ const Login = () => {
     setLoading(true);
 
     let form = new FormData();
-    form.append('name', name);
+    form.append('name', name.trim());
     form.append('password', password);
 
     PostRequest({ url: `${Auth}/signin` }, form)

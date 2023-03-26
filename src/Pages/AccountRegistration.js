@@ -7,6 +7,7 @@ import {
   GridItem,
   IconButton,
   Heading,
+  Select,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -40,6 +41,7 @@ const AccountRegistration = () => {
   const [lname, setLname] = useState('');
   const [hospital, setHospital] = useState('');
   const [specialization, setSpecialization] = useState('');
+  const [position, setPosition] = useState('');
 
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -70,6 +72,7 @@ const AccountRegistration = () => {
     bodyForm.append('middlename', mname);
     bodyForm.append('lastname', lname);
     bodyForm.append('hospital', hospital);
+    bodyForm.append('position', position);
     bodyForm.append('specialization', specialization);
     bodyForm.append('password', state.password);
 
@@ -230,6 +233,18 @@ const AccountRegistration = () => {
                       mt={3}
                       isRequired={false}
                     />
+                    <Select
+                      mt={3}
+                      bg="white"
+                      focusBorderColor="rgba(0, 128, 128,0.5)"
+                      placeholder="Position"
+                      onChange={e => {
+                        setPosition(e.target.value);
+                      }}
+                    >
+                      <option>Nurse </option>
+                      <option>Doctor </option>
+                    </Select>
                     <SelectionHospital
                       value={hospital}
                       setValue={setHospital}

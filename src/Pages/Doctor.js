@@ -22,6 +22,7 @@ import useAuth from '../Hooks/AuthContext';
 import { GetRequest } from '../API/api';
 import { Specialization, Doctor } from '../API/Paths';
 import { StatusHandler } from '../Utils/StatusHandler';
+import { PostRequest } from '../API/api';
 
 const AddModal = ({ isOpen, onClose, fetch, users }) => {
   const title = 'New Doctor';
@@ -29,6 +30,7 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
   const filetag = useRef();
   const [exist, setExist] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [msg, setMsg] = useState('');
 
   const {
     email,
@@ -45,7 +47,7 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
     isErrorEmail,
     isErrorPassword,
     resetState,
-    registerStaff,
+    url,
   } = useAuth();
 
   const handleSubmit = async e => {
@@ -64,31 +66,42 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
       });
     } else {
       setLoader(true);
+      let bodyFormData = new FormData();
+      bodyFormData.append('name', name);
+      bodyFormData.append('email', email);
+      bodyFormData.append('password', password);
+      bodyFormData.append('profile', url);
+      bodyFormData.append('profile_FirstName', doctors_FirstName);
+      bodyFormData.append('profile_LastName', doctors_LastName);
 
-      const res = await registerStaff();
+      PostRequest({ url: 'api/signup2' }, bodyFormData)
+        .then(res => res.data)
+        .then(res => {
+          console.log(res);
+          if (!res.statusText === 'OK') {
+            throw new Error('Bad response.', { cause: res });
+          }
 
-      if (res !== 'success') {
-        toast({
-          title: 'Something went wrong!',
-          position: toastposition,
-          variant: toastvariant,
-          status: 'error',
-          isClosable: true,
+          toast({
+            title: 'Success!',
+            position: toastposition,
+            variant: toastvariant,
+            status: 'success',
+            isClosable: true,
+          });
+        })
+        .catch(err => {
+          const { status } = err;
+          switch (status) {
+            case 400:
+              setMsg('Something went wrong!');
+              break;
+            default:
+              setMsg('Problem encounter. try again later.');
+              break;
+          }
         });
-      }
 
-      if (res === 'success') {
-        onClose();
-        toast({
-          title: 'Navigator registered!.',
-          position: toastposition,
-          variant: toastvariant,
-          status: 'success',
-          isClosable: true,
-        });
-        resetState();
-        fetch(true);
-      }
       setLoader(false);
     }
   };
@@ -275,16 +288,16 @@ const Doctors = () => {
         accessor: 'profile_position',
       },
       {
-        Header: 'STATUS',
-        accessor: 'status',
-      },
-      {
         Header: 'EMAIL',
         accessor: 'email',
       },
       {
         Header: 'HOSPITAL',
         accessor: 'hospitals',
+      },
+      {
+        Header: 'STATUS',
+        accessor: 'status',
       },
       {
         Header: 'ACTION',

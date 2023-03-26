@@ -164,7 +164,7 @@ const Hospitals = () => {
   const columns = [
     {
       Header: 'ID',
-      accessor: 'PK_hospital_ID',
+      accessor: 'id',
     },
     {
       Header: 'NAME',

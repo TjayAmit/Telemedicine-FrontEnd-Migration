@@ -1,4 +1,15 @@
-import { Badge, Box, IconButton, Select, Text } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  IconButton,
+  Text,
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuButton,
+} from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import '../../Style/Consult.css';
 import { FaHospital, FaBriefcaseMedical } from 'react-icons/fa';
@@ -11,37 +22,12 @@ import useAuth from '../../Hooks/AuthContext';
 
 const ConsultHeader = props => {
   const { user } = useAuth();
-  const selectionList = [
-    {
-      key: 0,
-      name: 'PENDING',
-      value: 0,
-      action: 'update',
-    },
-    {
-      key: 1,
-      name: 'ACTIVE',
-      value: 1,
-      action: 'activate',
-    },
-    {
-      key: 2,
-      name: 'DONE',
-      value: 2,
-      action: 'deactivate',
-    },
-  ];
 
-  const [selected, setSelected] = useState(selectionList[props.status]);
+  const [isPending, setIsPending] = useState(props.status === 0 ? true : false);
+  const [status, setStatus] = useState(props.status);
   const [feedback, setFeedback] = useState('');
 
   const navigate = useNavigate();
-
-  const handleSelection = e => {
-    e.preventDefault();
-    setSelected(selectionList[e.target.value]);
-    handleUpdate(selectionList[e.target.value].key);
-  };
 
   const handleBack = e => {
     e.preventDefault();
@@ -61,7 +47,7 @@ const ConsultHeader = props => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
-        console.log('success');
+        setStatus(value);
       })
       .catch(err => {
         const { status, message } = err;
@@ -79,6 +65,14 @@ const ConsultHeader = props => {
         }
       });
   };
+
+  useEffect(() => {
+    if (isPending) {
+      handleUpdate(1);
+    }
+
+    return () => setIsPending(false);
+  }, []);
 
   return (
     <Box
@@ -111,14 +105,21 @@ const ConsultHeader = props => {
           display="flex"
           alignItem="center"
           columnGap={2}
+          fontSize={14}
         >
           <FaBriefcaseMedical /> CASE #{props.casenumber}
         </Text>
-        <Text color="gray" display="flex" columnGap={2} alignItems="center">
+        <Text
+          color="gray"
+          display="flex"
+          columnGap={2}
+          alignItems="center"
+          fontSize={14}
+        >
           <GiSkills />
           {props.specialization.toLocaleUpperCase()}
         </Text>
-        <Text color="gray" display="flex" columnGap={2}>
+        <Text color="gray" display="flex" columnGap={2} fontSize={14}>
           <FaHospital />
           {props.hospital.toLocaleUpperCase()}
         </Text>
@@ -126,45 +127,42 @@ const ConsultHeader = props => {
       {user.user_role === 'External Doctor' ? (
         <Box />
       ) : (
-        <Box fontWeight={800} className="selection-main">
+        <Box fontWeight={800} display="flex" columnGap={5} alignItems="center">
           <Box className="selection-header">
             <Badge
               colorScheme={
-                selected.value === 1
-                  ? 'green'
-                  : selected.value === 2
-                  ? 'blue'
-                  : 'gray'
+                status === 1 ? 'green' : status === 2 ? 'blue' : 'gray'
               }
               fontSize={20}
             >
               <Text
                 color={
-                  selected.value === 1
-                    ? 'green'
-                    : selected.value === 2
-                    ? 'darkblue'
-                    : 'grey'
+                  status === 1 ? 'green' : status === 2 ? 'darkblue' : 'grey'
                 }
+                fontSize={18}
               >
-                {selected.name}
+                {status === 1 ? 'ACTIVE' : status === 2 ? 'DONE' : 'PENDING'}
               </Text>
             </Badge>
           </Box>
           <Box className="selection-list">
-            <Select
-              placeholder={selected.name}
-              onChange={e => handleSelection(e)}
-            >
-              {selectionList.map(data =>
-                data.name === selected.name ||
-                data.name === 'PENDING' ? null : (
-                  <option key={data.key} value={data.value}>
-                    {data.name}
-                  </option>
-                )
-              )}
-            </Select>
+            <Menu>
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                fontSize={14}
+              >
+                ACTIONS
+              </MenuButton>
+              <MenuList fontSize={14}>
+                {status === 2 || status === 0 ? (
+                  <MenuItem onClick={_ => handleUpdate(1)}>ACTIVE</MenuItem>
+                ) : (
+                  <MenuItem onClick={_ => handleUpdate(2)}>DONE</MenuItem>
+                )}
+                <MenuItem>Add Specialization</MenuItem>
+              </MenuList>
+            </Menu>
           </Box>
         </Box>
       )}

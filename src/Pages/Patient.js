@@ -12,6 +12,7 @@ import useAuth from '../Hooks/AuthContext';
 const Patients = () => {
   const [fetch, setFetch] = useState(true);
   const [patients, setPatients] = useState([]);
+  const [feedback, setFeedback] = useState('');
   const navigate = useNavigate();
   const { search, setSearch } = useAuth();
   const Title = 'Patient';
@@ -68,11 +69,24 @@ const Patients = () => {
 
         const { data } = res;
 
-        console.log(data);
         setPatients(data);
       })
       .catch(err => {
-        msg = StatusHandler(err);
+        const { status, message } = err;
+
+        switch (status) {
+          case 400:
+            setFeedback('Something went wrong!.');
+            break;
+          case 401:
+            break;
+          case 404:
+            setFeedback('No data found');
+            break;
+          default:
+            setFeedback("Can't complete task");
+            break;
+        }
       });
   };
 

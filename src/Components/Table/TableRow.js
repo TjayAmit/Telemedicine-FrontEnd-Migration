@@ -69,7 +69,7 @@ const Actions = ({
             fontWeight={'normal'}
             color={'blue.400'}
             onClick={() => {
-              navigate('/case/case-data', {
+              navigate('/case/case-view', {
                 state: {
                   data: cellvalue,
                   rawData: props.data.filter(
@@ -158,7 +158,7 @@ const TableRow = props => {
                             <Actions
                               title={props.title}
                               cellvalue={cell.row.values}
-                              fetch={fetch}
+                              fetch={props.fetch}
                               rawData={props.data}
                               SpecializationData={props.SpecializationData}
                               hospitalData={props.hospitalData}
@@ -172,7 +172,7 @@ const TableRow = props => {
                             <Actions
                               title={props.title}
                               cellvalue={cell.row.values}
-                              fetch={fetch}
+                              fetch={props.fetch}
                               rawData={props.data}
                               SpecializationData={props.SpecializationData}
                               hospitalData={props.hospitalData}
@@ -187,7 +187,7 @@ const TableRow = props => {
                           <Actions
                             title={props.title}
                             cellvalue={cell.row.values}
-                            fetch={fetch}
+                            fetch={props.fetch}
                             rawData={props.data}
                             SpecializationData={props.SpecializationData}
                             hospitalData={props.hospitalData}
@@ -206,6 +206,15 @@ const TableRow = props => {
                       user_role !== 'External Doctor' ? (
                         <Badge fontSize={10} colorScheme={'green'}>
                           New message
+                        </Badge>
+                      ) : (
+                        ''
+                      )}
+                      {!!row.original.notif &&
+                      row.original.case_status === 0 &&
+                      user_role !== 'External Doctor' ? (
+                        <Badge fontSize={10} colorScheme={'green'}>
+                          New Case
                         </Badge>
                       ) : (
                         ''

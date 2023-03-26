@@ -147,6 +147,7 @@ const CustomTablePaginate = ({
               hospitalData={hospitalData}
               SpecializationData={SpecializationData}
               data={data}
+              fetch={fetch}
             />
           ) : (
             <Tr>

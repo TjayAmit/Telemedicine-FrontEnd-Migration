@@ -162,31 +162,6 @@ export const DataProvider = ({ children }) => {
     return msg;
   };
 
-  const registerStaff = async () => {
-    let msg = '';
-    let bodyFormData = new FormData();
-
-    bodyFormData.append('name', name);
-    bodyFormData.append('email', email);
-    bodyFormData.append('password', password);
-    bodyFormData.append('profile', url);
-    bodyFormData.append('profile_FirstName', doctors_FirstName);
-    bodyFormData.append('profile_LastName', doctors_LastName);
-
-    PostRequest({ url: 'api/signup2' }, bodyFormData)
-      .then(res => {
-        if (!res.statusText === 'OK') {
-          throw new Error('Bad response.', { cause: res });
-        }
-
-        msg = 'success';
-      })
-      .catch(err => {
-        msg = StatusHandler(err);
-      });
-    return msg;
-  };
-
   const requestSanctumCSRF = async () => {
     GetRequest({ url: Sanctum })
       .then(res => {
@@ -282,7 +257,6 @@ export const DataProvider = ({ children }) => {
         setFK_specializations_ID,
         signin,
         registerAdminDoctor,
-        registerStaff,
         url,
         caseLength,
         setCaseLength,
@@ -294,6 +268,7 @@ export const DataProvider = ({ children }) => {
         getChartData,
         search,
         setSearch,
+        url,
       }}
     >
       {children}

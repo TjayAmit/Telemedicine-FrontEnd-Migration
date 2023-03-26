@@ -194,7 +194,7 @@ const CaseInformation = props => {
         <Box pt={5} pr={5}>
           <BodyInformation case={caseinformation} />
           <CaseMainInformation case={caseinformation} />
-          {/* <CaseParaclinicalFiles id={props.id} /> */}
+          <CaseParaclinicalFiles id={props.id} />
         </Box>
       </Box>
     </Box>

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useToast } from '@chakra-ui/react';
-import {
-  toastposition,
-  toastvariant,
-} from '../../Pages/Packages';
+import { toastposition, toastvariant } from '../../Pages/Packages';
 import CustomModal from '../CustomModal';
 import TextFormController from '../TextFormController';
 import { StatusHandler } from '../../Utils/StatusHandler';

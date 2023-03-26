@@ -22,10 +22,16 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
     let msg = '';
 
     let formData = new FormData();
-    formData.append('specialiations_Title', title);
+    formData.append('specialiations_Title', tittle);
     formData.append('specialiations_Description', des);
 
-    PostRequest({ url: Specialization }, formData)
+    PostRequest(
+      { url: Specialization },
+      {
+        specializations_Title: tittle,
+        specializations_Description: des,
+      }
+    )
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -140,10 +146,6 @@ const Specializations = () => {
     {
       Header: 'SPECIALIZATION',
       accessor: 'title',
-    },
-    {
-      Header: 'DESCRIPTION',
-      accessor: 'description',
     },
     {
       Header: 'DOCTORS',

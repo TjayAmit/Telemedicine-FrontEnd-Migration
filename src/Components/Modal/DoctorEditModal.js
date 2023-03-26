@@ -95,7 +95,7 @@ function DoctorEditModal({ isOpen, onClose, data, fetch, rawData, row }) {
         title={'Update Doctor'}
         isOpen={isOpen}
         onClose={onClose}
-        handleSubmit={onSave}
+        handleSubmit={e => onSave(e)}
         hasProfile={false}
         isNew={false}
         btntitle={'Update'}

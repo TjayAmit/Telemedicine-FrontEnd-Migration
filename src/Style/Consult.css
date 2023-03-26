@@ -4,21 +4,21 @@
 }
 
 .selection-header {
-  display: block;
+  /* display: block; */
 }
 
 .selection-list {
-  display: none;
+  /* display: none; */
   width: 8rem;
   background-color: white;
 }
 
 .selection-main:hover .selection-header {
-  display: none;
+  /* display: none; */
 }
 
 .selection-main:hover .selection-list {
-  display: block;
+  /* display: block; */
 }
 
 .message-input-container {

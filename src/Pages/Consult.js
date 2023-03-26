@@ -97,6 +97,7 @@ const MessageComponentHeader = () => {
 const Consult = () => {
   const { user } = useAuth();
   const [fetchMessage, setFetchMessage] = useState(true);
+  const [msg, setMsg] = useState('');
   const [sort, setSort] = useState('Newest');
   const [decending, setDecending] = useState(true);
   const location = useLocation();
@@ -104,11 +105,6 @@ const Consult = () => {
 
   const [caseinfo, setCaseInfo] = useState(location.state);
   const [load, setLoad] = useState(true);
-
-  const handleSort = e => {
-    setSort(e.target.value);
-    setDecending(!decending);
-  };
 
   const handleUpdateCase = async () => {
     if (caseinfo.cases_status === 0) {
@@ -126,7 +122,7 @@ const Consult = () => {
           caseinfo.cases_status = 1;
         })
         .catch(err => {
-          msg = StatusHandler(err);
+          console.log(err);
         });
     }
   };
@@ -135,6 +131,7 @@ const Consult = () => {
     if (user.user_role !== 'External Doctor') {
       handleUpdateCase();
     }
+
     setTimeout(() => {
       setLoad(false);
     }, 2000);

@@ -32,7 +32,7 @@ const AccountRegistration = () => {
 
   const [feedback, setFeedback] = useState('');
 
-  const message = state.message;
+  const message = '';
 
   const [fname, setFname] = useState('');
   const [mname, setMname] = useState('');
@@ -232,7 +232,7 @@ const AccountRegistration = () => {
                       isRequired={false}
                     />
                     <Select
-                      mt={3}
+                      mt={5}
                       bg="white"
                       focusBorderColor="rgba(0, 128, 128,0.5)"
                       placeholder="Position"

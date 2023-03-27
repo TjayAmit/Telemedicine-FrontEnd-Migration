@@ -65,15 +65,17 @@ const Login = () => {
         handleReset();
       })
       .catch(err => {
-        console.log(err);
         const {
           response: {
             status,
-            data: { message },
+            data: { message, data },
           },
         } = err;
 
         switch (status) {
+          case 302:
+            navigate('/account', { state: data });
+            break;
           case 400:
             setFeedback(message);
             break;

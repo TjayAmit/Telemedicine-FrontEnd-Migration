@@ -110,7 +110,11 @@ const CaseParaclinicalFiles = ({ id }) => {
         }
         return (
           <Box>
-            <a href={data.file_url} target="_blank" rel="">
+            <a
+              href={`http://${data.file_url}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               <Box
                 w="8rem"
                 pl={5}

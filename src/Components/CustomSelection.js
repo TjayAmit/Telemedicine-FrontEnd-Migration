@@ -2,6 +2,7 @@ import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import api from '../API/api';
 import { Select, FormControl } from '@chakra-ui/react';
 import { Specialization, Hospital } from '../API/Paths';
+import useAuth from '../Hooks/AuthContext';
 
 const Selection = ({ label, value, setValue, datas, mt }) => {
   return (
@@ -59,11 +60,11 @@ const SelectionError = ({ label, mt }) => {
   );
 };
 
-const SpecializationHSelection = ({ value, setValue, mt }) => {
+const SpecializationHSelection = ({ value, setValue, mt, path }) => {
   const title = 'Specialization';
 
   const { data, isLoading, error } = useQuery(title, () =>
-    api.get(`${Specialization}s`).then(res => res.data)
+    api.get(path).then(res => res.data)
   );
 
   if (isLoading) {
@@ -90,7 +91,27 @@ export const SelectionSpecialization = ({ value, setValue, mt }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SpecializationHSelection value={value} setValue={setValue} mt={mt} />
+      <SpecializationHSelection
+        value={value}
+        setValue={setValue}
+        mt={mt}
+        path={`${Specialization}s`}
+      />
+    </QueryClientProvider>
+  );
+};
+
+export const SelectionSpecialization2 = ({ value, setValue, mt }) => {
+  const queryClient = new QueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SpecializationHSelection
+        value={value}
+        setValue={setValue}
+        mt={mt}
+        path={`${Specialization}s/${266}`}
+      />
     </QueryClientProvider>
   );
 };

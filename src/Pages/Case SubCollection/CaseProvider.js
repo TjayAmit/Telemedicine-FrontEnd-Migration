@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { toastvariant, toastposition } from '../Packages';
 import { GetRequest, PostRequest, PutRequest } from '../../API/api';
 import { Patient, Specialization, Case } from '../../API/Paths';
+import useAuth from '../../Hooks/AuthContext';
 
 const CaseContext = createContext({});
 
 export const CaseProvider = ({ children }) => {
+  const { user } = useAuth();
   const [feedback, setFeedback] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileLimit, setFileLimit] = useState(false);
@@ -73,7 +75,10 @@ export const CaseProvider = ({ children }) => {
   };
 
   const initiliazedSpecializations = async () => {
-    GetRequest({ url: `${Specialization}s` })
+    const path =
+      user !== null ? `${Specialization}s/u/${266}` : `${Specialization}s`;
+
+    GetRequest({ url: path })
       .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
@@ -267,7 +272,9 @@ export const CaseProvider = ({ children }) => {
       initiliazedSpecializations();
       setStatus(false);
     }
-  }, [status]);
+
+    return () => setStatus(false);
+  }, [status, user]);
 
   return (
     <CaseContext.Provider

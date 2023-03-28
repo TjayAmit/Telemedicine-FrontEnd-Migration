@@ -79,7 +79,7 @@ const MessageComponentHeader = () => {
   return (
     <Box
       w="inheirt"
-      h="4rem"
+      h={['3rem', '3rem', '4rem', '4rem']}
       bg="#edeff3"
       boxShadow="lg"
       p={5}
@@ -87,7 +87,7 @@ const MessageComponentHeader = () => {
       justifyContent="space-between"
       alignItems="center"
     >
-      <Heading size="md" color="green">
+      <Heading size={['sm', 'sm', 'md', 'md']} color="green">
         {'Case Chat'.toLocaleUpperCase()}
       </Heading>
     </Box>
@@ -139,7 +139,11 @@ const Consult = () => {
 
   return (
     <>
-      <Flex w="inherit" h="100vh" overflow={'hidden'}>
+      <Flex
+        w="inherit"
+        overflow={['visible', 'visible', 'hidden', 'hidden']}
+        flexDirection={['column', 'column', 'row', 'row']}
+      >
         <Box w="inherit" flex={8}>
           <ConsultHeader
             id={caseinfo.id}
@@ -148,13 +152,14 @@ const Consult = () => {
             hospital={caseinfo.hospital_Name}
             status={caseinfo.case_status}
           />
-          <CaseInformation id={caseinfo.id} />
+          <CaseInformation id={caseinfo.id} data={caseinfo} />
         </Box>
         <Box
           w="inherit"
           flex={5}
           bg="#edf0f6"
-          overflow="hidden"
+          h={['35vh', '35vh', '90vh', '100vh']}
+          overflow={['visible', 'visible', 'hidden', 'hidden']}
           display="flex"
           flexDirection="column"
         >

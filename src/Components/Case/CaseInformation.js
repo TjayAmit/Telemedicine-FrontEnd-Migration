@@ -13,11 +13,14 @@ import PatientProfile from './PatientProfile';
 import { GetRequest } from '../../API/api';
 import { Case } from '../../API/Paths';
 import CaseParaclinicalFiles from './CaseParaclinicalFiles';
+import { FaHospital, FaBriefcaseMedical } from 'react-icons/fa';
+import { GiSkills } from 'react-icons/gi';
+import { BsPersonCircle } from 'react-icons/bs';
 
 const PatientMedicalBodyInformation = props => {
   return (
     <Box
-      w={'15rem'}
+      w={['25rem', '25rem', '15rem', '15rem']}
       boxShadow={'md'}
       rounded={5}
       bg="white"
@@ -90,7 +93,7 @@ const CaseMainInformationComponent = props => {
   return (
     <Box mt={5}>
       <Box
-        maxW={350}
+        maxW={[250, 250, 350, 350]}
         pl={2}
         pt={1}
         bg="gray"
@@ -98,7 +101,9 @@ const CaseMainInformationComponent = props => {
         borderTopLeftRadius={8}
         borderTopRightRadius={30}
       >
-        <Text>{props.header.toLocaleUpperCase()}</Text>
+        <Text fontSize={[12, 12, 18, 18]}>
+          {props.header.toLocaleUpperCase()}
+        </Text>
       </Box>
       <Box
         border="1px solid gray"
@@ -106,7 +111,7 @@ const CaseMainInformationComponent = props => {
         borderBottomRadius={8}
         borderRightRadius={8}
       >
-        <Text>{props.data}</Text>
+        <Text fontSize={[12, 12, 18, 18]}>{props.data}</Text>
       </Box>
     </Box>
   );
@@ -157,6 +162,48 @@ const CaseMainInformation = ({
   );
 };
 
+const CaseReferrerInformation = ({ data, caseinfo }) => {
+  return (
+    <Box
+      display="flex"
+      flexDirection={['column', 'column', 'row', 'row']}
+      mb={2}
+      justifyContent="start"
+      columnGap={5}
+      rowGap={5}
+      p={5}
+      border="1px solid rgba(0,0,0,0.2)"
+      rounded={10}
+      mr={5}
+    >
+      <Box display="flex" columnGap={3}>
+        <BsPersonCircle color="green" size="25" />
+        <Text fontSize={18} fontWeight={600} color="green">
+          {`${caseinfo.profile_FirstName} ${caseinfo.profile_LastName}`}
+        </Text>
+      </Box>
+      <Box display="flex" columnGap={3}>
+        <FaBriefcaseMedical color="green" size="23" />
+        <Text fontSize={18} fontWeight={600} color="green">
+          CASE #{data.case_number}
+        </Text>
+      </Box>
+      <Box display="flex" columnGap={3}>
+        <GiSkills color="gray" size="25" />
+        <Text fontSize={18} fontWeight={500} color="gray">
+          {data.specialization}
+        </Text>
+      </Box>
+      <Box display="flex" columnGap={3}>
+        <FaHospital color="gray" size="25" />
+        <Text fontSize={18} fontWeight={500} color="gray">
+          {data.hospital_Name}
+        </Text>
+      </Box>
+    </Box>
+  );
+};
+
 const CaseInformation = props => {
   const [caseinformation, setCaseInformation] = useState([]);
   const [fetch, setFetch] = useState(false);
@@ -181,7 +228,7 @@ const CaseInformation = props => {
     if (fetch) {
       setFetch(false);
     }
-
+    // https://zcmc-telemedserver.online/api/case/c/673
     handleFetch();
 
     return () => setFetch(false);
@@ -189,7 +236,13 @@ const CaseInformation = props => {
 
   return (
     <Box w="inherit" pl={5}>
-      <Box h="94vh" overflow={'auto'} pt={5} pb={10}>
+      <Box
+        h={['45vh', '50vh', '94vh', '94vh']}
+        overflow={'auto'}
+        pt={10}
+        pb={[0, 0, 10, 10]}
+      >
+        <CaseReferrerInformation data={props.data} caseinfo={caseinformation} />
         <PatientProfile id={props.id} />
         <Box pt={5} pr={5}>
           <BodyInformation case={caseinformation} />

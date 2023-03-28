@@ -24,7 +24,7 @@ const Files = props => {
   };
 
   return (
-    <Box h="2rem" bg="transparent" display="flex" columnGap={3}>
+    <Box h={'2rem'} bg="transparent" display="flex" columnGap={3}>
       {Array.prototype.slice.call(props.selectedFiles).map((e, index) => {
         let ext = e.name.split('.')[1];
         return (
@@ -166,79 +166,89 @@ const CaseCreateMessage = props => {
   };
 
   return (
-    <Box w="100%" h="7.8rem" m={4} display="flex" flexDirection="column">
-      <Files selectedFiles={selectedFiles} />
+    <Box>
       <Box
-        w="37%"
-        h="4rem"
-        bg="white"
-        p={2}
-        mr={5}
-        mb={5}
-        mt={2}
-        bottom="0%"
-        position="fixed"
+        w="100%"
+        h={['5rem', '5rem', '7.8rem', '4.8rem']}
+        m={4}
         display="flex"
-        columnGap={5}
-        rounded={8}
-        boxShadow="lg"
-        alignItems="center"
-        className="message"
-        overflow="hidden"
+        flexDirection="column"
       >
-        <Button
-          leftIcon={<IoMdAddCircle size={40} />}
-          bg="transparent"
-          color="gray"
-          rounded={100}
-          _hover={{
-            bg: 'transparent',
-          }}
-          _active={{
-            bg: 'transparent',
-          }}
-          className="message-button-plus"
-          onClick={() => {
-            document.getElementById('file').click();
-          }}
-        />
-        <input
-          type={'file'}
-          id="file"
-          name="image"
-          style={{ display: 'none' }}
-          multiple={true}
-          onChange={handleFileEvent}
-        />
+        <Files selectedFiles={selectedFiles} />
         <Box
-          h={message.includes('\n') ? '3rem' : '2rem'}
-          className="message-input-container"
+          w={['89%', '89%', '37%', '37%']}
+          h={['3rem', '3rem', '4rem', '4rem']}
+          bg="white"
+          p={2}
+          mr={4}
+          mb={5}
+          mt={2}
+          bottom="0%"
+          position="fixed"
+          display="flex"
+          columnGap={5}
+          rounded={8}
+          boxShadow="lg"
+          alignItems="center"
+          className="message"
+          overflow="hidden"
         >
-          <Textarea
-            size="sm"
-            variant="flushed"
-            placeholder="Type here."
-            focusBorderColor="white"
-            className="message-input"
-            value={message}
-            onChange={e => setMessage(e.target.value)}
+          <Button
+            leftIcon={<IoMdAddCircle size={40} />}
+            bg="transparent"
+            color="gray"
+            w={[50, 50, 100, 100]}
+            rounded={100}
+            _hover={{
+              bg: 'transparent',
+            }}
+            _active={{
+              bg: 'transparent',
+            }}
+            className="message-button-plus"
+            onClick={() => {
+              document.getElementById('file').click();
+            }}
+          />
+          <input
+            type={'file'}
+            id="file"
+            name="image"
+            style={{ display: 'none' }}
+            multiple={true}
+            onChange={handleFileEvent}
+          />
+          <Box
+            h={message.includes('\n') ? '3rem' : '2rem'}
+            className="message-input-container"
+          >
+            <Textarea
+              size="sm"
+              variant="flushed"
+              placeholder="Type here."
+              focusBorderColor="white"
+              className="message-input"
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+            />
+          </Box>
+          <Button
+            leftIcon={<IoMdSend size={30} />}
+            bg="transparent"
+            w={[50, 50, 100, 100]}
+            color={!!message || selectedFiles.length !== 0 ? 'green' : 'gray'}
+            rounded={100}
+            pr={5}
+            _hover={{
+              bg: 'transparent',
+            }}
+            _active={{
+              bg: 'transparent',
+            }}
+            className="message-button-send"
+            onClick={e => handleSendMessage(e)}
           />
         </Box>
-        <Button
-          leftIcon={<IoMdSend size={30} />}
-          bg="transparent"
-          color={!!message || selectedFiles.length !== 0 ? 'green' : 'gray'}
-          rounded={100}
-          pr={5}
-          _hover={{
-            bg: 'transparent',
-          }}
-          _active={{
-            bg: 'transparent',
-          }}
-          className="message-button-send"
-          onClick={e => handleSendMessage(e)}
-        />
       </Box>
     </Box>
   );

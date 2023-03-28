@@ -165,7 +165,7 @@ const CaseMessage = props => {
   return (
     <Box
       w="inherit"
-      h="90vh"
+      h={['35vh', '50vh', '90vh', '90vh']}
       overflow="auto"
       display="flex"
       flexDirection="column"
@@ -175,12 +175,12 @@ const CaseMessage = props => {
           {moment(props.date).format('MMMM DD, YYYY')}
         </Text>
       </Box>
-      <Box mt="12rem" scrollBehavior="smooth">
+      <Box mt="3rem" scrollBehavior="smooth">
         {messages.map(value => {
           return <MessageComponent value={value} />;
         })}
       </Box>
-      <div ref={messageRef} />
+      <Box h={0} ref={messageRef} />
     </Box>
   );
 };

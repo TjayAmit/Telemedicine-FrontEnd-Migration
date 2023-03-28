@@ -13,7 +13,7 @@ const AuthBackground = () => {
       <Box w={'100%'} h={'100vh'} bg={'rgba(0,0,0,0.2)'}>
         <Box p={[1, 1, 1, 5]} color={'white'} textAlign={'center'}>
           <Heading mt={10} size={'lg'} letterSpacing={'0.34rem'}>
-            ZCMC TELEMEDICINE
+            ZCMC REGIONAL TELEMEDICINE CENTER
           </Heading>
         </Box>
       </Box>

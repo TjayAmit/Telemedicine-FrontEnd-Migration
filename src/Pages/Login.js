@@ -123,7 +123,7 @@ const Login = () => {
           letterSpacing={4}
         >
           <Heading size={'lg'} color="teal">
-            ZCMC TELEMEDICINE
+            ZCMC REGIONAL TELEMEDICINE CENTER
           </Heading>
         </Box>
         <Box

@@ -97,33 +97,6 @@ const ConsultHeader = props => {
         _hover={{ color: 'green', boxShadow: 'lg' }}
         onClick={e => handleBack(e)}
       />
-      <Box display="flex" columnGap={10}>
-        <Text
-          size="md"
-          fontWeight={600}
-          color="green"
-          display="flex"
-          alignItem="center"
-          columnGap={2}
-          fontSize={14}
-        >
-          <FaBriefcaseMedical /> CASE #{props.casenumber}
-        </Text>
-        <Text
-          color="gray"
-          display="flex"
-          columnGap={2}
-          alignItems="center"
-          fontSize={14}
-        >
-          <GiSkills />
-          {props.specialization.toLocaleUpperCase()}
-        </Text>
-        <Text color="gray" display="flex" columnGap={2} fontSize={14}>
-          <FaHospital />
-          {props.hospital.toLocaleUpperCase()}
-        </Text>
-      </Box>
       {user.user_role === 'External Doctor' ? (
         <Box />
       ) : (

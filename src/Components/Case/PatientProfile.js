@@ -45,9 +45,29 @@ const PatientProfile = props => {
   }, [fetch]);
 
   return (
-    <Box h="inheirt" display="flex" columnGap={8} alignItems="start" p={2}>
-      <Box w="10rem">
-        <Image src={require('../../assets/male_default_profile.jpg')} />
+    <Box
+      h="inheirt"
+      display="flex"
+      flexDirection={['column', 'column', 'row', 'row']}
+      columnGap={8}
+      alignItems="start"
+      p={2}
+    >
+      <Box
+        w={'100%'}
+        display="flex"
+        justifyContent={['center', 'center', 'start', 'start']}
+        p={[2, 2, 0, 0]}
+      >
+        <Box w="10rem">
+          <Image
+            src={
+              patient.patients_Gender === 'FEMALE'
+                ? require('../../assets/female_default_profile.jpg')
+                : require('../../assets/male_default_profile.jpg')
+            }
+          />
+        </Box>
       </Box>
       <Box
         display="flex"

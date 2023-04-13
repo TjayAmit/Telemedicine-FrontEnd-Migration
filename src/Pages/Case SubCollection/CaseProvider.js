@@ -75,8 +75,7 @@ export const CaseProvider = ({ children }) => {
   };
 
   const initiliazedSpecializations = async () => {
-    const path =
-      user !== null ? `${Specialization}s/u/${266}` : `${Specialization}s`;
+    const path = user !== null ? `${Specialization}s/u` : `${Specialization}s`;
 
     GetRequest({ url: path })
       .then(res => res.data)

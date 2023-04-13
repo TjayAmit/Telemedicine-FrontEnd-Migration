@@ -16,6 +16,7 @@ import {
   Spacer,
   Stack,
 } from '@chakra-ui/react';
+import { SelectionSpecialization } from '../../Components/CustomSelection';
 import { IoDocumentAttachOutline } from 'react-icons/io5';
 import { TiAttachment } from 'react-icons/ti';
 import { MdCancel } from 'react-icons/md';

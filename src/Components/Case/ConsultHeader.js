@@ -66,6 +66,8 @@ const ConsultHeader = props => {
       });
   };
 
+  const handleShowModal = e => {};
+
   useEffect(() => {
     if (isPending) {
       handleUpdate(1);
@@ -133,7 +135,9 @@ const ConsultHeader = props => {
                 ) : (
                   <MenuItem onClick={_ => handleUpdate(2)}>DONE</MenuItem>
                 )}
-                <MenuItem>Add Specialization</MenuItem>
+                <MenuItem onClick={e => handleShowModal(e)}>
+                  Add Specialization
+                </MenuItem>
               </MenuList>
             </Menu>
           </Box>

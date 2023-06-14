@@ -104,6 +104,7 @@ const MessageComponent = ({
 
 const CaseMessage = props => {
   const [messages, setMessages] = useState([]);
+  const [fetch, setFetch] = useState(true);
   const [init, setInit] = useState(true);
   const messageRef = useRef(null);
   const [feedback, setFeedback] = useState('');
@@ -159,7 +160,11 @@ const CaseMessage = props => {
   }, [init, props.fetchMessage]);
 
   useEffect(() => {
-    messageRef.current?.scrollIntoView();
+    if (fetch) {
+      messageRef.current?.scrollIntoView();
+    }
+
+    return () => setFetch(false);
   }, [messages]);
 
   return (

@@ -121,7 +121,7 @@ const PasswordRecovery = () => {
     e.preventDefault();
     setLoading(true);
 
-    PostRequest({ url: `${Auth}/sendOtp` }, { email: email })
+    PostRequest({ url: `${Auth}/recovery` }, { email: email })
       .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
@@ -129,6 +129,7 @@ const PasswordRecovery = () => {
         }
 
         setSuccess(res.data);
+        console.log(res.data);
       })
       .catch(err => {
         const {

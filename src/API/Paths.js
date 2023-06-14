@@ -1,5 +1,5 @@
 //Authentication
-export const Auth = 'api/auth';
+export const Auth = '/api/auth';
 
 //Request server token
 export const Sanctum = 'sanctum/csrf-cookie';

@@ -225,14 +225,24 @@ const Cases = () => {
 
   const handleFetch = () => {
     GetRequest({ url: Case })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
-        const {
-          data: { data },
-        } = res;
 
+        const { data } = res;
+
+        if (JSON.parse(localStorage.getItem('cases')) !== null) {
+          const items = JSON.parse(localStorage.getItem('cases'));
+          const newData = data;
+
+          if (items.length === newData.length) {
+            return;
+          }
+        }
+
+        localStorage.setItem('cases', JSON.stringify(data));
         setCases(data);
       })
       .catch(err => {
@@ -272,6 +282,10 @@ const Cases = () => {
   );
 
   useEffect(() => {
+    if (fetch && JSON.parse(localStorage.getItem('cases'))) {
+      setCases(JSON.parse(localStorage.getItem('cases')));
+    }
+
     const intervalId = setInterval(
       () => {
         if (fetch) {

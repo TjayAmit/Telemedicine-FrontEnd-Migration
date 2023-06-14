@@ -110,8 +110,7 @@ const Homeheader = props => {
           throw new Error('Bad repsonse', { cause: res });
         }
 
-        const { message } = res;
-        console.log(message);
+        localStorage.clear();
         sessionStorage.removeItem('token');
         setUser(null);
         navigate('/');

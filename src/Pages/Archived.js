@@ -50,14 +50,23 @@ const Archived = () => {
 
   const handleFetch = () => {
     GetRequest({ url: Case })
+      .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
         }
-        const {
-          data: { data },
-        } = res;
+        const { data } = res;
 
+        if (JSON.parse(localStorage.getItem('archived')) !== null) {
+          const items = JSON.parse(localStorage.getItem('archived'));
+          const newData = data;
+
+          if (items.length === newData.length) {
+            return;
+          }
+        }
+
+        localStorage.setItem('archived', JSON.stringify(data));
         setCases(data);
       })
       .catch(err => {
@@ -90,6 +99,10 @@ const Archived = () => {
   );
 
   useEffect(() => {
+    if (fetch && localStorage.getItem('archived') !== null) {
+      setCases(JSON.parse(localStorage.getItem('archived')));
+    }
+
     const intervalId = setInterval(
       () => {
         if (fetch) {

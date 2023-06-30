@@ -8,21 +8,21 @@ import {
   MenuItem,
   MenuList,
   MenuButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import '../../Style/Consult.css';
-import { FaHospital, FaBriefcaseMedical } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { GiSkills } from 'react-icons/gi';
 import { useState, useEffect } from 'react';
 import { PutRequest } from '../../API/api';
 import { Case } from '../../API/Paths';
+import AddSpecialization from './AddSpecialization';
 import useAuth from '../../Hooks/AuthContext';
 
 const ConsultHeader = props => {
   const { user } = useAuth();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isPending, setIsPending] = useState(props.status === 0 ? true : false);
   const [status, setStatus] = useState(props.status);
   const [feedback, setFeedback] = useState('');
@@ -66,7 +66,10 @@ const ConsultHeader = props => {
       });
   };
 
-  const handleShowModal = e => {};
+  const handleShowModal = e => {
+    e.preventDefault();
+    onOpen();
+  };
 
   useEffect(() => {
     if (isPending) {
@@ -143,6 +146,7 @@ const ConsultHeader = props => {
           </Box>
         </Box>
       )}
+      <AddSpecialization isOpen={isOpen} onClose={onClose} caseID={props.id} />
     </Box>
   );
 };

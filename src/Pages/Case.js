@@ -12,7 +12,6 @@ import {
   ModalCloseButton,
   Checkbox,
   Button,
-  filter,
 } from '@chakra-ui/react';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
 import { useNavigate } from 'react-router-dom';

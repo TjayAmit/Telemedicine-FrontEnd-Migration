@@ -1,4 +1,3 @@
-import { CiBellOn } from 'react-icons/ci';
 import { useEffect } from 'react';
 import {
   IconButton,

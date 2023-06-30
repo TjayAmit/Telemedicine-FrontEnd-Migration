@@ -2,7 +2,6 @@ import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import api from '../API/api';
 import { Select, FormControl } from '@chakra-ui/react';
 import { Specialization, Hospital } from '../API/Paths';
-import useAuth from '../Hooks/AuthContext';
 
 const Selection = ({ label, value, setValue, datas, mt }) => {
   return (

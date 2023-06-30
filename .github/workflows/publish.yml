@@ -1,29 +1,30 @@
-name: Generate a build and push to another branch
-
+name: Build and Deploy
 on:
   push:
     branches:
-      - main
+      - main # Adjust the branch name if needed
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build and Push
+
     steps:
-      - name: git-checkout
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install all dependencies
-        run: npm install --force
+      - name: Set Up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
 
-      - name: Build
-        run: npm run build # The build command of your project
+      - name: Install Dependencies
+        run: npm ci
 
-      - name: Push
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: build # The branch name where you want to push the assets
-          FOLDER: build # The directory where your assets are generated
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-          MESSAGE: 'Build: ({sha}) {msg}' # The commit message
+      - name: Build Application
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build

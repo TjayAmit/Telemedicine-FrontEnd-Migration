@@ -28,6 +28,8 @@ export const Patient = 'api/patient';
 //Specialization
 export const Specialization = 'api/specialization';
 
+export const SpecializationCase = 'api/specializationcase/add';
+
 //Report
 export const Reports = 'api/report';
 

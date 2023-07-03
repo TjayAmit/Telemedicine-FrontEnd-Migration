@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.f3aaf1c1.css",
+    "main.js": "/static/js/main.b214b862.js",
+    "static/css/5.409d17a2.chunk.css": "/static/css/5.409d17a2.chunk.css",
+    "static/js/5.cc0b8695.chunk.js": "/static/js/5.cc0b8695.chunk.js",
+    "static/js/572.c6dde16c.chunk.js": "/static/js/572.c6dde16c.chunk.js",
+    "static/js/787.3b55c226.chunk.js": "/static/js/787.3b55c226.chunk.js",
+    "static/media/zcmc-bg1.png": "/static/media/zcmc-bg1.41c2ab3d3f7f68726b3e.png",
+    "static/media/zcmc_logo.png": "/static/media/zcmc_logo.50d29b4783c0aefb8d80.png",
+    "static/media/poppins-all-400-normal.woff": "/static/media/poppins-all-400-normal.6fbfdac99c274b77fe96.woff",
+    "static/media/poppins-devanagari-400-normal.woff2": "/static/media/poppins-devanagari-400-normal.64d5f06ee726edd58ca3.woff2",
+    "static/media/male_default_profile.jpg": "/static/media/male_default_profile.cceb3851e7e4f1911e65.jpg",
+    "static/media/default_profile.png": "/static/media/default_profile.96096a8434d7635352c2.png",
+    "static/media/poppins-latin-400-normal.woff2": "/static/media/poppins-latin-400-normal.405055dd680fa1dcdfa2.woff2",
+    "static/media/poppins-latin-ext-400-normal.woff2": "/static/media/poppins-latin-ext-400-normal.4f38b4331448d2313adc.woff2",
+    "index.html": "/index.html",
+    "main.f3aaf1c1.css.map": "/static/css/main.f3aaf1c1.css.map",
+    "main.b214b862.js.map": "/static/js/main.b214b862.js.map",
+    "5.409d17a2.chunk.css.map": "/static/css/5.409d17a2.chunk.css.map",
+    "5.cc0b8695.chunk.js.map": "/static/js/5.cc0b8695.chunk.js.map",
+    "572.c6dde16c.chunk.js.map": "/static/js/572.c6dde16c.chunk.js.map",
+    "787.3b55c226.chunk.js.map": "/static/js/787.3b55c226.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f3aaf1c1.css",
+    "static/js/main.b214b862.js"
+  ]
+}

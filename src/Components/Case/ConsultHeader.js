@@ -48,6 +48,7 @@ const ConsultHeader = props => {
           throw new Error('Bad response.', { cause: res });
         }
         setStatus(value);
+        localStorage.removeItem('cases');
       })
       .catch(err => {
         const { status, message } = err;

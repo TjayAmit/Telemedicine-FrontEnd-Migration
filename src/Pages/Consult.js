@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Flex, Heading, useToast } from '@chakra-ui/react';
+import { Box, Flex, Heading, useToast, useDisclosure } from '@chakra-ui/react';
 import { toastposition, toastvariant } from '../Pages/Packages';
 import CustomModal from '../Components/CustomModal';
 import { SelectionSpecialization } from '../Components/CustomSelection';
@@ -96,6 +96,7 @@ const MessageComponentHeader = () => {
 
 const Consult = () => {
   const { user } = useAuth();
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const [fetchMessage, setFetchMessage] = useState(true);
   const [msg, setMsg] = useState('');
   const [sort, setSort] = useState('Newest');

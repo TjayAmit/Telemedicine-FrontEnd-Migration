@@ -240,8 +240,9 @@ const AccountRegistration = () => {
                         setPosition(e.target.value);
                       }}
                     >
-                      <option>Nurse </option>
-                      <option>Doctor </option>
+                      <option>Doctor</option>
+                      <option>Nurse</option>
+                      <option>Physical Therapist</option>
                     </Select>
                     <SelectionHospital
                       value={hospital}

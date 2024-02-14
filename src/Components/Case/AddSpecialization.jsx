@@ -3,6 +3,7 @@ import { useToast } from '@chakra-ui/react';
 import CustomModal from '../CustomModal';
 import { SelectionSpecialization } from '../CustomSelection';
 import { SpecializationCase } from '../../API/Paths';
+import { PutRequest } from '../../API/api';
 import { toastposition, toastvariant } from '../../Pages/Packages';
 
 const AddSpecialization = ({ isOpen, onClose, caseID }) => {
@@ -13,20 +14,13 @@ const AddSpecialization = ({ isOpen, onClose, caseID }) => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const res = await SpecializationCase({
-      FK_specializations_ID: FK_specializations_ID,
-      FK_cases_ID: caseID,
-    });
-
-    if (res.data.status !== 200) {
-      toast({
-        title: 'Failed to add specialization!',
-        position: toastposition,
-        variant: toastvariant,
-        status: 'error',
-        isClosable: true,
-      });
-    }
+    const res = await PutRequest(
+      { url: SpecializationCase },
+      {
+        FK_specializations_ID: FK_specializations_ID,
+        FK_cases_ID: caseID,
+      }
+    );
 
     if (res.data.status === 200) {
       onClose();
@@ -36,6 +30,16 @@ const AddSpecialization = ({ isOpen, onClose, caseID }) => {
         position: toastposition,
         variant: toastvariant,
         status: 'success',
+        isClosable: true,
+      });
+    }
+
+    if (res.data.status !== 200) {
+      toast({
+        title: 'Failed to add specialization!',
+        position: toastposition,
+        variant: toastvariant,
+        status: 'error',
         isClosable: true,
       });
     }

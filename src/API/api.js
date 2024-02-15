@@ -20,7 +20,6 @@ api.interceptors.request.use(function (config) {
   return config;
 });
 
-//Reusable Get Module
 export const GetRequest = async ({ url }, data) => {
   return await api.get(url, data);
 };
